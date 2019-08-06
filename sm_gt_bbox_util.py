@@ -4,6 +4,11 @@
 A collection of utility functions for SageMaker GroundTruth's bounding box augmented manifest (i.e., the output).
 
 Require recent version of s3fs to support filemode 'r' or 'w'.
+
+
+>>> ClassMapConverter('s3://path/to/train.manifest', 's3://path/to/train2.manifest', gt_job='bounding-box').convert()
+>>> ClassMapChecker('s3://path/to/train2.manifest', gt_job='bounding-box).check()
+>>> BboxDistributionChecker('s3://path/to/train2.manifest', gt_job='bounding-box').check()
 """
 
 
@@ -269,7 +274,7 @@ class ClassMapConverter(object):
             # Compute centroid
             x, y = (x0 + x1)//2, (y0 + y1)//2
 
-            # Get the focused item
+            # Get the matching named item
             for item in self.items:
                 if (x,y) in item:
                     # Matching object id found
