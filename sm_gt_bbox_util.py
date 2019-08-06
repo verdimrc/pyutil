@@ -29,7 +29,8 @@ class Item(object):
     def __contains__(self, pt):
         """Check whether point (x,y) is in this zone.
         
-        :param pt: (x,y)"""
+        :param pt: (x,y)
+        """
         return (self.xmin <= pt[0] <= self.xmax) and (self.ymin <= pt[1] <= self.ymax)
 
 
