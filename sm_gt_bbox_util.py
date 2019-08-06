@@ -5,12 +5,10 @@ A collection of utility functions for SageMaker GroundTruth's bounding box augme
 
 Require recent version of s3fs to support filemode 'r' or 'w'.
 
-
 >>> ClassMapConverter('s3://path/to/train.manifest', 's3://path/to/train2.manifest', gt_job='bounding-box').convert()
 >>> ClassMapChecker('s3://path/to/train2.manifest', gt_job='bounding-box).check()
 >>> BboxDistributionChecker('s3://path/to/train2.manifest', gt_job='bounding-box').check()
 """
-
 
 from collections import Counter
 from copy import deepcopy
