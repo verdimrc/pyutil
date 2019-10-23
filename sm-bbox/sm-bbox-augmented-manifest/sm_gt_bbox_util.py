@@ -56,8 +56,6 @@ class MultiZoneItem(object):
 # These global variables are for just to illustrate this class map converter.
 # Change this to adapt to new needs.
 
-object_states = ['light_on', 'light_off', 'tap_on', 'tap_off', 'fan_other']
-
 # Assume disjoint zones!!
 items = [
     Item('living_room_light', '', 350, 0, 654, 116),
