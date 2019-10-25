@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  git-credential-helper: yes
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - "yum install -y python3-dev python3-pip"
+  pre_build:
+    commands:
+      - chmod 755 build.sh
+  build:
+    commands:
+      - "echo Current directory $(pwd)"
+      - bash -x ./build.sh
+
+artifacts:
+  files:
+    - pd-xlrd-sklearn-s3fs-3.7.zip
+  name: artifact-name-$(date --utc +%Y%m%d-%H%M%S-utc)
+  discard-paths: yes
