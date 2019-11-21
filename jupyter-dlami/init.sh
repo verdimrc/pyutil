@@ -23,6 +23,10 @@ if [[ $(printenv LC_ALL) == '' ]]; then
     echo 'export LC_ALL=${LANG}' >> ~/.bashrc
 fi
 
+# Also put locale information to /etc/environment to silence warning in the welcome banner
+sudo sh -c "echo 'LANG=en_US.utf-8' >> /etc/environment"
+sudo sh -c "echo 'LC_ALL=en_US.utf-8' >> /etc/environment"
+
 # Enable 'conda activate ...'
 CONDAIFIED=$(grep '^\. \/home\/ec2-user\/anaconda3\/etc\/profile.d\/conda.sh' .bashrc | wc -l)
 [[ ${CONDAIFIED} < 1 ]] && echo ". /home/ec2-user/anaconda3/etc/profile.d/conda.sh" >> ~/.bashrc
