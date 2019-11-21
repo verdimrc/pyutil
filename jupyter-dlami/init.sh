@@ -8,7 +8,7 @@ echo 'Will update jupyter lab on pytorch_p36 conda environment'
 # One time per EC2
 
 # A few useful packgages
-sudo yum install tree htop
+sudo yum install -y tree htop
 
 # locale information must be exported as environment variable (not just "normal"
 # variable), otherwise 'jupyter labextension install ...' will give an error:
@@ -35,8 +35,8 @@ CONDAIFIED=$(grep '^\. \/home\/ec2-user\/anaconda3\/etc\/profile.d\/conda.sh' .b
 conda activate pytorch_p36
 
 # Update jupyter lab
-conda install nodejs
-conda update notebook jupyter jupyter_client jupyter_console jupyter_core jupyterlab jupyterlab_launcher
+conda install -y nodejs
+conda update -y notebook jupyter jupyter_client jupyter_console jupyter_core jupyterlab jupyterlab_launcher
 
 # Install extensions
 declare -a JUPYTER_EXT=(
