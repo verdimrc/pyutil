@@ -1,11 +1,11 @@
 #!/bin/bash
 
 echo 'Tested on DLAMI alinux'
-echo 'Will update jupyter lab on pytorch_p36 conda environment'
+echo 'Will update jupyter lab'
 
 
 ################################################################################
-# One time per EC2
+# Global environment
 
 # A few useful packgages
 sudo yum install -y tree htop
@@ -16,31 +16,35 @@ sudo yum install -y tree htop
 if [[ $(printenv LANG) == '' ]]; then
     export LANG=en_US.utf-8
     echo 'export LANG=en_US.utf-8' >> ~/.bashrc
+    # To silent warning in welcome banner
+    sudo sh -c "echo 'LANG=en_US.utf-8' >> /etc/environment"
 fi
 
 if [[ $(printenv LC_ALL) == '' ]]; then
     export LC_ALL=${LANG}
     echo 'export LC_ALL=${LANG}' >> ~/.bashrc
+    # To silent warning in welcome banner
+    sudo sh -c "echo 'LC_ALL=en_US.utf-8' >> /etc/environment"
 fi
-
-# Also put locale information to /etc/environment to silence warning in the welcome banner
-sudo sh -c "echo 'LANG=en_US.utf-8' >> /etc/environment"
-sudo sh -c "echo 'LC_ALL=en_US.utf-8' >> /etc/environment"
 
 # Enable 'conda activate ...'
 CONDAIFIED=$(grep '^\. \/home\/ec2-user\/anaconda3\/etc\/profile.d\/conda.sh' .bashrc | wc -l)
 [[ ${CONDAIFIED} < 1 ]] && echo ". /home/ec2-user/anaconda3/etc/profile.d/conda.sh" >> ~/.bashrc
-. /home/ec2-user/anaconda3/etc/profile.d/conda.sh
+source /home/ec2-user/anaconda3/etc/profile.d/conda.sh
 
 
 ################################################################################
-# One time per environment: update jupyter
+# jupyter
 
-conda activate pytorch_p36
+echo Python binary: $(which python)
+
+# Update conda version
+conda update -y -n base -c defaults anaconda conda
 
 # Update jupyter lab
 conda install -y nodejs
-conda update -y notebook jupyter jupyter_client jupyter_console jupyter_core jupyterlab jupyterlab_launcher
+conda install -y -c conda-forge ipdb
+conda update -y ipykernel notebook jupyter jupyter_client jupyter_console jupyter_core jupyterlab jupyterlab_launcher
 
 # Install extensions
 declare -a JUPYTER_EXT=(
@@ -54,12 +58,11 @@ done
 # Show installed extensions
 jupyter labextension list
 
-conda deactivate
-
 echo "Changing a few settings in ~/.jupyter/jupyter_notebook_config.py"
 [[ ! -f ~/.jupyter/jupyter_notebook_config.py ]] && jupyter lab --generate-config
 sed -i \
-    -e 's/^#c.NotebookApp.open_browser = True$/c.NotebookApp.open_browser = True/' \
+    -e 's/^#c.NotebookApp.open_browser = True$/c.NotebookApp.open_browser = False/' \
     -e 's/^#c.NotebookApp.port_retries = .*$/c.NotebookApp.port_retries = 0/' \
+    -e 's/^#c.KernelSpecManager.ensure_native_kernel = .*$/c.KernelSpecManager.ensure_native_kernel = False/' \
     ~/.jupyter/jupyter_notebook_config.py
 egrep -v '^$|^#' ~/.jupyter/jupyter_notebook_config.py
