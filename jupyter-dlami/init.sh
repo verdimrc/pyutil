@@ -50,7 +50,8 @@ conda update -y ipykernel notebook jupyter jupyter_client jupyter_console jupyte
 declare -a JUPYTER_EXT=(
     @jupyter-widgets/jupyterlab-manager @jupyterlab/toc
     @krassowski/jupyterlab_go_to_definition @bokeh/jupyter_bokeh
-    @lckr/jupyterlab_variableinspector
+    @lckr/jupyterlab_variableinspector @mflevine/jupyterlab_html
+    @jupyterlab/plotly-extension
 )
 for i in ${JUPYTER_EXT[@]}; do
     jupyter labextension install $i
