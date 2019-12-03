@@ -192,6 +192,7 @@ conda deactivate
 
 # Clean-up
 conda clean --all -y
+rm -fr /tmp/yarn* /tmp/npm*
 
 
 ################################################################################
