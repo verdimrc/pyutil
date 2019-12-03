@@ -150,11 +150,26 @@ sed -i \
     -e 's/^#c.NotebookApp.open_browser = True$/c.NotebookApp.open_browser = False/' \
     -e 's/^#c.NotebookApp.port_retries = .*$/c.NotebookApp.port_retries = 0/' \
     -e 's/^#c.KernelSpecManager.ensure_native_kernel = .*$/c.KernelSpecManager.ensure_native_kernel = False/' \
+    -e 's|^#c.NotebookApp.terminado_settings = .*$|c.NotebookApp.terminado_settings = {"shell_command": ["/home/ec2-user/bash_wrapper"]}|' \
     ~/.jupyter/jupyter_notebook_config.py
 cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
 c.CondaKernelSpecManager.env_filter='jupyterlab'
 c.CondaKernelSpecManager.name_format='{1}'
 EOF
+
+# Fix terminal environment being messed-up due to starting `jupyter lab` from the conda environment.
+# When a new terminal starts, the prompt does not show (jupyterlab) even though this env is somewhat active,
+# and users must always have to `conda deactivate` first before activate another env, otherwise the activation
+# won't be correct, i.e., messed-up PYTHONPATH, etc.
+#
+# The bash_wrapper essentially forces deactivate before starting the shell. 
+cat << EOF > ~/bash_wrapper
+#!/usr/bin/bash
+source deactivate &> /dev/null
+exec bash
+EOF
+chmod ugo+x ~/bash_wrapper
+
 # Show jupyter-lab configuration
 egrep -v '^$|^#' ~/.jupyter/jupyter_notebook_config.py
 
