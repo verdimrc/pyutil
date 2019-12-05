@@ -165,7 +165,6 @@ sed -i \
     -e 's/^#c.NotebookApp.open_browser = True$/c.NotebookApp.open_browser = False/' \
     -e 's/^#c.NotebookApp.port_retries = .*$/c.NotebookApp.port_retries = 0/' \
     -e 's/^#c.KernelSpecManager.ensure_native_kernel = .*$/c.KernelSpecManager.ensure_native_kernel = False/' \
-    -e 's|^#c.NotebookApp.terminado_settings = .*$|c.NotebookApp.terminado_settings = {"shell_command": ["/home/ec2-user/bash_wrapper"]}|' \
     ~/.jupyter/jupyter_notebook_config.py
 cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
 c.CondaKernelSpecManager.env_filter='jupyterlab'
