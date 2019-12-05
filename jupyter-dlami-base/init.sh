@@ -196,10 +196,11 @@ declare -a JUPYTER_EXT=(
     @jupyterlab/plotly-extension
 )
 for i in ${JUPYTER_EXT[@]}; do
-    cmd="jupyter labextension install $i"
+    cmd="jupyter labextension install $i --no-build"
     echo $cmd
     eval $cmd
 done
+jupyter lab build
 # Show installed extensions
 jupyter labextension list
 
@@ -222,6 +223,45 @@ conda deactivate
 # Clean-up
 conda clean --all -y
 rm -fr /tmp/yarn* /tmp/npm*
+
+
+################################################################################
+# Jupyter per-user settings
+################################################################################
+USER_SETTINGS_DIR=~/.jupyter/lab/user-settings/@jupyterlab
+mkdir -p $USER_SETTINGS_DIR/{fileeditor,notebook,terminal}-extension
+
+cat << EOF > $USER_SETTINGS_DIR/fileeditor-extension/plugin.jupyterlab-settings
+{
+    "editorConfig": {
+        "rulers": [80, 120],
+        "codeFolding": true
+    }
+}
+EOF
+
+cat << EOF > $USER_SETTINGS_DIR/notebook-extension/tracker.jupyterlab-settings
+{
+    "codeCellConfig": {
+        "rulers": [80, 120],
+        "codeFolding": false
+    },
+    "markdownCellConfig": {
+        "rulers": [80, 120],
+        "codeFolding": false
+    },
+    "rawCellConfig": {
+        "rulers": [80, 120],
+        "codeFolding": false
+    }
+}
+EOF
+
+cat << EOF > $USER_SETTINGS_DIR/terminal-extension/plugin.jupyterlab-settings
+{
+    "theme": "dark"
+}
+EOF
 
 
 ################################################################################
