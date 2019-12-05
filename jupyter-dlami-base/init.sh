@@ -128,6 +128,21 @@ CONDAIFIED=$(grep '^\. \/home\/ec2-user\/anaconda3\/etc\/profile.d\/conda.sh' .b
 [[ ${CONDAIFIED} < 1 ]] && echo ". /home/ec2-user/anaconda3/etc/profile.d/conda.sh" >> ~/.bashrc
 source /home/ec2-user/anaconda3/etc/profile.d/conda.sh
 
+# Workarounds for messed-up PATH etc. (due to these app source ~/.bash_profile again):
+# - when starting tmux from a conda env, tmux sessions should reset to base
+#   See: https://github.com/conda/conda/issues/6826#issuecomment-471240590
+# - when starting jupyter from a conda env, terminado sessions should reset to base
+cat << EOF >> .bash_profile
+
+# Workaround: when starting tmux from conda env, deactivate in all tmux sessions
+# See: https://github.com/conda/conda/issues/6826#issuecomment-471240590
+[[ -z "\$TMUX" ]] || conda deactivate
+
+# Workaround: when starting jupyter lab from conda env, deactivate in all terminado sessions
+# NOTE: similar treatment to tmux
+[[ -z "\$JUPYTER_SERVER_ROOT" ]] || conda deactivate
+EOF
+
 # Update base environment
 conda update -y -n base --all
 
