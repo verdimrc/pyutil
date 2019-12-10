@@ -68,10 +68,15 @@ sudo sed -i 's/^#authentication.*/authentication="none"/' /etc/dcv/dcv.conf
 # Auto-start dcv server on boot
 sudo systemctl enable dcvserver
 
-# gdm is not needed for virtual sessions, but must still be started once. Otherwise, xfce virtual session won't start.
-# There must be some config file that gdm touches???
+# gdm is not needed for virtual sessions
 sudo systemctl disable gdm
-sudo systemctl start gdm
+# Hotfix for DCV-2068 "dcv-2019.1 and virtual session xfce4 needs gdm to start once"
+# NOTE: workaround for  gawk < 4.1.0 which cannot do inplace modif.
+awk '!/\[display\]/ {print $0} /\[display\]/ {print $0; print "display-encoders=[\"nvenc\", \"ffmpeg\", \"turbojpeg\", \"lz4\"]"}' /etc/dcv/dcv.conf > /tmp/dcv.conf
+sudo cp /tmp/dcv.conf /etc/dcv/dcv.conf
+echo 'Ensure hotfix for DCV-2068:'
+grep display /etc/dcv/dcv.conf
+
 
 sudo yum clean all
 
