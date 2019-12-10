@@ -153,7 +153,7 @@ conda update -y -n base --all
 # Dedicated conda environment jupyter-lab environment, with newer Python.
 declare -a JUPYTER_PKGS=(
     nodejs nb_conda_kernels ipywidgets ipykernel notebook jupyter jupyter_client
-    jupyter_console jupyter_core jupyterlab jupyterlab_launcher
+    jupyter_console jupyter_core jupyterlab jupyterlab_launcher ipympl
 )
 conda create -y -n jupyterlab python=3.8 "${JUPYTER_PKGS[@]}"
 conda activate jupyterlab
@@ -191,18 +191,16 @@ egrep -v '^$|^#' ~/.jupyter/jupyter_notebook_config.py
 echo "Installing jupyter-lab extensions may take 10+ minutes..."
 declare -a JUPYTER_EXT=(
     @jupyter-widgets/jupyterlab-manager @jupyterlab/toc
-    @krassowski/jupyterlab_go_to_definition @bokeh/jupyter_bokeh
-    @lckr/jupyterlab_variableinspector @mflevine/jupyterlab_html
-    @jupyterlab/plotly-extension
+    @krassowski/jupyterlab_go_to_definition @lckr/jupyterlab_variableinspector
+    @mflevine/jupyterlab_html
+    jupyter-matplotlib @bokeh/jupyter_bokeh plotlywidget jupyterlab-plotly 
+    #@jupyterlab/plotly-extension
 )
 for i in ${JUPYTER_EXT[@]}; do
     cmd="jupyter labextension install $i --no-build"
     echo $cmd
     eval $cmd
 done
-jupyter lab build
-# Show installed extensions
-jupyter labextension list
 
 # Not recommended, but in case user insists...
 if [[ $INSTALL_JUPYTERLAB_LSP == 'true' ]]; then
@@ -214,9 +212,14 @@ if [[ $INSTALL_JUPYTERLAB_LSP == 'true' ]]; then
     echo '###############################################'
     pip install --pre jupyter-lsp
     conda install -c conda-forge -y python-language-server
-    echo jupyter labextension install @krassowski/jupyterlab-lsp
-    jupyter labextension install @krassowski/jupyterlab-lsp
+    echo jupyter labextension install @krassowski/jupyterlab-lsp --no-build
+    jupyter labextension install @krassowski/jupyterlab-lsp --no-build
 fi
+
+# Build the extensions
+jupyter lab build
+# Show installed extensions
+jupyter labextension list
 
 conda deactivate
 
@@ -273,6 +276,8 @@ echo "# You'll need to run the next command by yourself.              #"
 echo '#################################################################'
 declare -a DS_PKG=(
     ipykernel ipdb ipywidgets s3fs sagemaker-python-sdk
-    pandas seaborn bokeh scikit-learn
+    pandas scikit-learn pandas-profiling xgboost
+    matplotlib seaborn bokeh plotly orca
 )
 echo conda create -n ds_p37 -c conda-forge python=3.7 "${DS_PKG[@]}"
+echo conda install -n ds_p37 -c plotly plotly-orca
