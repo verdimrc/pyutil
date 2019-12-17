@@ -1,0 +1,32 @@
+# download samlaws https://github.com/Versent/saml2aws#install
+
+$ brew tap versent/homebrew-taps
+$ brew install saml2aws
+
+$ brew install awscli
+
+$ saml2aws configure
+
+Provider: ADFS
+MFA: VIP
+AWS profile: myprofile
+URL: https://URL.GIVEN.BY.ORGANIZATION
+username: <your login>
+password: <your password>
+
+####
+$ saml2aws login
+Using IDP Account default to access ADFS https://URL.GIVEN.BY.ORGANIZATION
+To use saved password just hit enter.
+? Username <username>
+? Password <password>
+
+Authenticating as <username> ...
+? Security Token [000000] 804443
+Selected role: arn:aws:iam::111122223333:role/xxxx
+Requesting AWS credentials using SAML assertion
+Logged in as: arn:aws:sts::111122223333:assumed-role/xxxx/yyyy
+
+Your new access key pair has been stored in the AWS configuration
+Note that it will expire at 2019-08-29 11:23:51 +1000 AEST
+To use this credential, call the AWS CLI with the --profile option (e.g. aws --profile myprofile ec2 describe-instances).
