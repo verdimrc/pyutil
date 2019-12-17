@@ -1,3 +1,6 @@
+# See also: http://thebluenode.com/use-saml2aws-log-aws-via-single-sign-sso-use-aws-cli
+
+####
 # download samlaws https://github.com/Versent/saml2aws#install
 
 $ brew tap versent/homebrew-taps
