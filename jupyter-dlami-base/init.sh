@@ -151,8 +151,7 @@ EOF
 # First, pre-warm the EBS (b/c this AMI is restored from snapshot located in S3)
 strip_stock_dlami() {
     local PYTHON2_ENV=(
-        aws_neuron_mxnet_p36 aws_neuron_tensorflow_p36 mxnet_p36 python3
-        pytorch_p36 tensorflow2_p36 tensorflow_p36
+        chainer_p27 mxnet_p27 python2 pytorch_p27 tensorflow_p27 tensorflow2_p27
     )
 
     local p2
