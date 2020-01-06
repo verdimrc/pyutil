@@ -113,11 +113,12 @@ export PATH=\$HOME/anaconda3/bin/:\$PATH
 EOF
 
     # First-time setup for conda
+    conda update -y -n base --all
     conda config --add channels conda-forge
     conda config --set auto_activate_base false
 }
 
-mimic_dlami_conda "$@"
+[[ $DLAMI_TYPE == DLAMI_BASE ]] && mimic_dlami_conda "$@"
 
 
 ################################################################################
@@ -143,8 +144,25 @@ cat << EOF >> .bash_profile
 [[ -z "\$JUPYTER_SERVER_ROOT" ]] || conda deactivate
 EOF
 
-# Update base environment
-conda update -y -n base --all
+
+################################################################################
+# Remove python2 environments if we're running on DLAMI_BASE
+################################################################################
+# First, pre-warm the EBS (b/c this AMI is restored from snapshot located in S3)
+strip_stock_dlami() {
+    local PYTHON2_ENV=(
+        aws_neuron_mxnet_p36 aws_neuron_tensorflow_p36 mxnet_p36 python3
+        pytorch_p36 tensorflow2_p36 tensorflow_p36
+    )
+
+    local p2
+    for p2 in "${PYTHON2_ENV[@]}"; do
+        echo Removing conda environment ${p2}
+        rm -fr /home/ec2-user/anaconda3/envs/${p2}
+    done
+}
+
+[[ $DLAMI_TYPE == DLAMI_CONDA ]] && strip_stock_dlami
 
 
 ################################################################################
@@ -155,7 +173,7 @@ declare -a JUPYTER_PKGS=(
     nodejs nb_conda_kernels ipywidgets ipykernel notebook jupyter jupyter_client
     jupyter_console jupyter_core jupyterlab jupyterlab_launcher ipympl
 )
-conda create -y -n jupyterlab python=3.8 "${JUPYTER_PKGS[@]}"
+conda create -y -n jupyterlab -c conda-forge python=3.8 "${JUPYTER_PKGS[@]}"
 conda activate jupyterlab
 
 # Configure jupyter lab
@@ -171,19 +189,6 @@ c.CondaKernelSpecManager.env_filter='jupyterlab'
 c.CondaKernelSpecManager.name_format='{1}'
 EOF
 
-# Fix terminal environment being messed-up due to starting `jupyter lab` from the conda environment.
-# When a new terminal starts, the prompt does not show (jupyterlab) even though this env is somewhat active,
-# and users must always have to `conda deactivate` first before activate another env, otherwise the activation
-# won't be correct, i.e., messed-up PYTHONPATH, etc.
-#
-# The bash_wrapper essentially forces deactivate before starting the shell. 
-cat << EOF > ~/bash_wrapper
-#!/usr/bin/bash
-source deactivate &> /dev/null
-exec bash
-EOF
-chmod ugo+x ~/bash_wrapper
-
 # Show jupyter-lab configuration
 egrep -v '^$|^#' ~/.jupyter/jupyter_notebook_config.py
 
@@ -193,7 +198,7 @@ declare -a JUPYTER_EXT=(
     @jupyter-widgets/jupyterlab-manager @jupyterlab/toc
     @krassowski/jupyterlab_go_to_definition @lckr/jupyterlab_variableinspector
     @mflevine/jupyterlab_html
-    jupyter-matplotlib @bokeh/jupyter_bokeh plotlywidget jupyterlab-plotly 
+    jupyter-matplotlib @bokeh/jupyter_bokeh plotlywidget jupyterlab-plotly
     #@jupyterlab/plotly-extension
 )
 for i in ${JUPYTER_EXT[@]}; do
@@ -217,7 +222,7 @@ if [[ $INSTALL_JUPYTERLAB_LSP == 'true' ]]; then
 fi
 
 # Build the extensions
-jupyter lab build
+#jupyter lab build
 # Show installed extensions
 jupyter labextension list
 
@@ -276,8 +281,17 @@ echo "# You'll need to run the next command by yourself.              #"
 echo '#################################################################'
 declare -a DS_PKG=(
     ipykernel ipdb ipywidgets s3fs sagemaker-python-sdk
+    black pydocstyle flake8 mypy isort
     pandas scikit-learn pandas-profiling xgboost
     matplotlib seaborn bokeh plotly orca
 )
 echo conda create -n ds_p37 -c conda-forge python=3.7 "${DS_PKG[@]}"
 echo conda install -n ds_p37 -c plotly plotly-orca
+
+
+################################################################################
+# Misc. finale
+################################################################################
+echo "[OPTIONAL] Pre-warm the root EBS volume"
+echo "See: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html"
+echo "sudo fio --filename=/dev/nvme0n1 --rw=read --bs=128k --iodepth=32 --ioengine=libaio --direct=1 --name=volume-initialize"

@@ -1,7 +1,7 @@
-Scripts tested on DeepLearning Base alinux2 AMI.
+Scripts tested on `Deep Learning Base (Amazon Linux 2)` AMI and `Deep Learning (Amazon Linux 2)` AMI.
 
 Usage:
 
-- Run on a fresh DLAMI Base alinux2 EC2 instance: `./init.sh`
+- Run `./init.sh` on a fresh EC2 instance loaded with `Deep Learning Base (Amazon Linux 2)` AMI or `Deep Learning (Amazon Linux 2)`.
 - Optionally, install DCV using `./install-dcv.sh`
-- Subsequently: `./update.sh`
+- **\[EXPERIMENTAL\]** Subsequently: `./update.sh`
