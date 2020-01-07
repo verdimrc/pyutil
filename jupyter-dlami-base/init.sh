@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 
 ################################################################################
 # Detect DL AMI
@@ -146,25 +146,6 @@ EOF
 
 
 ################################################################################
-# Remove python2 environments if we're running on DLAMI_BASE
-################################################################################
-# First, pre-warm the EBS (b/c this AMI is restored from snapshot located in S3)
-strip_stock_dlami() {
-    local PYTHON2_ENV=(
-        chainer_p27 mxnet_p27 python2 pytorch_p27 tensorflow_p27 tensorflow2_p27
-    )
-
-    local p2
-    for p2 in "${PYTHON2_ENV[@]}"; do
-        echo Removing conda environment ${p2}
-        rm -fr /home/ec2-user/anaconda3/envs/${p2}
-    done
-}
-
-[[ $DLAMI_TYPE == DLAMI_CONDA ]] && strip_stock_dlami
-
-
-################################################################################
 # Jupyter
 ################################################################################
 # Dedicated conda environment jupyter-lab environment, with newer Python.
@@ -191,43 +172,42 @@ EOF
 # Show jupyter-lab configuration
 egrep -v '^$|^#' ~/.jupyter/jupyter_notebook_config.py
 
-# Install extensions
-echo "Installing jupyter-lab extensions may take 10+ minutes..."
-declare -a JUPYTER_EXT=(
-    @jupyter-widgets/jupyterlab-manager @jupyterlab/toc
-    @krassowski/jupyterlab_go_to_definition @lckr/jupyterlab_variableinspector
-    @mflevine/jupyterlab_html
-    jupyter-matplotlib @bokeh/jupyter_bokeh plotlywidget jupyterlab-plotly
-    #@jupyterlab/plotly-extension
-)
-for i in ${JUPYTER_EXT[@]}; do
-    cmd="jupyter labextension install $i --no-build"
-    echo $cmd
-    eval $cmd
-done
-
-# Not recommended, but in case user insists...
-if [[ $INSTALL_JUPYTERLAB_LSP == 'true' ]]; then
-    echo '###############################################'
-    echo '# WARNING @@@ WARNING @@@ WARNING @@@ WARNING #'
-    echo '###############################################'
-    echo '# jupyterlab-lsp is slow, hog CPU, and buggy. #'
-    echo '# Install at your own risk.                   #'
-    echo '###############################################'
-    pip install --pre jupyter-lsp
-    conda install -c conda-forge -y python-language-server
-    echo jupyter labextension install @krassowski/jupyterlab-lsp --no-build
-    jupyter labextension install @krassowski/jupyterlab-lsp --no-build
-fi
-
-# Build the extensions
-#jupyter lab build
-# Show installed extensions
-jupyter labextension list
+# Install extensions in the background, detached from this script
+echo "jupyter-lab-ext: install in background"
+echo "jupyter-lab-ext: may take 10+ minutes to complete"
+echo 'Please check status at jupyter-lab-ext.{log,INSTALLING,SUCCESS,FAILED}.'
+touch jupyter-lab-ext.INSTALLING
+nohup bash -c '
+export PATH=/home/ec2-user/anaconda3/envs/jupyterlab/bin:$PATH
+echo JUPYTER_BIN=$(which jupyter)
+./jupyter-lab-build.sh && touch jupyter-lab-ext.SUCCESS || touch jupyter-lab-ext.FAILED' \
+    &> jupyter-lab-ext.log </dev/null &
 
 conda deactivate
 
+
+################################################################################
+# Remove python2 environments if we're running on DLAMI_BASE
+################################################################################
+# First, pre-warm the EBS (b/c this AMI is restored from snapshot located in S3)
+strip_stock_dlami() {
+    local PYTHON2_ENV=(
+        chainer_p27 mxnet_p27 python2 pytorch_p27 tensorflow_p27 tensorflow2_p27
+    )
+
+    local p2
+    for p2 in "${PYTHON2_ENV[@]}"; do
+        echo Removing conda environment ${p2}
+        rm -fr /home/ec2-user/anaconda3/envs/${p2}
+    done
+}
+
+[[ $DLAMI_TYPE == DLAMI_CONDA ]] && strip_stock_dlami
+
+
+################################################################################
 # Clean-up
+################################################################################
 conda clean --all -y
 rm -fr /tmp/yarn* /tmp/npm*
 
@@ -294,3 +274,7 @@ echo conda install -n ds_p37 -c plotly plotly-orca
 echo "[OPTIONAL] Pre-warm the root EBS volume"
 echo "See: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html"
 echo "sudo fio --filename=/dev/nvme0n1 --rw=read --bs=128k --iodepth=32 --ioengine=libaio --direct=1 --name=volume-initialize"
+echo
+echo "jupyter lab installation may still run in background"
+echo "It may take may take 10+ minutes to complete"
+echo "Please check jupyter-lab-ext.{log,INSTALLING,SUCCESS,FAILED}"
