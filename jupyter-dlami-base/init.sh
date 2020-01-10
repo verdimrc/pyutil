@@ -256,22 +256,44 @@ EOF
 ################################################################################
 echo '#################################################################'
 echo '# Sample conda environment for actual work -- for display only. #'
-echo "# You'll need to run the next command by yourself.              #"
+echo "# You'll need to run the next stanza by yourself.               #"
 echo '#################################################################'
+LONG_STRING=$(cat << EOF
 declare -a DS_PKG=(
-    ipykernel ipdb ipywidgets s3fs sagemaker-python-sdk
-    black pydocstyle flake8 mypy isort
-    pandas scikit-learn pandas-profiling xgboost
-    matplotlib seaborn bokeh plotly orca
+    ipdb s3fs sagemaker-python-sdk
+
+    # Needed by my vscode setup
+    jupyter black pydocstyle flake8 mypy isort
+
+    # Basic DS stuffs. 
+    mkl "libblas=*=*mkl"   # prefer mkl over openblas for numpy. Comment to prefer openblas
+    pandas scikit-learn xgboost pandas-profiling
+
+    # Dependencies for eda-viz, featexp, pydqc
+    matplotlib matplotlib-venn seaborn xlsxwriter openpyxl
+
+    # One of NLP toolkits.
+    spacy spacy-model-en_core_web_sm
 )
-echo conda create -n ds_p37 -c conda-forge python=3.7 "${DS_PKG[@]}"
-echo conda install -n ds_p37 -c plotly plotly-orca
+conda config --set channel_priority strict
+conda create -n ds_p37 --yes -c conda-forge python=3.7 "${DS_PKG[@]}"
+
+~/anaconda3/envs/ds_p37/bin/pip install pydqc
+
+# These packages lock dependencies down to minor version, so skip the deps.
+~/anaconda3/envs/ds_p37/bin/pip install --no-deps featexp eda-viz
+EOF
+)
+echo "$LONG_STRING"
 
 
 ################################################################################
 # Misc. finale
 ################################################################################
-echo "[OPTIONAL] Pre-warm the root EBS volume"
+echo
+echo "###########################################"
+echo "# [OPTIONAL] Pre-warm the root EBS volume #"
+echo "###########################################"
 echo "See: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html"
 echo "sudo fio --filename=/dev/nvme0n1 --rw=read --bs=128k --iodepth=32 --ioengine=libaio --direct=1 --name=volume-initialize"
 echo
