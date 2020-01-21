@@ -275,13 +275,17 @@ declare -a DS_PKG=(
     # One of NLP toolkits.
     spacy spacy-model-en_core_web_sm
 )
-conda config --set channel_priority strict
-conda create -n ds_p37 --yes -c conda-forge python=3.7 "${DS_PKG[@]}"
+MY_CONDA_ENV=ds_p37
+conda create -n \${MY_CONDA_ENV} --yes -c conda-forge python=3.7 "\${DS_PKG[@]}"
 
-~/anaconda3/envs/ds_p37/bin/pip install pydqc
+# Lock numpy to mkl in the event of 'conda update --all'
+# See: https://github.com/conda-forge/numpy-feedstock/issues/153#issuecomment-513943382
+echo >> ~/anaconda3/envs/\${MY_CONDA_ENV}/conda-meta/pinned
+
+~/anaconda3/envs/\${MY_CONDA_ENV}/bin/pip install pydqc
 
 # These packages lock dependencies down to minor version, so skip the deps.
-~/anaconda3/envs/ds_p37/bin/pip install --no-deps featexp eda-viz
+~/anaconda3/envs/\${MY_CONDA_ENV}/bin/pip install --no-deps featexp eda-viz
 EOF
 )
 echo "$LONG_STRING"

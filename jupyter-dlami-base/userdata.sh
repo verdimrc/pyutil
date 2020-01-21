@@ -37,21 +37,9 @@ su -l ec2-user -c ./init.sh ${MINICOND_SRC}
 
 # Friendly message to ec2-user via a log file.
 cat << EOF | sudo -iu ec2-user tee conda.log > /dev/null
-Conda is ready. Check /var/log/user-data.log for details.
+Conda is ready. Check /var/log/user-data.log for details and optional next steps
+(incl. sample conda create env. command).
 
 Jupyter lab extensions may still be installed in background (may take 10+ minutes).
 Please check jupyter-lab-ext.{log,INSTALLING,SUCCESS,FAILED}.
-
-In the mean time, here's a samples of things you may want to do.
-
-# Create conda environment
-conda create -n ds_p37 -c conda-forge python=3.7 \
-    ipykernel ipdb ipywidgets s3fs sagemaker-python-sdk \
-    black pydocstyle flake8 mypy isort \
-    pandas scikit-learn pandas-profiling xgboost matplotlib \
-    seaborn bokeh plotly orca
-
-# [OPTIONAL] Pre-warm the root EBS volume
-# See: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html
-sudo fio --filename=/dev/nvme0n1 --rw=read --bs=128k --iodepth=32 --ioengine=libaio --direct=1 --name=volume-initialize
 EOF
