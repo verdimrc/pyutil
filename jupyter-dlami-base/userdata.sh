@@ -10,6 +10,10 @@ EFS=fs-f7ccb7b6
 S3_SRC_PREFIX=s3://vm-hello-world  # No trailing /
 MINICONDA_SRC=s3://vm-hello-world/Miniconda3-20191202-Linux-x86_64.sh
 
+# Update ssm agent + a few other useful tools
+yum update -y amazon-ssm-agent
+yum install -y tmux tree htop
+
 # Setup EFS mount if defined
 if [[ ! -z ${EFS} ]]; then
     yum install -y amazon-efs-utils
