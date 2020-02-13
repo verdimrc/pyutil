@@ -279,8 +279,8 @@ MY_CONDA_ENV=ds_p37
 conda create -n \${MY_CONDA_ENV} --yes -c conda-forge python=3.7 "\${DS_PKG[@]}"
 
 # Lock numpy to mkl in the event of 'conda update --all'
-# See: https://github.com/conda-forge/numpy-feedstock/issues/153#issuecomment-513943382
-echo >> ~/anaconda3/envs/\${MY_CONDA_ENV}/conda-meta/pinned
+# See: https://github.com/conda-forge/numpy-feedstock/issues/153#issuecomment-513945004
+echo 'libblas[build=*mkl]' >> ~/anaconda3/envs/\${MY_CONDA_ENV}/conda-meta/pinned
 
 ~/anaconda3/envs/\${MY_CONDA_ENV}/bin/pip install pydqc
 
