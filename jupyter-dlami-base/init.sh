@@ -263,7 +263,7 @@ declare -a DS_PKG=(
     ipdb s3fs sagemaker-python-sdk
 
     # Needed by my vscode setup
-    jupyter autoflake black pydocstyle flake8 mypy isort tox pytest
+    jupyter autoflake black pydocstyle flake8 mypy isort rope tox pytest
 
     # Basic DS stuffs. 
     mkl "libblas=*=*mkl"   # prefer mkl over openblas for numpy. Comment to prefer openblas
