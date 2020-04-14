@@ -1,0 +1,32 @@
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - ipykernel
+  - pip
+  # conda dependencies for gluonts 0.4.2
+  - boto3~=1.0
+  - holidays>=0.9,<0.10
+  - matplotlib~=3.0
+  - numpy~=1.14
+  - pandas>=0.25,<0.26
+  - pydantic~=1.1
+  - tqdm~=4.23
+  - ujson~=1.35
+  # Optional: some DS toolkits
+  - mamba
+  - ipdb
+  - s3fs
+  - xlrd
+  - xlsxwriter
+  - openpyxl
+  - scikit-learn
+  - numpy<=1.15.2,>=1.8.2
+  - matplotlib
+  - matplotlib-venn
+  - seaborn
+  - bokeh
+  - pip:
+    - mxnet>=1.4.1,<1.5.*
+    - gluonts
