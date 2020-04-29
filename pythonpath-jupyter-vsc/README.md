@@ -9,3 +9,5 @@ A skeleton of project structure with sample Jupyter & Visual Studio Code configu
 - Jupyter: see `test.ipynb` and `ipython_config.py`.
 
   Basically, with this config, when a notebook kernel is started, it'll automatically add add additional directories to the `PYTHONPATH`. The sample `test.ipynb` shows how it can import custom modules located under `haha` and `hehe`.
+
+NOTE: if your notebooks is part of a git repo, then have a look at a more general `ipython_config.py` in this https://github.com/verdimrc/python-project-skeleton which will automatically detect & prepopulate Juptyer's python path with a few directories.
