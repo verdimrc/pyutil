@@ -1,3 +1,5 @@
+"""Merged to https://github.com/verdimrc/smallmatter/blob/master/src/smallmatter/sm.py and will be maintained there."""
+
 import os
 from pathlib import Path
 
