@@ -1,5 +1,19 @@
 #!/bin/bash
 
+###############################################################################
+# 20200713: deprecated.
+
+# After the new update (don't know when exactly, but conda bumped to 4.8.x),
+# `!which python` will still show binary belongs to JupyterSystemEnv, though
+# the kernel correctly uses the custom env's one.
+#
+# This is dangerous as frequently I expect "!..." or "%%bash ..." to use
+# python binaries from the same environment.
+#
+# The new way is to let jupter_environment_kernels to scan ~/SageMaker/envs/,
+# see patch-jupyter-config.sh
+###############################################################################
+
 # This script registered a conda environment located in ~/SageMaker to the
 # Jupyter server in the SageMaker notebook instance.
 #
