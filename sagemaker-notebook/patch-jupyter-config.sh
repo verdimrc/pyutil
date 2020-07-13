@@ -19,7 +19,7 @@ try_append() {
 
 try_append \
     c.NotebookApp.terminado_settings \
-    "c.NotebookApp.terminado_settings = {'shell_command': ['/bin/bash', '-l']}" \
+    "{'shell_command': ['/bin/bash', '-l']}" \
     "Changed shell to /bin/bash"
 
 try_append \
