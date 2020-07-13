@@ -28,3 +28,4 @@ try_append \
     "Register additional prefixes for conda environments"
 
 echo 'To enforce the change to jupyter config: sudo initctl restart jupyter-server --no-wait'
+echo 'then refresh your browser'
