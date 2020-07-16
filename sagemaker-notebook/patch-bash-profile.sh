@@ -15,7 +15,12 @@ git_branch() {
    [[ "\$branch" == "" ]] && echo "" || echo "(\$branch) "
 }
 
-export PS1='[\w] \$(git_branch)\\$ '
+# All colors are bold
+COLOR_GREEN="\[\033[1;32m\]"
+COLOR_PURPLE="\[\033[1;35m\]"
+COLOR_YELLOW="\[\033[1;33m\]"
+COLOR_OFF="\[\033[0m\]"
+export PS1="[\$COLOR_GREEN\w\$COLOR_OFF] \$COLOR_PURPLE\\\$(git_branch)\$COLOR_OFF\\\$ "
 EOF
 
 echo "On a new SageMaker terminal, which uses 'sh' by default, type 'bash -l' (without the quotes)"
