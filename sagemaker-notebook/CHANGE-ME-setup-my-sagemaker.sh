@@ -23,6 +23,7 @@ BIN_DIR=$(get_bin_dir)
 sudo yum install -y htop tree
 ${BIN_DIR}/adjust-sm-git.sh 'Verdi March' marcverd@amazon.com
 ${BIN_DIR}/change-fontsize.sh
+${BIN_DIR}/fix-osx-keymap.sh
 ${BIN_DIR}/patch-bash-profile.sh
 ${BIN_DIR}/patch-ipython-config.sh
 ${BIN_DIR}/patch-jupyter-config.sh
