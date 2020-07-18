@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# https://gist.github.com/verdimrc/a10dd3ea00a34b0ffb3e8ee8d5cde8b5#file-bash-sh-L20-L34 
+# https://gist.github.com/verdimrc/a10dd3ea00a34b0ffb3e8ee8d5cde8b5#file-bash-sh-L20-L34
 #
 # Utility function to get script's directory (deal with Mac OSX quirkiness).
 # This function is ambidextrous as it works on both Linux and OSX.
@@ -26,4 +26,7 @@ ${BIN_DIR}/change-fontsize.sh
 ${BIN_DIR}/fix-osx-keymap.sh
 ${BIN_DIR}/patch-bash-profile.sh
 ${BIN_DIR}/patch-ipython-config.sh
+${BIN_DIR}/setup-vim.sh
+
+# These require jupyter lab restarted and browser reloaded, to see the changes.
 ${BIN_DIR}/patch-jupyter-config.sh
