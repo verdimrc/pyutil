@@ -25,7 +25,7 @@ ${BIN_DIR}/adjust-sm-git.sh 'Firstname Lastname' first.last@email.abc
 ${BIN_DIR}/change-fontsize.sh
 ${BIN_DIR}/fix-osx-keymap.sh
 ${BIN_DIR}/patch-bash-config.sh
-${BIN_DIR}/patch-ipython-config.sh
+${BIN_DIR}/recolor-ipython.sh
 ${BIN_DIR}/init-vim.sh
 
 # These require jupyter lab restarted and browser reloaded, to see the changes.
