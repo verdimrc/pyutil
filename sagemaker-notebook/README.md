@@ -24,10 +24,18 @@ SageMaker notebook instance:
 
 ## Installation
 
+Go to the Jupyter Lab on your SageMaker notebook instance. Open a terminal,
+then run this command:
+
 ```bash
-curl -sfL https://github.com/verdimrc/pyutil/blob/master/sagemaker-notebook/install-initsmnb.sh \
+curl -sfL \
+    https://raw.githubusercontent.com/verdimrc/pyutil/initsmnb-installer/sagemaker-notebook/install-initsmnb.sh \
     | bash -s -- 'Git-committer-firstname Lastname' 'git-committer@email.abc'
 ```
+
+Change the git committer's name and email to your liking.
+- To use default name (i.e., `ec2-user`), specify `''` for the commiter name.
+- Likewise, specify `''` to keep the commiter email to SageMaker notebook's default.
 
 
 ## Usage
