@@ -12,7 +12,7 @@ try_append() {
         return 1
     fi
 
-    echo "$key = $value" >> ~/.jupyter/jupyter_notebook_config.py 
+    echo "$key = $value" >> ~/.jupyter/jupyter_notebook_config.py
     echo $msg
 }
 
