@@ -12,7 +12,7 @@ SageMaker notebook instance:
     [restart JupyterLab](#appendix-restart-jupyterlab) before you can see the
     environment listed as one of the kernels.
 
-    <br><details><summary style="font-size:60%">Implementation notes</summary>
+    <details><summary style="font-size:60%">Implementation notes</summary>
 
     > An older implementation was to trigger `ipykernel install` (refer to the
     > [deprecated script](https://github.com/verdimrc/pyutil/blob/master/sagemaker-notebook/deprecated/reinstall-ipykernel.sh)).
