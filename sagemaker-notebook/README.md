@@ -24,6 +24,8 @@ SageMaker notebook instance:
 
 ## Installation
 
+This step needs to be done **once** on a newly *created* notebook instance.
+
 Go to the Jupyter Lab on your SageMaker notebook instance. Open a terminal,
 then run this command:
 
@@ -40,8 +42,11 @@ Change the git committer's name and email to your liking.
 
 ## Usage
 Once installed, you should see file `/home/ec2-user/SageMaker/initsmnb/setup-my-sagemaker.sh`.
-Run this file to apply the changes to the current session.
 
-Note that due to the way SageMaker notebook works, you should re-run
-`setup-my-sagemaker.sh` after reboot. Alternatively, you can consider to create
-lifecycle config to auto-run the script on notebook restart.
+Run this file to apply the changes to the current session, and follow the
+instruction to restart the Jupyter server (and after that, do remember to reload
+your browser tab).
+
+Due to how SageMaker notebook works, please re-run `setup-my-sagemaker.sh` on a
+newly *started* or *restarted* instance. You may even consider to automate this
+step using SageMaker lifecycle config.
