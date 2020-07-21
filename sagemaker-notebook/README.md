@@ -29,6 +29,10 @@ SageMaker notebook instance:
   * `bash` shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when
     connecting from OSX.
   * Install `htop` and `tree` commands.
+- ipython run from Jupyter Lab's terminal:
+  * shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when connecting
+    from OSX.
+  * recolor o.__class__ from dark blue (nearly invisible) to a more sane color.
 - Some customizations on `vim`:
   * Notably, change window navigation shortcuts from `ctrl-w-{h,j,k,l}` to
     `ctrl-{h,j,k,l}`.
