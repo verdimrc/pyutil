@@ -49,6 +49,13 @@ stop_smnb() {
     echo "Stopped ${NB_NAME}"
 }
 
+# Create presigned url
+create_presigned_url() {
+    cmd="aws ${AWS_CLI_OPTS[@]} sagemaker create-presigned-notebook-instance-url --notebook-instance-name ${NB_NAME}"
+    #echo $cmd
+    eval $cmd
+}
+
 ################################################################################
 # Main
 ################################################################################
@@ -76,3 +83,5 @@ else
     cmd="aws ${AWS_CLI_OPTS[@]} sagemaker describe-notebook-instance --notebook-instance-name ${NB_NAME} | egrep --color=always '^.*NotebookInstanceStatus.*$|$'"
     watch --color -n 30 "${cmd}"
 fi
+
+[[ $(basename ${BASH_SOURCE[0]}) =~ .*start.* ]] && create_presigned_url
