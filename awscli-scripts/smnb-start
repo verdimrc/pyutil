@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+declare -a AWS_CLI_OPTS=()
+declare -i ALL_FOR_AWS_CLI=0
+declare -i WATCH=1
+
+parse_args() {
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+        case $key in
+        -h|--help)
+            echo "Watch Amazon SageMaker Notebook instance."
+            echo "Usage: $(basename ${BASH_SOURCE[0]}) <NB_NAME> --awscli-arg=val -- --awscli-arg val"
+            exit 0
+            ;;
+        -n|--no-watch)
+            WATCH=0
+            shift
+            ;;
+        --)
+            # Anything after this means "--option value"
+            ALL_FOR_AWS_CLI=1
+            shift
+            ;;
+        -*)
+            # This takes care "--option=value"
+            AWS_CLI_OPTS+=($key)
+            shift
+            ;;
+        *)
+            [[ ${ALL_FOR_AWS_CLI} > 0 ]] && AWS_CLI_OPTS+=($key) || NB_NAME=$key
+            shift
+            ;;
+        esac
+    done
+}
+
+start_smnb() {
+    cmd="aws ${AWS_CLI_OPTS[@]} sagemaker start-notebook-instance --notebook-instance-name ${NB_NAME}"
+    #echo $cmd
+    eval $cmd
+    echo "Started ${NB_NAME}"
+}
+
+stop_smnb() {
+    cmd="aws ${AWS_CLI_OPTS[@]} sagemaker stop-notebook-instance --notebook-instance-name ${NB_NAME}"
+    #echo $cmd
+    eval $cmd
+    echo "Stopped ${NB_NAME}"
+}
+
+################################################################################
+# Main
+################################################################################
+parse_args "$@"
+[[ "${NB_NAME}" == "" ]] && exit 0
+
+# Route task to the correct function
+if [[ $(basename ${BASH_SOURCE[0]}) =~ .*start.* ]]; then
+    echo "Starting ${NB_NAME}"
+    start_smnb
+elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*stop.* ]]; then
+    echo "Stopping ${NB_NAME}"
+    stop_smnb
+else
+    echo "Unknown task"
+fi
+
+# Display instance status
+cmd="aws ${AWS_CLI_OPTS[@]} sagemaker describe-notebook-instance --notebook-instance-name ${NB_NAME} | egrep --color=always '^.*NotebookInstanceStatus.*$|$'"
+if [[ ${WATCH} < 1 ]]; then
+    eval $cmd
+else
+    echo
+    read -n 1 -s -r -p "Press any key to watch... (while watching, press ^C to stop watching)"
+    cmd="aws ${AWS_CLI_OPTS[@]} sagemaker describe-notebook-instance --notebook-instance-name ${NB_NAME} | egrep --color=always '^.*NotebookInstanceStatus.*$|$'"
+    watch --color -n 30 "${cmd}"
+fi
