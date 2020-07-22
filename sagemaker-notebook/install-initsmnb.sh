@@ -7,11 +7,11 @@ declare -a SCRIPTS=(
     CHANGE-ME-setup-my-sagemaker.sh
     adjust-sm-git.sh
     change-fontsize.sh
+    fix-ipython.sh
     fix-osx-keymap.sh
     init-vim.sh
     patch-bash-config.sh
     patch-jupyter-config.sh
-    recolor-ipython.sh
 )
 
 mkdir -p $INITSMNB_DIR
