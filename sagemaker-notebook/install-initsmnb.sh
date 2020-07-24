@@ -35,6 +35,9 @@ EOF
 sed \
     -e "s/Firstname Lastname/$1/" \
     -e "s/first.last@email.abc/$2/" \
+    -e "s/fsid/$3/" \
+    -e "s/fsapid/$4/" \
+    -e "s/mountpoint/$5/" \
     CHANGE-ME-setup-my-sagemaker.sh >> setup-my-sagemaker.sh
 chmod ugo+x setup-my-sagemaker.sh
 
