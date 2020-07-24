@@ -69,7 +69,7 @@ EOF
     curl -sfLo ${VIM_RTP}/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     unset DISPLAY
-    vim -E +PlugUpdate +qall > /dev/null
+    vim -u ${VIMRC} -E +PlugUpdate +qall > /dev/null
 
     touch ${VIM_RTP}/_SUCCESS
 fi
