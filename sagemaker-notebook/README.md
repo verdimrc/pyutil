@@ -43,7 +43,6 @@ SageMaker notebook instance:
   * Other opinionated changes; see `init-vim.sh` in this repo, and the template
     `.vimrc` in [this repo](https://github.com/verdimrc/linuxcfg/blob/master/.vimrc).
 
-
 ## Installation
 
 This step needs to be done **once** on a newly *created* notebook instance.
@@ -54,15 +53,17 @@ then run this command:
 ```bash
 curl -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/sagemaker-notebook/install-initsmnb.sh \
-    | bash -s -- 'Git-committer-firstname Lastname' 'git-committer@email.abc'
+    | bash -s -- 'Git-committer-firstname Lastname' 'git-committer@email.abc' 'fs-123' 'fsap-123' '\/home\/ec2-user\/mnt'
 ```
 
 Change the git committer's name and email to your liking.
+
 - To use default name (i.e., `ec2-user`), specify `''` for the commiter name.
 - Likewise, specify `''` to keep the commiter email to SageMaker notebook's default.
-
+- Remember to escape forward slash in mount point.
 
 ## Usage
+
 Once installed, you should see file `/home/ec2-user/SageMaker/initsmnb/setup-my-sagemaker.sh`.
 
 Run this file to apply the changes to the current session, and follow the
