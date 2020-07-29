@@ -6,7 +6,7 @@
 
 echo Mount EFS access point onto Sagemaker home directory
 echo Usage: ${BASH_SOURCE[0]} "efs_file_id,efs_accesspoint_id,mount_path ..."
-echo "       where mount_path is always under /home/ec2-user/efs/"
+echo "       where mount_path is always under /home/ec2-user/mnt/"
 echo
 
 # Install efs utitlity
@@ -20,7 +20,7 @@ EFS_OPTS='defaults,nofail,_netdev,rsize=1048576,wsize=1048576,hard,timeo=600,ret
 mount_efs(){
     local EFS_FILE_ID="$1"
     local EFS_ACCESSPOINT_ID="$2"
-    local MOUNT_POINT="/home/ec2-user/efs/$3"
+    local MOUNT_POINT="/home/ec2-user/mnt/$3"
 
     if [[ ${EFS_FILE_ID} == "" ]] || [[ ${EFS_ACCESSPOINT_ID} == "" ]] || [[ ${MOUNT_POINT} == "" ]]; then
         echo "Error: Missing arguments"
