@@ -10,6 +10,7 @@ declare -a SCRIPTS=(
     fix-ipython.sh
     fix-osx-keymap.sh
     init-vim.sh
+    mount-efs-accesspoint.sh
     patch-bash-config.sh
     patch-jupyter-config.sh
 )
@@ -25,6 +26,7 @@ chmod ugo+x ${SCRIPTS[@]}
 
 echo "Generating setup-my-sagemaker.sh"
 echo "=> git-user / git-email = '$1' / '$2'"
+echo "=> fsid / fsap-id / mountpoint = '$3' / '$4' / '$5'"
 cat << EOF > setup-my-sagemaker.sh
 #!/bin/bash
 
@@ -35,6 +37,9 @@ EOF
 sed \
     -e "s/Firstname Lastname/$1/" \
     -e "s/first.last@email.abc/$2/" \
+    -e "s/fsid/$3/" \
+    -e "s/fsapid/$4/" \
+    -e "s/mountpoint/$5/" \
     CHANGE-ME-setup-my-sagemaker.sh >> setup-my-sagemaker.sh
 chmod ugo+x setup-my-sagemaker.sh
 
