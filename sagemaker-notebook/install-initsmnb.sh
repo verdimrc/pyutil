@@ -3,8 +3,7 @@
 ################################################################################
 # Global vars
 ################################################################################
-#INITSMNB_DIR=/home/ec2-user/SageMaker/initsmnb
-INITSMNB_DIR=/tmp/ec2-user/SageMaker/initsmnb
+INITSMNB_DIR=/home/ec2-user/SageMaker/initsmnb
 SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/sagemaker-notebook
 
 declare -a SCRIPTS=(
@@ -68,8 +67,9 @@ parse_args() {
 }
 
 efs2str() {
+    local sep="${1:-|}"
     if [[ ${#EFS[@]} -gt 0 ]]; then
-        printf "'%s'|" "${EFS[@]}"
+        printf "'%s'${sep}" "${EFS[@]}"
     else
         echo "''"
     fi
@@ -104,20 +104,16 @@ cat << EOF > setup-my-sagemaker.sh
 
 EOF
 
-# TODO:
-# for i in efs:
-#     echo mount-efs-accesspoint.sh something-something >> setup-my-sagemaker.sh
-#
-# TODO: update mount-efs-accesspoint.sh to deal with multiple efs
 sed \
     -e "s/Firstname Lastname/$GIT_USER/" \
     -e "s/first.last@email.abc/$GIT_EMAIL/" \
-    -e "s/fsid/$3/" \
-    -e "s/fsapid/$4/" \
-    -e "s/mountpoint/$5/" \
+    -e "s/fsid,fsapid,mountpoint/$(efs2str ' ')/" \
     CHANGE-ME-setup-my-sagemaker.sh >> setup-my-sagemaker.sh
 chmod ugo+x setup-my-sagemaker.sh
-[[ "${#EFS[@]}" < 1 ]] && gsed -i "/mount-efs-accesspoint.sh/d" setup-my-sagemaker.sh
+
+# Delete mount script if no efs requested.
+# WARNING: when testing on OSX, next line must use gsed.
+[[ "${#EFS[@]}" < 1 ]] && sed -i "/mount-efs-accesspoint.sh/d" setup-my-sagemaker.sh
 
 EPILOGUE=$(cat << EOF
 
