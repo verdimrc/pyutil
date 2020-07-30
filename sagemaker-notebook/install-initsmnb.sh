@@ -95,7 +95,6 @@ chmod ugo+x ${SCRIPTS[@]}
 
 echo "Generating setup-my-sagemaker.sh"
 echo "=> git-user / git-email = '$GIT_USER' / '$GIT_EMAIL'"
-echo "=> fsid / fsap-id / mountpoint = '$3' / '$4' / '$5'"
 echo "=> EFS: (fsid,fsap,mountpoint)|... = $(efs2str)"
 cat << EOF > setup-my-sagemaker.sh
 #!/bin/bash
