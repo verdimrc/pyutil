@@ -45,7 +45,6 @@ autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &number | set norelativen
 "
 " Vim defaults to ctrl-w-{h,j,k,l}. But, laaa la la la la, ctrl-w on Linux
 " (and Windows?) closes browser tab.
-" closes browser tab.
 "
 " NOTE: ctrl-l was "clear and redraw screen". The later can still be invoked
 "       with :redr[aw][!]

@@ -1,12 +1,17 @@
 # An Opinionated Customization on SageMaker Notebook Instance
 
-Scripts to re-run common tasks on a fresh (i.e., newly created or rebooted)
-SageMaker notebook instance:
+Scripts to re-run common tweaks on a fresh (i.e., newly created or rebooted)
+SageMaker notebook instance, to make the notebook instance a little-bit more
+ergonomics for prolonged usage.
+
+Please note that tweaks marked with **\[Need sudo\]** can only be in-effect when
+your notebook instance enables
+[root access for notebook users](https://aws.amazon.com/blogs/machine-learning/control-root-access-to-amazon-sagemaker-notebook-instances/).
 
 - Jupyter Lab:
-  * Terminal defaults to `bash` shell, dark theme, and smaller font.
   * Reduce font size on Jupyter Lab
-  * Jupyter Lab to auto-scan `/home/ec2-user/SageMaker/envs/` for custom conda
+  * **\[Need sudo\]** Terminal defaults to `bash` shell, dark theme, and smaller font.
+  * **\[Need sudo\]** Jupyter Lab to auto-scan `/home/ec2-user/SageMaker/envs/` for custom conda
     environments. Note that after you create a new custom conda environment on
     `/home/ec2-user/SageMaker/envs/`, you may need to
     [restart JupyterLab](#appendix-restart-jupyterlab) before you can see the
@@ -28,11 +33,12 @@ SageMaker notebook instance:
 - Terminal:
   * `bash` shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when
     connecting from OSX.
-  * Install `htop` and `tree` commands.
+  * **\[Need sudo\]** Install `htop` and `tree` commands.
 - ipython run from Jupyter Lab's terminal:
   * shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when connecting
     from OSX.
-  * recolor o.__class__ from dark blue (nearly invisible) to a more sane color.
+  * recolor `o.__class__` from dark blue (nearly invisible on the dark theme) to
+    a more sane color.
 - Some customizations on `vim`:
   * Notably, change window navigation shortcuts from `ctrl-w-{h,j,k,l}` to
     `ctrl-{h,j,k,l}`.
@@ -42,6 +48,7 @@ SageMaker notebook instance:
 
   * Other opinionated changes; see `init-vim.sh` in this repo, and the template
     `.vimrc` in [this repo](https://github.com/verdimrc/linuxcfg/blob/master/.vimrc).
+- **\[Need sudo\]** Optionally mount one or more EFS.
 
 ## Installation
 
@@ -53,14 +60,29 @@ then run this command:
 ```bash
 curl -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/sagemaker-notebook/install-initsmnb.sh \
-    | bash -s -- 'Git-committer-firstname Lastname' 'git-committer@email.abc' 'fs-123' 'fsap-123' '\/home\/ec2-user\/mnt'
+    | bash -s -- --git-user 'First Last' --git-email 'ab@email.abc'
 ```
 
-Change the git committer's name and email to your liking.
+Both the `--git--user 'First Last` and `--git-email ab@email.abc` arguments are
+optional. If you're happy with SageMaker's preset (which uses `ec2-user` as
+the commiter name), you can drop these two arguments from the install command.
 
-- To use default name (i.e., `ec2-user`), specify `''` for the commiter name.
-- Likewise, specify `''` to keep the commiter email to SageMaker notebook's default.
-- Remember to escape forward slash in mount point.
+If you want to auto-mount one or more EFS, install as follows:
+
+```bash
+curl -sfL \
+    https://raw.githubusercontent.com/verdimrc/pyutil/master/sagemaker-notebook/install-initsmnb.sh \
+    | bash -s -- \
+        --git-user 'First Last' \
+        --git-email 'ab@email.abc' \
+        --efs 'fs-123,fsap-123,my_efs_01' \
+        --efs 'fs-456,fsap-456,my_efs_02'
+```
+
+All mount points will live under `/home/ec2-user/mnt/`. Thus, the above example
+will install a script that can mount two EFS, the first one `fs-123` will be
+mounted as `/home/ec2-user/mnt/my_efs_01/`, while the second one `fs-456` will
+be mounted as `/home/ec2-user/mnt/my_efs_02/`.
 
 ## Usage
 
