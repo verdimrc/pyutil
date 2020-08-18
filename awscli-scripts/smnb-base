@@ -82,29 +82,35 @@ watch_smnb() {
 parse_args "$@"
 [[ "${NB_NAME}" == "" ]] && exit 0
 
-# Route task to the correct function. Some tasks creates a mini state machine.
-# TODO: rewrite with switch/case?
-if [[ $(basename ${BASH_SOURCE[0]}) =~ .*start.* ]]; then
-    start_smnb
-    CREATE_PRESIGNED_URL=1
-    WATCH_ARGS+=(preamble)
-elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*stop.* ]]; then
-    stop_smnb
-    WATCH_ARGS+=(preamble)
-elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*url.* ]]; then
-    # Always --no-watch
-    WATCH=0
-    CREATE_PRESIGNED_URL=1
-elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*status.* ]]; then
-    # Always --no-watch
-    WATCH=0
-elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*watch.* ]]; then
-    # Over-rule --no-watch
-    WATCH=1
-else
-    echo "Unknown task"
-    exit 1
-fi
+# Dispatch task (where some tasks create a mini state machine).
+case $(basename ${BASH_SOURCE[0]}) in
+    *start*)
+        start_smnb
+        CREATE_PRESIGNED_URL=1
+        WATCH_ARGS+=(preamble)
+        ;;
+    *stop*)
+        stop_smnb
+        WATCH_ARGS+=(preamble)
+        ;;
+    *url*)
+        # Always --no-watch
+        WATCH=0
+        CREATE_PRESIGNED_URL=1
+        ;;
+    *status*)
+        # Always --no-watch
+        WATCH=0
+        ;;
+    *watch*)
+        # Over-rule --no-watch
+        WATCH=1
+        ;;
+    *)
+        echo "Unknown task"
+        exit 1
+        ;;
+esac
 
 [[ ${WATCH} < 1 ]] && status_smnb || watch_smnb "${WATCH_ARGS[@]}"
 [[ ${CREATE_PRESIGNED_URL} == 1 ]] && create_presigned_url
