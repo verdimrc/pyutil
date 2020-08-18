@@ -51,6 +51,7 @@ stop_smnb() {
 
 # Create presigned url
 create_presigned_url() {
+    echo -e "\nPresigned url for ${NB_NAME}:"
     cmd="aws ${AWS_CLI_OPTS[@]} sagemaker create-presigned-notebook-instance-url --notebook-instance-name ${NB_NAME}"
     #echo $cmd
     eval $cmd
@@ -62,20 +63,27 @@ create_presigned_url() {
 parse_args "$@"
 [[ "${NB_NAME}" == "" ]] && exit 0
 
-# Route task to the correct function
+CREATE_PRESIGNED_URL=1
+
+# Route task to the correct function. TODO: rewrite with switch/case?
 if [[ $(basename ${BASH_SOURCE[0]}) =~ .*start.* ]]; then
     echo "Starting ${NB_NAME}"
     start_smnb
 elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*stop.* ]]; then
     echo "Stopping ${NB_NAME}"
     stop_smnb
+    CREATE_PRESIGNED_URL=0
+elif [[ $(basename ${BASH_SOURCE[0]}) =~ .*url.* ]]; then
+    WATCH=0
 else
     echo "Unknown task"
+    exit 1
 fi
 
 # Display instance status
 cmd="aws ${AWS_CLI_OPTS[@]} sagemaker describe-notebook-instance --notebook-instance-name ${NB_NAME} | egrep --color=always '^.*NotebookInstanceStatus.*$|$'"
 if [[ ${WATCH} < 1 ]]; then
+    echo "Instance status:"
     eval $cmd
 else
     echo
@@ -84,4 +92,4 @@ else
     watch --color -n 30 "${cmd}"
 fi
 
-[[ $(basename ${BASH_SOURCE[0]}) =~ .*start.* ]] && create_presigned_url
+[[ ${CREATE_PRESIGNED_URL} == 1 ]] && create_presigned_url
