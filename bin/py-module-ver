@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 MODNAME="$1"
-python -c "import ${MODNAME} as m; print(f'{m.__name__}-{m.__version__}')"
+python3 -c "import ${MODNAME} as m; print(f'{m.__name__}-{m.__version__}')"
