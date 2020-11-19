@@ -20,7 +20,7 @@ get_bin_dir() {
 
 BIN_DIR=$(get_bin_dir)
 
-sudo yum install -y htop tree
+sudo yum install -y htop tree dstat dos2unix
 ${BIN_DIR}/adjust-sm-git.sh 'Firstname Lastname' first.last@email.abc
 ${BIN_DIR}/change-fontsize.sh
 ${BIN_DIR}/fix-osx-keymap.sh

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# IMPORTANT: this script assumes .vimrc uses junegunn/vim-plug.
+#
+# If you use another .vimrc with a different plugin manager, please update this
+# script accordingly to match the new plugin manager.
+VIMRC_SRC=${1:-https://raw.githubusercontent.com/verdimrc/linuxcfg/master/.vimrc}
+
 VIM_SM_ROOT=/home/ec2-user/SageMaker
 VIM_RTP=${VIM_SM_ROOT}/.vim
 VIMRC=${VIM_SM_ROOT}/.vimrc
@@ -37,8 +43,8 @@ autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &number | set norelativen
 " Remap keys to navigate window aka split screens to ctrl-{h,j,k,l}
 " See: https://vi.stackexchange.com/a/3815
 "
-" Vim defaults to ctrl-w-{h,j,k,l}. But, laaa la la la la, ctrl-w on Linux (and
-" Windows) closes browser tab.
+" Vim defaults to ctrl-w-{h,j,k,l}. But, laaa la la la la, ctrl-w on Linux
+" (and Windows?) closes browser tab.
 "
 " NOTE: ctrl-l was "clear and redraw screen". The later can still be invoked
 "       with :redr[aw][!]
@@ -47,47 +53,23 @@ nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
-" Stanza extracted from https://github.com/verdimrc/linuxcfg/blob/main/.vimrc
-set laststatus=2
-set hlsearch
-set colorcolumn=80
-set splitbelow
-set splitright
-
-"set cursorline
-"set lazyredraw
-set nottyfast
-
-autocmd FileType help setlocal number
-
-""" Coding style
-" Prefer spaces to tabs
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set nowrap
-set foldmethod=indent
-set foldlevel=99
-
-""" Shortcuts
-map <F3> :set paste!<CR>
-" Use <leader>l to toggle display of whitespace
-nmap <leader>l :set list!<CR>
-
-" Highlight trailing space without plugins -- https://stackoverflow.com/a/48951029
-highlight RedundantSpaces ctermbg=red guibg=red
-match RedundantSpaces /\s\+$/
-
-" Terminado supports 256 colors
-set t_Co=256
-colorscheme delek
-"colorscheme elflord
-"colorscheme murphy
-"colorscheme ron
-highlight colorColumn ctermbg=237
-
 EOF
-    mkdir -p ${VIM_RTP}
+    curl -sfL $VIMRC_SRC >> ${VIMRC}
+    declare -a SED_SCRIPTS=(
+        # Store plugins under ~/SageMaker for reuse on instance restart
+        -e "s|^call plug#begin.*$|call plug#begin('$VIM_RTP/plugged')|g"
+
+        # Disabled. Make vim even slower on high-latency aka. cross-region.
+        -e "s|^Plug 'vim-scripts/RltvNmbr.vim'|\"Plug 'vim-scripts/RltvNmbr.vim'|g"
+    )
+    sed -i "${SED_SCRIPTS[@]}" ${VIMRC}
+
+    # plugins
+    curl -sfLo ${VIM_RTP}/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    unset DISPLAY
+    vim -u ${VIMRC} -E +PlugUpdate +qall > /dev/null
+
     touch ${VIM_RTP}/_SUCCESS
 fi
 

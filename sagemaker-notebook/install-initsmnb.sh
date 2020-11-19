@@ -18,12 +18,14 @@ declare -a SCRIPTS=(
     patch-jupyter-config.sh
 )
 
+FROM_LOCAL=0
 GIT_USER=''
 GIT_EMAIL=''
 declare -a EFS=()
 
 declare -a HELP=(
     "[-h|--help]"
+    "[-l|--from-local]"
     "[--git-user 'First Last']"
     "[--git-email me@abc.def]"
     "[--efs 'fsid,fsap,mp' [--efs ...]]"
@@ -46,6 +48,10 @@ parse_args() {
             echo "Install initsmnb."
             echo "Usage: $(basename ${BASH_SOURCE[0]}) ${HELP[@]}"
             exit 0
+            ;;
+        -l|--from-local)
+            FROM_LOCAL=1
+            shift
             ;;
         --git-user)
             GIT_USER="$2"
@@ -84,14 +90,23 @@ echo "GIT_USER='$GIT_USER'"
 echo "GIT_EMAIL='$GIT_EMAIL'"
 echo "EFS=$(efs2str)"
 
+BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
+
 mkdir -p $INITSMNB_DIR
 cd $INITSMNB_DIR
 
-echo "Downloading scripts from https://github.com/verdimrc/pyutil/tree/master/sagemaker-notebook/"
-echo "=> ${SRC_PREFIX}/"
-echo
-curl -fsLO $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
-chmod ugo+x ${SCRIPTS[@]}
+if [[ $FROM_LOCAL == 0 ]]; then
+    echo "Downloading scripts from https://github.com/verdimrc/pyutil/tree/master/sagemaker-notebook/"
+    echo "=> ${SRC_PREFIX}/"
+    echo
+    curl -fsLO $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
+    chmod ugo+x ${SCRIPTS[@]}
+else
+    echo "Copying scripts from $BIN_DIR"
+    echo "=> ${SRC_PREFIX}/"
+    cp -a ${BIN_DIR}/* .
+    chmod ugo+x *.sh
+fi
 
 echo "Generating setup-my-sagemaker.sh"
 echo "=> git-user / git-email = '$GIT_USER' / '$GIT_EMAIL'"

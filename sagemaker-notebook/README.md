@@ -33,7 +33,7 @@ your notebook instance enables
 - Terminal:
   * `bash` shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when
     connecting from OSX.
-  * **\[Need sudo\]** Install `htop` and `tree` commands.
+  * **\[Need sudo\]** Install command lines: `htop`, `tree`, `dos2unix`, `dstat`.
 - ipython run from Jupyter Lab's terminal:
   * shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when connecting
     from OSX.
@@ -46,11 +46,10 @@ your notebook instance enables
     Otherwise, `ctrl-w` is used by most browsers on Linux (and Windows?) to
     close a browser tab, which renders windows navigation in `vim` unusable.
 
-  * Other opinionated changes; see `init-vim.sh` in this repo, and the template
-    `.vimrc` in [this repo](https://github.com/verdimrc/linuxcfg/blob/master/.vimrc).
+  * Other opinionated changes; see `init-vim.sh`.
 - **\[Need sudo\]** Optionally mount one or more EFS.
 
-## Installation
+## Installation from github
 
 This step needs to be done **once** on a newly *created* notebook instance.
 
@@ -83,6 +82,11 @@ All mount points will live under `/home/ec2-user/mnt/`. Thus, the above example
 will install a script that can mount two EFS, the first one `fs-123` will be
 mounted as `/home/ec2-user/mnt/my_efs_01/`, while the second one `fs-456` will
 be mounted as `/home/ec2-user/mnt/my_efs_02/`.
+
+## Installation from local source
+
+You can also download this whole directory directly to `/home/ec2-user/SageMaker/initsmnb-src/`,
+then invoke `install-inintsmnb.sh --from-local ...`.
 
 ## Usage
 
