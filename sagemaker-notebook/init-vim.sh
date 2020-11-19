@@ -75,7 +75,7 @@ map <F3> :set paste!<CR>
 nmap <leader>l :set list!<CR>
 
 " Highlight trailing space without plugins -- https://stackoverflow.com/a/48951029
-highlight RedundantSpacs ctermbg=red guibg=red
+highlight RedundantSpaces ctermbg=red guibg=red
 match RedundantSpaces /\s\+$/
 
 " Terminado supports 256 colors
@@ -87,7 +87,7 @@ colorscheme delek
 highlight colorColumn ctermbg=237
 
 EOF
-
+    mkdir -p ${VIM_RTP}
     touch ${VIM_RTP}/_SUCCESS
 fi
 
