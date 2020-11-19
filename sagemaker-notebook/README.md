@@ -46,8 +46,7 @@ your notebook instance enables
     Otherwise, `ctrl-w` is used by most browsers on Linux (and Windows?) to
     close a browser tab, which renders windows navigation in `vim` unusable.
 
-  * Other opinionated changes; see `init-vim.sh` in this repo, and the template
-    `.vimrc` in [this repo](https://github.com/verdimrc/linuxcfg/blob/master/.vimrc).
+  * Other opinionated changes; see `init-vim.sh`.
 - **\[Need sudo\]** Optionally mount one or more EFS.
 
 ## Installation from github
