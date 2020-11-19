@@ -32,4 +32,7 @@ git config --global core.editor /usr/bin/vim
 
 echo Adjusting log aliases...
 git config --global alias.lol "log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
-git config --global alias.lola "log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
+git config --global alias.lola "lol --all"
+
+echo Cache git credential for 3600 seconds
+git config credential.helper 'cache --timeout=3600'
