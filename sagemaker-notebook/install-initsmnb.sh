@@ -90,8 +90,6 @@ echo "GIT_USER='$GIT_USER'"
 echo "GIT_EMAIL='$GIT_EMAIL'"
 echo "EFS=$(efs2str)"
 
-BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
-
 mkdir -p $INITSMNB_DIR
 cd $INITSMNB_DIR
 
@@ -102,6 +100,7 @@ if [[ $FROM_LOCAL == 0 ]]; then
     curl -fsLO $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
     chmod ugo+x ${SCRIPTS[@]}
 else
+    BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
     echo "Copying scripts from $BIN_DIR"
     echo "=> ${SRC_PREFIX}/"
     cp -a ${BIN_DIR}/* .
