@@ -32,7 +32,10 @@ git config --global core.editor /usr/bin/vim
 
 echo Adjusting log aliases...
 git config --global alias.lol "log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
-git config --global alias.lola "lol --all"
+#git config --global alias.lola "lol --all"  # SageMaker's git does not support alias chain :(
+git config --global alias.lola "! git lol --all"
+git config --global alias.lolc "! clear; git lol -\$(expr \`tput lines\` '*' 2 / 3)"
+git config --global alias.lolac "! clear; git lol --all -\$(expr \`tput lines\` '*' 2 / 3)"
 
 echo Cache git credential for 3600 seconds
 git config credential.helper 'cache --timeout=3600'
