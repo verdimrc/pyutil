@@ -39,6 +39,3 @@ git config --global alias.lolac "! clear; git lol --all -\$(expr \`tput lines\` 
 
 echo Cache git credential for 3600 seconds
 git config credential.helper 'cache --timeout=3600'
-
-echo Installing nbdime...
-sudo /usr/bin/pip3 install nbdime

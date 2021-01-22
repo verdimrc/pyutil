@@ -20,7 +20,10 @@ get_bin_dir() {
 
 BIN_DIR=$(get_bin_dir)
 
-sudo yum install -y htop tree dstat dos2unix
+# Install some useful CLI toolkits
+sudo yum install -y htop tree dstat dos2unix tig
+sudo /usr/bin/pip3 install --no-cache-dir nbdime ranger
+
 ${BIN_DIR}/adjust-sm-git.sh 'Firstname Lastname' first.last@email.abc
 ${BIN_DIR}/change-fontsize.sh
 ${BIN_DIR}/fix-osx-keymap.sh
