@@ -29,11 +29,14 @@ your notebook instance enables
 
 - Git:
   * Optionally change committer's name and email, which defaults to `ec2-user`
-  * `git lol` and `git lola` aliases
+  * git aliases: `git lol`, `git lola`, `git lolc`, and `git lolac`
+  * New repo (i.e., `git init`) defaults to branch `main`
+  * **\[Need sudo\]** `nbdime` for notebook-friendly diffs
 - Terminal:
   * `bash` shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when
     connecting from OSX.
-  * **\[Need sudo\]** Install command lines: `htop`, `tree`, `dos2unix`, `dstat`.
+  * **\[Need sudo\]** Install command lines: `htop`, `tree`, `dos2unix`,
+    `dstat`, `ranger` (the CLI file explorer).
 - ipython run from Jupyter Lab's terminal:
   * shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when connecting
     from OSX.
