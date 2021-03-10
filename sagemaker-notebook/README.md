@@ -36,7 +36,8 @@ your notebook instance enables
   * `bash` shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when
     connecting from OSX.
   * **\[Need sudo\]** Install command lines: `htop`, `tree`, `dos2unix`,
-    `dstat`, `ranger` (the CLI file explorer).
+    `dstat`, `tig`, `ranger` (the CLI file explorer).
+    + `ranger` is configured to use relative line numbers
 - ipython run from Jupyter Lab's terminal:
   * shortcuts: `alt-.`, `alt-b`, `alt-d`, and `alt-f` work even when connecting
     from OSX.
