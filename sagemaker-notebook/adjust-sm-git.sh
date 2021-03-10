@@ -30,6 +30,9 @@ set_git_user "$@"
 echo 'Set editor to /usr/bin/vim (for DL AMI)'
 git config --global core.editor /usr/bin/vim
 
+echo 'Set default branch to main'
+git config --global init.defaultBranch main
+
 echo Adjusting log aliases...
 git config --global alias.lol "log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
 #git config --global alias.lola "lol --all"  # SageMaker's git does not support alias chain :(
