@@ -48,7 +48,7 @@ sudo yum install -y dkms xorg-x11-server-Xorg xorg-x11-drivers glx-utils "${FONT
 ################################################################################
 # DCV
 ################################################################################
-DCV_SRC=https://d1uj6qtbmh3dt5.cloudfront.net/2019.1/Servers/nice-dcv-2019.1-7644-el7.tgz
+DCV_SRC=https://d1uj6qtbmh3dt5.cloudfront.net/2020.2/Servers/nice-dcv-2020.2-9662-el7-x86_64.tgz
 DCV_TGZ=$(basename $DCV_SRC)
 DCV_DIR=${DCV_TGZ%*.tgz}
 sudo rpm --yes --import https://d1uj6qtbmh3dt5.cloudfront.net/NICE-GPG-KEY
