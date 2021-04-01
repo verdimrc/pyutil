@@ -59,7 +59,7 @@ stop_smnb() {
 
 create_presigned_url() {
     echo -e "\nPresigned url for ${NB_NAME}:"
-    cmd="aws ${AWS_CLI_OPTS[@]} sagemaker create-presigned-notebook-instance-url --notebook-instance-name ${NB_NAME}"
+    cmd="aws ${AWS_CLI_OPTS[@]} sagemaker create-presigned-notebook-instance-url --notebook-instance-name ${NB_NAME} | jq -r '.[]'"
     #echo $cmd
     eval $cmd
 }
