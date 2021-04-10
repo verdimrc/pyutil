@@ -91,9 +91,9 @@ echo "GIT_EMAIL='$GIT_EMAIL'"
 echo "EFS=$(efs2str)"
 
 mkdir -p $INITSMNB_DIR
-cd $INITSMNB_DIR
 
 if [[ $FROM_LOCAL == 0 ]]; then
+    cd $INITSMNB_DIR
     echo "Downloading scripts from https://github.com/verdimrc/pyutil/tree/master/sagemaker-notebook/"
     echo "=> ${SRC_PREFIX}/"
     echo
@@ -101,6 +101,7 @@ if [[ $FROM_LOCAL == 0 ]]; then
     chmod ugo+x ${SCRIPTS[@]}
 else
     BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
+    cd $INITSMNB_DIR
     echo "Copying scripts from $BIN_DIR"
     echo "=> ${SRC_PREFIX}/"
     cp -a ${BIN_DIR}/* .
