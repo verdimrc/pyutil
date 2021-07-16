@@ -8,7 +8,7 @@ SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/initdlami/initdlami
 
 declare -a SCRIPTS=(
     CHANGE-ME-setup-my-dlami.sh
-    adjust-sm-git.sh
+    adjust-git.sh
     customize-jlab.sh
     fix-ipython.sh
     fix-osx-keymap.sh
