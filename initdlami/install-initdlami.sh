@@ -4,7 +4,7 @@
 # Global vars
 ################################################################################
 INITSMNB_DIR=~/initdlami
-SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/initdlami/initdlami
+SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/main/initdlami
 
 declare -a SCRIPTS=(
     CHANGE-ME-setup-my-dlami.sh
