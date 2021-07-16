@@ -1,5 +1,5 @@
 #!/bin/bash
-JUPYTER_CONFIG_ROOT=/home/ec2-user/.jupyter/lab/user-settings/\@jupyterlab
+JUPYTER_CONFIG_ROOT=~/.jupyter/lab/user-settings/\@jupyterlab
 
 echo "After this script finishes, reload the Jupyter-Lab page in your browser."
 
@@ -55,10 +55,12 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/notebook-extension/plugin.jupyterlab-settings
         "rulers": [80, 100],
         "codeFolding": false
     },
+
     "markdownCellConfig": {
         "rulers": [80, 100],
         "codeFolding": false
     },
+
     "rawCellConfig": {
         "rulers": [80, 100],
         "codeFolding": false
