@@ -18,6 +18,7 @@ declare -a SCRIPTS=(
     pkgs.sh
     term.sh
     tmux.sh
+    vim.sh
 )
 
 FROM_LOCAL=0
