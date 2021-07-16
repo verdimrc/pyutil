@@ -4,7 +4,7 @@ JUPYTER_CONFIG_ROOT=/home/ec2-user/.jupyter/lab/user-settings/\@jupyterlab
 echo "After this script finishes, reload the Jupyter-Lab page in your browser."
 
 mkdir -p $JUPYTER_CONFIG_ROOT/apputils-extension/
-cat << EOF > $JUPYTER_CONFIG_ROOT/apputils-extension/themes.jupyterlab-settings 
+cat << EOF > $JUPYTER_CONFIG_ROOT/apputils-extension/themes.jupyterlab-settings
 {
     // Theme
     // @jupyterlab/apputils-extension:themes
@@ -21,7 +21,7 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/apputils-extension/themes.jupyterlab-settings
 EOF
 
 mkdir -p $JUPYTER_CONFIG_ROOT/terminal-extension/
-cat << EOF > $JUPYTER_CONFIG_ROOT/terminal-extension/plugin.jupyterlab-settings 
+cat << EOF > $JUPYTER_CONFIG_ROOT/terminal-extension/plugin.jupyterlab-settings
 {
     // Terminal
     // @jupyterlab/terminal-extension:plugin
@@ -35,5 +35,33 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/terminal-extension/plugin.jupyterlab-settings
     // Theme
     // The theme for the terminal.
     "theme": "dark"
+}
+EOF
+
+mkdir -p $JUPYTER_CONFIG_ROOT/fileeditor-extension/
+cat << EOF > $JUPYTER_CONFIG_ROOT/fileeditor-extension/plugin.jupyterlab-settings
+{
+    "editorConfig": {
+        "rulers": [80, 100],
+        "codeFolding": true
+    }
+}
+EOF
+
+mkdir -p $JUPYTER_CONFIG_ROOT/notebook-extension/
+cat << EOF > $JUPYTER_CONFIG_ROOT/notebook-extension/plugin.jupyterlab-settings
+{
+    "codeCellConfig": {
+        "rulers": [80, 100],
+        "codeFolding": false
+    },
+    "markdownCellConfig": {
+        "rulers": [80, 100],
+        "codeFolding": false
+    },
+    "rawCellConfig": {
+        "rulers": [80, 100],
+        "codeFolding": false
+    }
 }
 EOF
