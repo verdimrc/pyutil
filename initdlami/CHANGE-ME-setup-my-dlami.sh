@@ -20,7 +20,7 @@ get_bin_dir() {
 
 BIN_DIR=$(get_bin_dir)
 ${BIN_DIR}/pkgs.sh
-${BIN_DIR}/adjust-sm-git.sh 'Firstname Lastname' first.last@email.abc
+${BIN_DIR}/adjust-git.sh 'Firstname Lastname' first.last@email.abc
 ${BIN_DIR}/term.sh
 ${BIN_DIR}/init.sh
 ${BIN_DIR}/patch-bash-config.sh
