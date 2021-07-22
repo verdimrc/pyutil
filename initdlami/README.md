@@ -51,7 +51,7 @@ This step needs to be done **once** on a newly *created* instance.
 
 ```bash
 curl -sfL \
-    https://raw.githubusercontent.com/verdimrc/pyutil/master/sagemaker-notebook/install-initsmnb.sh \
+    https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami/install-initdlami.sh \
     | bash -s -- --git-user 'First Last' --git-email 'ab@email.abc'
 ```
 
