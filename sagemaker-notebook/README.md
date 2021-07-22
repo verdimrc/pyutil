@@ -1,8 +1,8 @@
 # An Opinionated Customization on SageMaker Notebook Instance
 
 Scripts to re-run common tweaks on a fresh (i.e., newly created or rebooted)
-SageMaker notebook instance, to make the notebook instance a little-bit more
-ergonomics for prolonged usage.
+SageMaker notebook instance, to make the notebook instance a little bit more
+ergonomic for prolonged usage.
 
 Please note that tweaks marked with **\[Need sudo\]** can only be in-effect when
 your notebook instance enables
