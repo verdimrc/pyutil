@@ -1,32 +1,20 @@
 #!/bin/bash
 
-try_append() {
-    local key="$1"
-    local value="$2"
-    local msg="$3"
+cat << 'EOF' > ~/.jupyter/jupyter_notebook_config.py
+import os
 
-    HAS_KEY=$(grep "^$key" ~/.jupyter/jupyter_notebook_config.py | wc -l)
+#c.NotebookApp.browser = 'chromium-browser'
+#c.NotebookApp.terminado_settings = { "shell_command": ["/usr/bin/env", "bash"] }
+c.NotebookApp.open_browser = False
+c.NotebookApp.port_retries = 0
+c.KernelSpecManager.ensure_native_kernel = False
 
-    if [[ $HAS_KEY > 0 ]]; then
-        echo "Skip adding $key because it already exists in $HOME/.jupyter/jupyter_notebook_config.py"
-        return 1
-    fi
+# Needs: pip install environment_kernels
+c.NotebookApp.kernel_spec_manager_class = 'environment_kernels.EnvironmentKernelSpecManager'
+c.EnvironmentKernelSpecManager.find_conda_envs = False
+c.EnvironmentKernelSpecManager.virtualenv_env_dirs = [os.path.expanduser('~/.pyenv/versions')]
 
-    echo "$key = $value" >> ~/.jupyter/jupyter_notebook_config.py
-    echo $msg
-}
+c.FileCheckpoints.checkpoint_dir = '/tmp/.ipynb_checkpoints'
+c.FileContentsManager.delete_to_trash = False
+EOF
 
-try_append \
-    c.NotebookApp.open_browser \
-    "False" \
-    "Do not auto-open browser"
-
-try_append \
-    c.EnvironmentKernelSpecManager.conda_env_dirs \
-    "['/home/ec2-user/anaconda3/envs']" \
-    "Register additional prefixes for conda environments"
-
-try_append \
-    c.EnvironmentKernelSpecManager.virtualenv_env_dirs \
-    "['/home/ec2-user/.pyenv/versions']" \
-    "Register additional prefixes for virtualenv environments"
