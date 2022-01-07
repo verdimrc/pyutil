@@ -1,3 +1,7 @@
+**\[Deprecated\]** See instead [../initdlami](../initdlami) instead.
+
+---
+
 Scripts tested on `Deep Learning Base (Amazon Linux 2)` AMI and `Deep Learning (Amazon Linux 2)` AMI.
 
 Usage:
