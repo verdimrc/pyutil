@@ -25,9 +25,11 @@ ${BIN_DIR}/term.sh
 ${BIN_DIR}/init.sh
 ${BIN_DIR}/patch-bash-config.sh
 ${BIN_DIR}/fix-osx-keymap.sh
+${BIN_DIR}/install-cdk.sh
 ${BIN_DIR}/fix-ipython.sh
+${BIN_DIR}/install-py-ds.sh
 ${BIN_DIR}/customize-jlab.sh
-${BIN_DIR}/init-vim.sh
+${BIN_DIR}/vim.sh
 ${BIN_DIR}/mount-efs-accesspoint.sh fsid,fsapid,mountpoint
 ${BIN_DIR}/tmux.sh
 

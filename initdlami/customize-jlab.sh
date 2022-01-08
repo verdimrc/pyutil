@@ -52,7 +52,7 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/fileeditor-extension/plugin.jupyterlab-setting
 }
 EOF
 
-mkdir -p $JUPYTER_CONFIG_ROOT/apputils-extension/themes.jupyterlab-settings
+mkdir -p $JUPYTER_CONFIG_ROOT/apputils-extension/
 cat << EOF > $JUPYTER_CONFIG_ROOT/apputils-extension/themes.jupyterlab-settings
 {
     // Theme
@@ -94,11 +94,6 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/terminal-extension/plugin.jupyterlab-settings
     "macOptionIsMeta": true
 }
 EOF
-
-# Undo the old "mac-option-is-meta" mechanism designed for jlab<3.0.
-echo "# JLab-3 + macOptionIsMeta deprecates fix-osx-keymap.sh" > ~/.inputrc
-[[ -f ~/.ipython/profile_default/startup/01-osx-jupyterlab-keys.py ]] \
-    && rm ~/.ipython/profile_default/startup/01-osx-jupyterlab-keys.py
 
 # Show command palette on lhs navbar, similar behavior to smnb.
 mkdir -p $JUPYTER_CONFIG_ROOT/apputils-extension/
