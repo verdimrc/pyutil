@@ -23,6 +23,7 @@ declare -a SCRIPTS=(
     vim.sh
     tmux.sh
     patch-jupyter-config.sh
+    update.sh
 )
 
 CURL_OPTS="--fail-early -fL"
@@ -158,13 +159,16 @@ chmod ugo+x setup-my-dlami.sh
 
 EPILOGUE=$(cat << EOF
 
-###########################################################
-# Installation completed.                                 #
-#                                                         #
-# Apply once to this EC2 instance:                        #
-#                                                         #
-# ${INITSMNB_DIR}/setup-my-dlami.sh              #
-###########################################################
+#######################################################
+# Installation completed.                             #
+#                                                     #
+# Apply once to this EC2 instance:                    #
+#                                                     #
+# ${INITSMNB_DIR}/setup-my-dlami.sh          #
+#                                                     #
+# See also ${INITSMNB_DIR}/update.sh for an  #
+# example on updating this EC2 instance.              #
+#######################################################
 EOF
 )
 echo -e "${EPILOGUE}\n"

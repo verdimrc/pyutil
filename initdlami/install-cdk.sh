@@ -9,15 +9,37 @@ cat << 'EOF' >> ~/.bashrc
 export NVM_DIR=$HOME/.nvm
 [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"  # Loads nvm
 [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"  # Loads nvm bash_completion
+EOF
 
+# To speed-up shell initialization, locks to setup-time's EC2 instance.
+CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity | grep Account | awk '{print $2}' | sed -e 's/"//g' -e 's/,//g')
+EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+CDK_DEFAULT_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]\$//'`"
+cat << EOF >> ~/.bashrc
+
+# To speed-up shell initialization, locks to setup-time's EC2 instance
+export CDK_DEFAULT_ACCOUNT=$CDK_DEFAULT_ACCOUNT
+export EC2_AVAIL_ZONE=$EC2_AVAIL_ZONE
+export CDK_DEFAULT_REGION=$CDK_DEFAULT_REGION
+EOF
+
+# Still, we provide reference on how to regenerate the values.
+cat << 'EOF' >> ~/.bashrc
+################################################################################
+# NOTE: this noticeably slows down shell initialization by another ~3 second.
+# It's left as a reference in case you want to regenerate the above values.
+################################################################################
+#
 # To bootstrap CDK to the account ID associated with the current credential.
 # You may want to change to specific account ID instead.
-export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity | grep Account | awk '{print $2}' | sed -e 's/"//g' -e 's/,//g')
-
+#export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity | grep Account | awk '{print $2}' | sed -e 's/"//g' -e 's/,//g')
+#
 # To deploy a CDK stack to the region where the current EC2 or notebook instance is running.
 # You may want to change to specific region instead.
-export EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
-export CDK_DEFAULT_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]\$//'`"
+#export EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+#export CDK_DEFAULT_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]\$//'`"
+#
+################################################################################
 EOF
 
 

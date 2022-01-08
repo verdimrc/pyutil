@@ -12,23 +12,33 @@ sudo usermod -a -G docker ec2-user
 # Install python-based CLI
 pip3.8 install --user --no-cache-dir pipx
 declare -a PKG=(
+    ranger-fm
     git-remote-codecommit
     pre-commit
-    ranger-fm
+
     cookiecutter
     black
     black-nb
     isort
+    pipupgrade
     pyupgrade
+
     nbdime
     nbqa
     jupytext
+
     s4cmd
     aws-sam-cli
+    awslogs
 )
 for i in "${PKG[@]}"; do
-    pipx install $i
+    pipx install --pip-args="--no-cache-dir" $i
 done
+
+# Hack: pipx didn't install pipupgrade dependency
+~/.local/pipx/venvs/pipupgrade/bin/python3 -m pip install \
+    --no-cache-dir \
+    'git+https://github.com/achillesrasquinha/bpyutils.git@develop#egg=bpyutils'
 
 # Configure some of the python-based CLi
 cat << 'EOF' >> ~/.bashrc

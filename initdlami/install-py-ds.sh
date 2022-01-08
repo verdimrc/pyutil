@@ -3,19 +3,20 @@
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
-cat << 'EOF' >> ~/.bashrc
-
-# PyEnv stuffs
+# See: https://github.com/pyenv/pyenv#basic-github-checkout
+sed -Ei -e '/^([^#]|$)/ {a \
 export PYENV_ROOT="$HOME/.pyenv"
+a \
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-pyenv rehash
-
-# Note that these will have no effect if pyenv-virtualenv-init is enabled.
-[[ -z "$TMUX" ]] || pyenv deactivate
-[[ -z "$JUPYTER_SERVER_ROOT" ]] || pyenv deactivate
-EOF
+a \
+' -e ':a' -e '$!{n;ba};}' ~/.bash_profile
+echo '' >> ~/.bash_profile
+echo 'eval "$(pyenv init --path)"' >> ~/.bash_profile
+#echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
+#echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
+#echo 'eval "$(pyenv init --path)"' >> ~/.profile
+echo '' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 
 # Enable pyenv for this session
 export PYENV_ROOT="$HOME/.pyenv"
@@ -28,7 +29,7 @@ pyenv rehash
 # reduce install time (and to conserve CPU credits).
 pyenv install miniconda3-latest
 CONDA=~/.pyenv/versions/miniconda3-latest/bin/conda
-$CONDA update --yes -n base -c defaults conda
+$CONDA update --yes --update-all -n base -c defaults conda
 
 # Install jlab
 $CONDA create --yes --name base-p310 python=3.10
@@ -47,3 +48,4 @@ declare -a PKGS=(
 )
 ~/.pyenv/versions/jlab/bin/pip install --no-cache-dir "${PKGS[@]}"
 
+$CONDA clean -a -y
