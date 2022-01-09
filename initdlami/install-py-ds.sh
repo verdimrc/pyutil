@@ -39,7 +39,10 @@ declare -a PKGS=(
     jupyter-server-proxy
     jupyter_bokeh
     nbdime
-    environment_kernels
+
+    # This forked version enables debugger for kernels with ipykernel>=6.*
+    'git+https://github.com/verdimrc/jupyter_environment_kernels.git@master#egg=environment_kernels'
+
     # jupyterlab_code_formatter requires formatters in its venv.
     # See: https://github.com/ryantam626/jupyterlab_code_formatter/issues/153
     jupyterlab_code_formatter
