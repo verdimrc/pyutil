@@ -38,5 +38,5 @@ git config --global alias.lolc "! clear; git lol -\$(expr \`tput lines\` '*' 2 /
 git config --global alias.lola "lol --all"
 git config --global alias.lolac "lolc --all"
 
-echo Cache git credential for 36000 seconds
-git config --global credential.helper 'cache --timeout=36000'
+echo Cache git credential for 4h
+git config --global credential.helper 'cache --timeout=14400'

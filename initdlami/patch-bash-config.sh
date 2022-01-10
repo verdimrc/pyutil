@@ -1,21 +1,23 @@
 #!/bin/bash
 
-cat << EOF >> ~/.bash_profile
+cat << 'EOF' >> ~/.bash_profile
 
-# Workaround: when starting tmux from conda env, deactivate in all tmux sessions
+# When starting tmux or jlab from conda env, weird stuffs wrt. python may happen.
 # See: https://github.com/conda/conda/issues/6826#issuecomment-471240590
-if [[ ! -z "\$TMUX" ]]; then
-    for i in \$(seq \$CONDA_SHLVL); do
-        conda deactivate
-    done
-fi
+[[ ! (-z "$TMUX" || -z "$CONDA_SHLVL") ]] \
+    && echo "WARNING: tmux was started from a conda env"
 
 # Same treatment needed for jlab
-if [[ ! -z "\$JUPYTER_SERVER_ROOT" ]]; then
-    for i in \$(seq \$CONDA_SHLVL); do
-        conda deactivate
-    done
-fi
+[[ ! (-z "$JUPYTER_SERVER_ROOT" || -z "$CONDA_SHLVL") ]] \
+    && echo "WARNING: JLab was started from a conda env"
+
+# Same treatement when virtual-env in effect
+[[ ! (-z "$TMUX" || -z "$VIRTUAL_ENV") ]] \
+    && echo "WARNING: tmux was started from a virtual env"
+
+# Same treatment needed for jlab
+[[ ! (-z "$JUPYTER_SERVER_ROOT" || -z "$VIRTUAL_ENV") ]] \
+    && echo "WARNING: JLab was started from a virtual env"
 EOF
 
 

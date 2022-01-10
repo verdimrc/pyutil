@@ -5,21 +5,28 @@
 ################################################################################
 INITSMNB_DIR=~/initdlami
 SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami
+# Uncomment for testing remote install from local source
+#SRC_PREFIX=file:///home/ec2-user/src/pyutil/initdlami
 
 declare -a SCRIPTS=(
-    CHANGE-ME-setup-my-dlami.sh
+    TEMPLATE-setup-my-dlami.sh
+    pkgs.sh
     adjust-git.sh
-    customize-jlab.sh
-    fix-ipython.sh
-    fix-osx-keymap.sh
+    term.sh
     init.sh
     patch-bash-config.sh
-    patch-jupyter-config.sh
-    pkgs.sh
-    term.sh
-    tmux.sh
+    fix-osx-keymap.sh
+    install-cdk.sh
+    fix-ipython.sh
+    install-py-ds.sh
+    customize-jlab.sh
     vim.sh
+    tmux.sh
+    patch-jupyter-config.sh
+    update.sh
 )
+
+CURL_OPTS="--fail-early -fL"
 
 FROM_LOCAL=0
 GIT_USER=''
@@ -48,7 +55,7 @@ parse_args() {
         key="$1"
         case $key in
         -h|--help)
-            echo "Install initsmnb."
+            echo "Install initdlami."
             echo "Usage: $(basename ${BASH_SOURCE[0]}) ${HELP[@]}"
             exit 0
             ;;
@@ -84,6 +91,24 @@ efs2str() {
     fi
 }
 
+exit_on_download_error() {
+    cat << EOF
+
+###############################################################################
+# ERROR
+###############################################################################
+# Could not downloading files from:
+#
+# $SRC_PREFIX/
+#
+# Please check and ensure your ec2 instance has the necessary network access to
+# download files from the source repository.
+###############################################################################
+EOF
+
+    exit -1
+}
+
 
 ################################################################################
 # Main
@@ -100,13 +125,13 @@ if [[ $FROM_LOCAL == 0 ]]; then
     echo "Downloading scripts from ${SRC_PREFIX}/"
     echo "=> ${SRC_PREFIX}/"
     echo
-    curl -fsLO $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
+    curl $CURL_OPTS -O $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
+    [[ $? == 22 ]] && exit_on_download_error
     chmod ugo+x ${SCRIPTS[@]}
 else
     BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
     cd $INITSMNB_DIR
     echo "Copying scripts from $BIN_DIR"
-    echo "=> ${SRC_PREFIX}/"
     cp -a ${BIN_DIR}/* .
     chmod ugo+x *.sh
 fi
@@ -117,7 +142,7 @@ echo "=> EFS: (fsid,fsap,mountpoint)|... = $(efs2str)"
 cat << EOF > setup-my-dlami.sh
 #!/bin/bash
 
-# Auto-generated from CHANGE-ME-setup-my-dlami.sh by install-dlami.sh
+# Auto-generated from TEMPLATE-setup-my-dlami.sh by install-dlami.sh
 
 EOF
 
@@ -125,7 +150,7 @@ sed \
     -e "s/Firstname Lastname/$GIT_USER/" \
     -e "s/first.last@email.abc/$GIT_EMAIL/" \
     -e "s/fsid,fsapid,mountpoint/$(efs2str ' ')/" \
-    CHANGE-ME-setup-my-dlami.sh >> setup-my-dlami.sh
+    TEMPLATE-setup-my-dlami.sh >> setup-my-dlami.sh
 chmod ugo+x setup-my-dlami.sh
 
 # Delete mount script if no efs requested.
@@ -134,13 +159,16 @@ chmod ugo+x setup-my-dlami.sh
 
 EPILOGUE=$(cat << EOF
 
-###########################################################
-# Installation completed.                                 #
-#                                                         #
-# Apply once to this EC2 instance:                        #
-#                                                         #
-# ${INITSMNB_DIR}/setup-my-dlami.sh              #
-###########################################################
+#######################################################
+# Installation completed.                             #
+#                                                     #
+# Apply once to this EC2 instance:                    #
+#                                                     #
+# ${INITSMNB_DIR}/setup-my-dlami.sh          #
+#                                                     #
+# See also ${INITSMNB_DIR}/update.sh for an  #
+# example on updating this EC2 instance.              #
+#######################################################
 EOF
 )
 echo -e "${EPILOGUE}\n"
