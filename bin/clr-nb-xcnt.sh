@@ -9,4 +9,4 @@ if [[ $(uname) == 'Darwin' ]]; then
     fi
 fi
 
-echo $SED -i 's/\(^  *"execution_count": \)[0-9][0-9]*,$/\1null,/g' "$1"
+$SED -i 's/\(^  *"execution_count": \)[0-9][0-9]*,$/\1null,/g' "$1"
