@@ -15,6 +15,7 @@ declare -a SCRIPTS=(
     term.sh
     init.sh
     patch-bash-config.sh
+    fix-aws-config.sh
     fix-osx-keymap.sh
     install-cdk.sh
     fix-ipython.sh
