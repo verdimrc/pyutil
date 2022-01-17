@@ -51,4 +51,9 @@ declare -a PKGS=(
 )
 ~/.pyenv/versions/jlab/bin/pip install --no-cache-dir "${PKGS[@]}"
 
+# Do not show jlab's ipykernel
+mv ~/.pyenv/versions/jlab/share/jupyter/kernels/python3/kernel.json{,.bak}
+echo 'c.EnvironmentKernelSpecManager.blacklist_envs=["virtualenv_jlab"]' \
+    >> ~/.jupyter/jupyter_notebook_config.py
+
 $CONDA clean -a -y

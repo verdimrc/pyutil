@@ -6,7 +6,8 @@ sudo yum install -y tree htop fio dstat dos2unix git tig jq
 sudo yum clean all
 
 # Install docker
-sudo service docker start
+sudo systemctl enable docker
+sudo systemctl start docker
 sudo usermod -a -G docker ec2-user
 
 # Install python-based CLI
