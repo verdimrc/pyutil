@@ -19,7 +19,6 @@ declare -a PKG=(
 
     cookiecutter
     black
-    black-nb
     isort
     pipupgrade
     pyupgrade
@@ -41,7 +40,7 @@ done
     --no-cache-dir \
     'git+https://github.com/achillesrasquinha/bpyutils.git@develop#egg=bpyutils'
 
-# Configure some of the python-based CLi
+# Configure some of the python-based CLI
 cat << 'EOF' >> ~/.bashrc
 
 # Added by pkgs.sh
