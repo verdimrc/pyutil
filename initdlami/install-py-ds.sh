@@ -27,13 +27,15 @@ pyenv rehash
 
 # Miniconda3 to install pre-compiled python. Esp. on small instances like t* to
 # reduce install time (and to conserve CPU credits).
-pyenv install miniconda3-latest
-CONDA=~/.pyenv/versions/miniconda3-latest/bin/conda
-$CONDA update --yes --update-all -n base -c defaults conda
+pyenv install miniforge3-latest
+CONDA=~/.pyenv/versions/miniforge3-latest/bin/conda
+$CONDA update --yes --update-all -n base #-c defaults conda
 
 # Install jlab
 $CONDA create --yes --name base-p310 python=3.10
+#$CONDA update --yes --update-all -n base-p310
 pyenv virtualenv miniconda3-latest/envs/base-p310 jlab
+~/.pyenv/versions/jlab/bin/pip install --upgrade pip setuptools
 declare -a PKGS=(
     jupyterlab
     jupyter-server-proxy
@@ -55,5 +57,10 @@ declare -a PKGS=(
 mv ~/.pyenv/versions/jlab/share/jupyter/kernels/python3/kernel.json{,.bak}
 echo 'c.EnvironmentKernelSpecManager.blacklist_envs=["virtualenv_jlab"]' \
     >> ~/.jupyter/jupyter_notebook_config.py
+
+# Pre-install python-3.9 (as of this writing, some ML or DL packages don't
+# have wheels for python-3.10+ yet).
+$CONDA create --yes --name base-p39 python=3.9
+#$CONDA update --yes --update-all -n base-p39
 
 $CONDA clean -a -y

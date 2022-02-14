@@ -40,6 +40,8 @@ done
     --no-cache-dir \
     'git+https://github.com/achillesrasquinha/bpyutils.git@develop#egg=bpyutils'
 
+nbdime config-git --enable --global
+
 # Configure some of the python-based CLI
 cat << 'EOF' >> ~/.bashrc
 

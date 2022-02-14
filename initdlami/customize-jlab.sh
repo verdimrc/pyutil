@@ -127,7 +127,7 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/../\@ryantam626/jupyterlab_code_formatter/sett
 
     // Auto format config
     // Auto format code when save the notebook.
-    "formatOnSave": true,
+    "formatOnSave": false,
 
     // Isort Config
     // Config to be passed into isort's SortImports function call.
@@ -138,5 +138,47 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/../\@ryantam626/jupyterlab_code_formatter/sett
         "use_parentheses": true,
         "line_length": 100
     }
+}
+EOF
+
+# Shortcuts to format notebooks or codes with black and isort.
+mkdir -p $JUPYTER_CONFIG_ROOT/shortcuts-extension
+cat << EOF > $JUPYTER_CONFIG_ROOT/shortcuts-extension/shortcuts.jupyterlab-settings
+{
+    // Keyboard Shortcuts
+    // @jupyterlab/shortcuts-extension:shortcuts
+    // Keyboard shortcut settings.
+    // *****************************************
+
+    "shortcuts": [
+        {
+            "command": "jupyterlab_code_formatter:black",
+            "keys": [
+                "Ctrl Shift B"
+            ],
+            "selector": ".jp-Notebook.jp-mod-editMode"
+        },
+        {
+            "command": "jupyterlab_code_formatter:black",
+            "keys": [
+                "Ctrl Shift B"
+            ],
+            "selector": ".jp-CodeMirrorEditor"
+        },
+        {
+            "command": "jupyterlab_code_formatter:isort",
+            "keys": [
+                "Ctrl Shift I"
+            ],
+            "selector": ".jp-Notebook.jp-mod-editMode"
+        },
+        {
+            "command": "jupyterlab_code_formatter:isort",
+            "keys": [
+                "Ctrl Shift I"
+            ],
+            "selector": ".jp-CodeMirrorEditor"
+        }
+    ]
 }
 EOF
