@@ -23,10 +23,10 @@ EOF
 
 # PS1 must preceed conda bash.hook, to correctly display CONDA_PROMPT_MODIFIER
 cp ~/.bashrc{,.ori}
-cat << EOF > ~/.bashrc
+cat << 'EOF' > ~/.bashrc
 git_branch() {
-   local branch=\$(/usr/bin/git branch 2>/dev/null | grep '^*' | colrm 1 2)
-   [[ "\$branch" == "" ]] && echo "" || echo "(\$branch) "
+   local branch=$(/usr/bin/git branch 2>/dev/null | grep '^*' | colrm 1 2)
+   [[ "$branch" == "" ]] && echo "" || echo "($branch) "
 }
 
 # All colors are bold
@@ -35,9 +35,15 @@ COLOR_PURPLE="\[\033[1;35m\]"
 COLOR_YELLOW="\[\033[1;33m\]"
 COLOR_OFF="\[\033[0m\]"
 
-# Define PS1 before conda bash.hook, to correctly display CONDA_PROMPT_MODIFIER
-export PS1="[\$COLOR_GREEN\w\$COLOR_OFF] \$COLOR_PURPLE\\\$(git_branch)\$COLOR_OFF\\\$ "
+prompt_prefix() {
+    # VScode calls pyenv shell instead of pyenv activate.
+    if [[ (${TERM_PROGRAM} == "vscode") && (! -v VIRTUAL_ENV) && (-v PYENV_VERSION) ]]; then
+        echo -n "($PYENV_VERSION) "
+    fi
+}
 
+# Define PS1 before conda bash.hook, to correctly display CONDA_PROMPT_MODIFIER
+export PS1="\$(prompt_prefix)[$COLOR_GREEN\w$COLOR_OFF] $COLOR_PURPLE\$(git_branch)$COLOR_OFF\$ "
 EOF
 
 
