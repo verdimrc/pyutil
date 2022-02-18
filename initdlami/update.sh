@@ -14,6 +14,10 @@ $CONDA clean -a -y
 # TODO: nvm, cdk
 echo TODO: nvm, cdk
 
+~/initdlami/bat.sh   # TODO: remove old version
+~/initdlami/delta.sh # TODO: remove old version
+~/initdlami/s5cmd.sh # TODO: remove old version
+
 EPILOGUE=$(cat << 'EOF'
 
 #######################################
