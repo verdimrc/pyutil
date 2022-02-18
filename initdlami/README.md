@@ -50,7 +50,7 @@ ergonomics for prolonged usage.
 This step needs to be done **once** on a newly *created* instance.
 
 ```bash
-curl -sfL \
+curl -v -H "Cache-Control: no-cache" -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami/install-initdlami.sh \
     | bash -s -- --git-user 'First Last' --git-email 'ab@email.abc'
 ```
