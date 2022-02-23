@@ -75,11 +75,3 @@ echo "Richify"
 curl -L \
     'https://raw.githubusercontent.com/aws-samples/python-data-science-template/main/%7B%7Bcookiecutter.repo_name%7D%7D/src/my_nb_color.py' \
     > ~/$IPYTHON_STARTUP_DIR/55-my_nb_color.py
-cat << 'EOF' >> ~/$IPYTHON_STARTUP_DIR/55-my_nb_color.py
-
-# Add rich inspect
-try:
-    from rich import inspect
-except:
-    pass
-EOF
