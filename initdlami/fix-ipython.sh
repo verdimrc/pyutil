@@ -54,3 +54,32 @@ mkdir -p ~/$IPYTHON_STARTUP_DIR
 curl -L \
     https://raw.githubusercontent.com/verdimrc/linuxcfg/master/${IPYTHON_STARTUP_CFG} \
     > ~/$IPYTHON_STARTUP_CFG
+
+echo "Auto run IPython magic"
+cat << 'EOF' > ~/$IPYTHON_STARTUP_DIR/10-autoreload.ipy
+# autoreload silently ignores unknown level, so it's safe gradually increase
+# level and let IPython applies the highest level supported.
+#
+# NOTE: IPython>=8 supports up to level '3', older up to level '2'
+%load_ext autoreload
+%autoreload 2
+%autoreload 3
+EOF
+
+echo "Add some locations under GITROOT to PYTHONPATH"
+curl -L \
+    'https://raw.githubusercontent.com/aws-samples/python-data-science-template/main/%7B%7Bcookiecutter.repo_name%7D%7D/notebooks/my_nb_path.py' \
+    > ~/$IPYTHON_STARTUP_DIR/50-my_nb_path.py
+
+echo "Richify"
+curl -L \
+    'https://raw.githubusercontent.com/aws-samples/python-data-science-template/main/%7B%7Bcookiecutter.repo_name%7D%7D/src/my_nb_color.py' \
+    > ~/$IPYTHON_STARTUP_DIR/55-my_nb_color.py
+cat << 'EOF' >> ~/$IPYTHON_STARTUP_DIR/55-my_nb_color.py
+
+# Add rich inspect
+try:
+    from rich import inspect
+except:
+    pass
+EOF
