@@ -63,7 +63,9 @@ cat << 'EOF' > ~/$IPYTHON_STARTUP_DIR/10-autoreload.ipy
 # NOTE: IPython>=8 supports up to level '3', older up to level '2'
 %load_ext autoreload
 %autoreload 2
-%autoreload 3
+
+# autoreload 3 gives more frequent errors
+#%autoreload 3
 EOF
 
 echo "Add some locations under GITROOT to PYTHONPATH"
