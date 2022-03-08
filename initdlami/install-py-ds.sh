@@ -28,7 +28,7 @@ pyenv rehash
 # Miniconda3 to install pre-compiled python. Esp. on small instances like t* to
 # reduce install time (and to conserve CPU credits).
 pyenv install miniforge3
-CONDA=~/.pyenv/versions/miniforge3-latest/bin/conda
+CONDA=~/.pyenv/versions/miniforge3/bin/conda
 $CONDA update --yes --update-all -n base #-c defaults conda
 
 # Install jlab
