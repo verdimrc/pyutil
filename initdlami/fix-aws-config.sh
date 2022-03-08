@@ -6,6 +6,7 @@ EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availa
 REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]\$//'`"
 
 # Set aws config
+mkdir -p ~/.aws/
 cat << EOF > ~/.aws/config
 [default]
 region = $REGION
