@@ -33,7 +33,7 @@ $CONDA update --yes --update-all -n base #-c defaults conda
 
 # Install jlab
 $CONDA create --yes --name base-p310 python=3.10
-pyenv virtualenv miniforge3-latest/envs/base-p310 jlab
+pyenv virtualenv miniforge3/envs/base-p310 jlab
 ~/.pyenv/versions/jlab/bin/pip install --upgrade pip setuptools
 declare -a PKGS=(
     jupyterlab
