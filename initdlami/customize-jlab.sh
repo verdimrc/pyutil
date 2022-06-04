@@ -54,7 +54,8 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/fileeditor-extension/plugin.jupyterlab-setting
         "codeFolding": true,
         "lineNumbers": true,
         "lineWrap": "off",
-        "showTrailingSpace": true
+        "showTrailingSpace": true,
+        "wordWrapColumn": 100
     }
 }
 EOF
@@ -118,7 +119,8 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/apputils-extension/palette.jupyterlab-settings
 }
 EOF
 
-# Auto-apply black & isort when saving on notebook editor (but sadly, not on text editor).
+# Linter for notebook editors and code editors. Do not autosave on notebook, because it's broken
+# on multi-line '!some_command \'. Note that autosave doesn't work on text editor anyway.
 mkdir -p $JUPYTER_CONFIG_ROOT/../\@ryantam626/jupyterlab_code_formatter/
 cat << EOF > $JUPYTER_CONFIG_ROOT/../\@ryantam626/jupyterlab_code_formatter/settings.jupyterlab-settings
 {
