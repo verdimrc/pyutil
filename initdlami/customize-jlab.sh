@@ -37,7 +37,7 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/notebook-extension/tracker.jupyterlab-settings
 
     // Since: jlab-2.0.0
     // Used by jupyterlab-execute-time to display cell execution time.
-    "recordTiming": false
+    "recordTiming": true
 }
 EOF
 
