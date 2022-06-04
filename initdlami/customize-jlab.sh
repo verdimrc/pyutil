@@ -16,21 +16,28 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/notebook-extension/tracker.jupyterlab-settings
         "codeFolding": true,
         "lineNumbers": true,
         "lineWrap": "off",
-        "showTrailingSpace": true
+        "showTrailingSpace": true,
+        "wordWrapColumn": 100
     },
     "markdownCellConfig": {
         "rulers": [80, 100],
         "codeFolding": true,
         "lineNumbers": true,
         "lineWrap": "off",
-        "showTrailingSpace": true
+        "showTrailingSpace": true,
+        "wordWrapColumn": 100
     },
     "rawCellConfig": {
         "rulers": [80, 100],
         "lineNumbers": true,
         "lineWrap": "off",
-        "showTrailingSpace": true
-    }
+        "showTrailingSpace": true,
+        "wordWrapColumn": 100
+    },
+
+    // Since: jlab-2.0.0
+    // Used by jupyterlab-execute-time to display cell execution time.
+    "recordTiming": false
 }
 EOF
 
@@ -83,6 +90,7 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/terminal-extension/plugin.jupyterlab-settings
     // Font size
     // The font size used to render text.
     "fontSize": 10,
+    "lineHeight": 1.3,
 
     // Theme
     // The theme for the terminal.
@@ -138,6 +146,22 @@ cat << EOF > $JUPYTER_CONFIG_ROOT/../\@ryantam626/jupyterlab_code_formatter/sett
         "use_parentheses": true,
         "line_length": 100
     }
+}
+EOF
+
+# Since: jlab-3.1.0
+# - Conforms to markdown standard that h1 is for title,and h2 is for sections
+#   (numbers start from 1).
+# - Do not auto-number headings in output cells.
+mkdir -p $JUPYTER_CONFIG_ROOT/toc-extension
+cat << EOF > $JUPYTER_CONFIG_ROOT/toc-extension/plugin.jupyterlab-settings
+{
+    // Table of Contents
+    // @jupyterlab/toc-extension:plugin
+    // Table of contents settings.
+    // ********************************
+    "includeOutput": false,
+    "numberingH1": false
 }
 EOF
 
