@@ -40,6 +40,7 @@ declare -a PKGS=(
     jupyter-server-proxy
     jupyter_bokeh
     nbdime
+    jupyterlab-execute-time
 
     # This forked version enables debugger for kernels with ipykernel>=6.*
     'git+https://github.com/verdimrc/jupyter_environment_kernels.git@master#egg=environment_kernels'
