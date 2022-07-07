@@ -2,8 +2,8 @@
 
 sudo yum update -y
 
-CONDA=~/.pyenv/versions/miniconda3-latest/bin/conda
-$CONDA update --yes --update-all -n base -c defaults conda
+CONDA=~/.pyenv/versions/miniforge3/bin/conda
+$CONDA update --yes --update-all -n base
 $CONDA update --yes --update-all -n base-p310
 $CONDA clean -a -y
 

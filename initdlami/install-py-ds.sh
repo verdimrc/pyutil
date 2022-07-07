@@ -29,7 +29,8 @@ pyenv rehash
 # reduce install time (and to conserve CPU credits).
 pyenv install miniforge3
 CONDA=~/.pyenv/versions/miniforge3/bin/conda
-$CONDA update --yes --update-all -n base #-c defaults conda
+$CONDA update --yes --update-all -n base python
+$CONDA update --yes --update-all -n base
 
 # Install jlab
 $CONDA create --yes --name base-p310 python=3.10
@@ -57,9 +58,5 @@ declare -a PKGS=(
 mv ~/.pyenv/versions/jlab/share/jupyter/kernels/python3/kernel.json{,.bak}
 echo 'c.EnvironmentKernelSpecManager.blacklist_envs=["virtualenv_jlab"]' \
     >> ~/.jupyter/jupyter_notebook_config.py
-
-# Pre-install python-3.9 (as of this writing, some ML or DL packages don't
-# have wheels for python-3.10+ yet).
-$CONDA create --yes --name base-p39 python=3.9
 
 $CONDA clean -a -y
