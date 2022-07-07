@@ -17,3 +17,11 @@ c.EnvironmentKernelSpecManager.virtualenv_env_dirs = [os.path.expanduser('~/.pye
 c.FileCheckpoints.checkpoint_dir = '/tmp/.ipynb_checkpoints'
 c.FileContentsManager.delete_to_trash = False
 EOF
+
+
+# JLab version since early Jul'22 switches to jupyter_server_config.py. However,
+# let's retain jupyter_notebook_config.py too in case older jlab stack is used.
+#
+# See: https://jupyter-server.readthedocs.io/en/stable/operators/migrate-from-nbserver.html
+sed 's/NotebookApp/ServerApp/g' ~/.jupyter/jupyter_notebook_config.py \
+    >  ~/.jupyter/jupyter_server_config.py
