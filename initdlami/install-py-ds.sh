@@ -42,6 +42,7 @@ declare -a PKGS=(
     jupyter_bokeh
     nbdime
     jupyterlab-execute-time
+    jupyterlab-skip-traceback
 
     # This forked version enables debugger for kernels with ipykernel>=6.*
     'git+https://github.com/verdimrc/jupyter_environment_kernels.git@master#egg=environment_kernels'
