@@ -43,7 +43,7 @@ declare -a PKGS=(
     nbdime
     jupyterlab-execute-time
     jupyterlab-skip-traceback
-    jupyter-unfold
+    jupyterlab-unfold
     stickyland
 
     # This forked version enables debugger for kernels with ipykernel>=6.*
