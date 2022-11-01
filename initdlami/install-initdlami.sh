@@ -16,6 +16,7 @@ declare -a SCRIPTS=(
     adjust-git.sh
     term.sh
     init.sh
+    install-gpu-cwagent.sh
     patch-bash-config.sh
     fix-aws-config.sh
     fix-osx-keymap.sh
