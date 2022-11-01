@@ -2,7 +2,7 @@
 
 sudo amazon-linux-extras install -y docker python3.8 epel
 sudo yum update -y
-sudo yum install -y tree htop fio dstat dos2unix git tig jq golang
+sudo yum install -y tree htop fio dstat dos2unix git tig jq golang ncdu
 sudo yum clean all
 
 # Install docker
