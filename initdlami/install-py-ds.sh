@@ -27,7 +27,16 @@ pyenv rehash
 
 # Miniconda3 to install pre-compiled python. Esp. on small instances like t* to
 # reduce install time (and to conserve CPU credits).
+# 
+# NOTE: newer pyenv (since Oct'22 ??) install to miniforge3-x.y.z, so needs to
+# manually create the miniconda3 symlink.
 pyenv install miniforge3
+MINIFORGE3_LATEST=$(ls -1d ~/.pyenv/versions/miniforge3-* 2> /dev/null \
+    | sed -E -e '/-dev$/d' -e '/-src$/d' -e '/(b|rc)[0-9]+$/d' \
+    | sort -t. -k1,1r -k 2,2nr -k 3,3nr \
+)
+[[ $MINIFORGE3_LATEST != "" ]] && ln -s $MINIFORGE3_LATEST $(dirname `echo $MINIFORGE3_LATEST`)/miniforge3
+
 CONDA=~/.pyenv/versions/miniforge3/bin/conda
 $CONDA update --yes --update-all -n base python
 $CONDA update --yes --update-all -n base
