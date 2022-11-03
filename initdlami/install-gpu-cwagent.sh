@@ -109,12 +109,9 @@ chmod 755 /opt/aws/cloudwatch/aws-cloudwatch-wrapper.sh
 
 
 ################################################################################
-# Restart all agent services
+# Enable all agent services
 ################################################################################
-systemctl enable aws-hw-monitor.service --now
-systemctl start aws-hw-monitor.service
-
 for i in amazon-cloudwatch-agent.service aws-hw-monitor.service; do
-    systemctl restart $i
+    systemctl enable $i --now
     echo && systemctl status $i
 done
