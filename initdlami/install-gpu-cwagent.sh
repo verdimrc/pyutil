@@ -49,6 +49,18 @@ cat << 'EOF' > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
         },
         "aggregation_dimensions": [ [ "InstanceId" ] ],
         "metrics_collected": {
+            "mem": {
+                "measurement": [
+                    "mem_total",
+                    "mem_free",
+                    "mem_buffered",
+                    "mem_cached",
+                    "mem_used",
+                    "mem_used_percent",
+                    "mem_available",
+                    "mem_available_percent"
+                ]
+            },
             "nvidia_gpu": {
                 "measurement": [
                     "utilization_gpu",
