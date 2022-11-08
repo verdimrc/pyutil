@@ -54,4 +54,5 @@ cat ~/.bashrc.ori >> ~/.bashrc
 cat << EOF >> ~/.bashrc
 
 alias ll='ls -alF --color=auto'
+alias ncdu='ncdu --color dark'
 EOF
