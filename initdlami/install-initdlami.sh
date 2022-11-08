@@ -12,6 +12,7 @@ declare -a SCRIPTS=(
     TEMPLATE-setup-my-dlami.sh
     pkgs.sh
     bat.sh
+    s5cmd.sh
     delta.sh
     adjust-git.sh
     term.sh
