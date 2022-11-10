@@ -1,27 +1,15 @@
 #!/bin/bash
 
 sudo amazon-linux-extras install -y docker python3.8 epel
+sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-7/cyqsimon-el-rust-pkgs-epel-7.repo
 sudo yum update -y
-sudo yum install -y tree htop fio dstat dos2unix git tig jq ncdu
+sudo yum install -y tree htop fio dstat dos2unix git tig jq ncdu ripgrep bat git-delta
 sudo yum clean all
 
 # Install docker
 sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -a -G docker ec2-user
-
-# Install s5cmd
-latest_s5cmd_release() {
-  curl --silent "https://api.github.com/repos/peak/s5cmd/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
-}
-go env -w GO111MODULE=on
-go get github.com/peak/s5cmd@$(latest_s5cmd_release)
-cat << 'EOF' >> ~/.bashrc
-
-export PATH=~/go/bin:$PATH
-EOF
 
 # Install python-based CLI
 pip3.8 install --user --no-cache-dir pipx

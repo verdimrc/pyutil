@@ -11,9 +11,8 @@ SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami
 declare -a SCRIPTS=(
     TEMPLATE-setup-my-dlami.sh
     pkgs.sh
-    bat.sh
     s5cmd.sh
-    delta.sh
+    duf.sh
     adjust-git.sh
     term.sh
     init.sh
