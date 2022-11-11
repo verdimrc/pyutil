@@ -17,20 +17,21 @@ declare -a PKG=(
     ranger-fm
     git-remote-codecommit
     pre-commit
+    pipupgrade
 
     cookiecutter
-    black
-    isort
-    pipupgrade
-    pyupgrade
-
-    nbdime
-    nbqa
     jupytext
+    nbdime
+    #black
+    #isort
+    #pyupgrade
+    #nbqa
 
     s4cmd
     aws-sam-cli
     awslogs
+    nvitop
+    gpustat
 )
 for i in "${PKG[@]}"; do
     pipx install --pip-args="--no-cache-dir" $i
