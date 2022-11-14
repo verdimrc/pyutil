@@ -3,7 +3,7 @@
 sudo amazon-linux-extras install -y docker python3.8 epel
 sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-7/cyqsimon-el-rust-pkgs-epel-7.repo
 sudo yum update -y
-sudo yum install -y tree htop fio dstat dos2unix git tig jq ncdu ripgrep bat git-delta
+sudo yum install -y tree htop fio dstat dos2unix git tig jq ncdu ripgrep bat git-delta inxi mediainfo
 sudo yum clean all
 
 # Install docker
