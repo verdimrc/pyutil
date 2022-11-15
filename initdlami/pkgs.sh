@@ -54,3 +54,7 @@ EOF
 
 mkdir -p ~/.config/ranger/
 echo set line_numbers relative >> ~/.config/ranger/rc.conf
+
+# VSCode: https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
+echo '\nfs.inotify.max_user_watches=524288' | sudo tee /etc/sysctl.conf
+sudo sysctl -p
