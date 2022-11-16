@@ -26,3 +26,10 @@ EOF
 # See: https://jupyter-server.readthedocs.io/en/stable/operators/migrate-from-nbserver.html
 sed 's/NotebookApp/ServerApp/g' ~/.jupyter/jupyter_notebook_config.py \
     >  ~/.jupyter/jupyter_server_config.py
+
+
+cat << 'EOF' >> ~/.bashrc
+
+# Fix Jlab (early Nov'22 version) refuses to load config from ~/.jupyter
+export JUPYTER_CONFIG_PATH=~/.jupyter
+EOF
