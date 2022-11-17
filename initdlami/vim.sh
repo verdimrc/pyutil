@@ -53,6 +53,6 @@ set t_Co=256
 "colorscheme delek
 "colorscheme elflord
 "colorscheme murphy
-colorscheme ron
+"colorscheme ron
 highlight colorColumn ctermbg=237
 EOF
