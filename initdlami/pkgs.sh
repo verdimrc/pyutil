@@ -1,9 +1,13 @@
 #!/bin/bash
 
 sudo amazon-linux-extras install -y docker python3.8 epel
-sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-7/cyqsimon-el-rust-pkgs-epel-7.repo
+declare -a PKG=(tree htop fio dstat dos2unix git tig jq ncdu inxi mediainfo)
+if [[ $(uname -i) == "x86_64" ]]; then
+    sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-7/cyqsimon-el-rust-pkgs-epel-7.repo
+    PKG+=(ripgrep bat git-delta)
+fi
 sudo yum update -y
-sudo yum install -y tree htop fio dstat dos2unix git tig jq ncdu ripgrep bat git-delta inxi mediainfo
+sudo yum install -y "${PKG[@]}"
 sudo yum clean all
 
 # Install docker

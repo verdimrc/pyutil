@@ -8,12 +8,7 @@ mkdir -p ~/.local/bin
 cd ~/.local/bin
 
 latest_download_url() {
-  if [[ $(uname -i) == "x86_64" ]]; then
-    local goarch=64bit
-  else
-    echo WARNING: to test that this works on gravition, and the need for more precise condition
-    local goarch=arm64
-  fi
+  [[ $(uname -i) == "x86_64" ]] && local goarch=64bit || local goarch=arm64
   curl --silent "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
     grep "\"browser_download_url\": \"https.*$(uname)-$goarch.tar.gz" |  # Get download url
     sed -E 's/.*"([^"]+)".*/\1/'                                         # Pluck JSON value
