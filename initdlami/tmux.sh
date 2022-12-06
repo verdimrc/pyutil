@@ -18,6 +18,6 @@ VERSION=$(get_latest_release)
 sudo yum install -y libevent-devel ncurses-devel gcc make bison pkg-config
 tar -xzf tmux-$VERSION.tar.gz
 cd tmux-$VERSION/
-./configure
-make && sudo make install
-make clean
+./configure &> /tmp/tmux-00-configure.txt
+make &> /tmp/tmux-01-make.txt && sudo make install &> /tmp/tmux-02-make-install.txt
+make clean &> /tmp/tmux-03-make-clean.txt
