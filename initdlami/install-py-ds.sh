@@ -12,24 +12,27 @@ a \
 ' -e ':a' -e '$!{n;ba};}' ~/.bash_profile
 echo '' >> ~/.bash_profile
 echo 'eval "$(pyenv init --path)"' >> ~/.bash_profile
+echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
+
 #echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
 #echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
 #echo 'eval "$(pyenv init --path)"' >> ~/.profile
-echo '' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+# echo '' >> ~/.bashrc
 
 # Enable pyenv for this session
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 pyenv rehash
 
 # Miniconda3 to install pre-compiled python. Esp. on small instances like t* to
 # reduce install time (and to conserve CPU credits).
-# 
-# NOTE: newer pyenv (since Oct'22 ??) install to miniforge3-x.y.z, so needs to
-# manually create the miniconda3 symlink.
+#
+# NOTE: Certain pyenv versions (around Oct'22 ??) install to miniforge3-x.y.z,
+# so needs to manually create the miniconda3 symlink.
 pyenv install miniforge3
 MINIFORGE3_LATEST=$(ls -1d ~/.pyenv/versions/miniforge3-* 2> /dev/null \
     | sed -E -e '/-dev$/d' -e '/-src$/d' -e '/(b|rc)[0-9]+$/d' \
