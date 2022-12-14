@@ -15,6 +15,9 @@ cat << 'EOF' >> ~/.inputrc
 
 ";3D": backward-word  # alt-left
 ";3C": forward-word   # alt-right
+
+"\e[1;3D": backward-word ### Alt left
+"\e[1;3C": forward-word ### Alt right
 EOF
 
 echo "Enabling keymap in ~/.bash_profile ..."
