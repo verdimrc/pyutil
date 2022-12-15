@@ -13,6 +13,8 @@ declare -a SCRIPTS=(
     pkgs.sh
     s5cmd.sh
     duf.sh
+    bat.sh
+    delta.sh
     adjust-git.sh
     term.sh
     init.sh
