@@ -6,7 +6,10 @@ if [[ $(uname -i) == "x86_64" ]]; then
     sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-7/cyqsimon-el-rust-pkgs-epel-7.repo
     PKG+=(ripgrep bat git-delta)
 else
-    PKG+=(the_silver_searcher)  # ag, alt. to rg which has no pre-built binary for aarch64
+    PKG+=(
+        gcc python38-devel
+        the_silver_searcher  # ag, alt. to rg which has no pre-built binary for aarch64
+    )
 fi
 sudo yum update -y
 sudo yum install -y "${PKG[@]}"
@@ -43,10 +46,8 @@ for i in "${PKG[@]}"; do
     pipx install --pip-args="--no-cache-dir" $i
 done
 
-# Hack: pipx didn't install pipupgrade dependency
-~/.local/pipx/venvs/pipupgrade/bin/python3 -m pip install \
-    --no-cache-dir \
-    'git+https://github.com/achillesrasquinha/bpyutils.git@develop#egg=bpyutils'
+# https://github.com/jupyter/nbdime/issues/621
+pipx inject nbdime ipython_genutils
 
 nbdime config-git --enable --global
 

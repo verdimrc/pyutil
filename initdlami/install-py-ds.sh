@@ -31,7 +31,6 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-pyenv rehash
 
 # Miniconda3 to install pre-compiled python. Esp. on small instances like t* to
 # reduce install time (and to conserve CPU credits).
@@ -52,6 +51,7 @@ $CONDA update --yes --update-all -n base
 # Install jlab
 $CONDA create --yes --name base-p310 python=3.10
 pyenv virtualenv miniforge3/envs/base-p310 jlab
+pyenv rehash
 ~/.pyenv/versions/jlab/bin/pip install --upgrade pip setuptools
 declare -a PKGS=(
     jupyterlab
@@ -63,8 +63,7 @@ declare -a PKGS=(
     jupyterlab-unfold
     stickyland
 
-    # This forked version enables debugger for kernels with ipykernel>=6.*
-    'git+https://github.com/verdimrc/jupyter_environment_kernels.git@master#egg=environment_kernels'
+    environment_kernels
 
     # jupyterlab_code_formatter requires formatters in its venv.
     # See: https://github.com/ryantam626/jupyterlab_code_formatter/issues/153
