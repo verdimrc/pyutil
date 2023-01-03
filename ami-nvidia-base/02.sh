@@ -38,7 +38,8 @@ aws configure set default.s3.max_queue_size 10000
 aws configure set default.s3.multipart_threshold 64MB
 aws configure set default.s3.multipart_chunksize 16MB
 /usr/local/bin/aws --version
-rm /tmp/awscli.zip
+rm /tmp/awscli2.zip
+rm -fr /tmp/aws/
 
 echo "Configuring ssh client tailored for cluster computing..."
 echo '    StrictHostKeyChecking no' | sudo tee -a /etc/ssh/ssh_config
