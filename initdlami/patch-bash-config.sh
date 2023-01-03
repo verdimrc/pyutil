@@ -68,3 +68,8 @@ cat << EOF >> ~/.bashrc
 alias ll='ls -alF --color=auto'
 alias ncdu='ncdu --color dark'
 EOF
+
+# Export PATH when .bash_profile is not used. Known cases: kitty +kitten ssh,
+# Xfce started as virtual dcv session.
+echo '
+export PATH=$PATH:$HOME/.local/bin:$HOME/bin' >> ~/.bashrc
