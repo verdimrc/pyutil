@@ -54,10 +54,10 @@ sudo yum install -y dkms xorg-x11-server-Xorg xorg-x11-drivers glx-utils "${FONT
 ################################################################################
 DCV_SRC=https://d1uj6qtbmh3dt5.cloudfront.net/nice-dcv-el7-x86_64.tgz
 DCV_TGZ=$(basename $DCV_SRC)
-DCV_DIR=$(tar --exclude='*/*' -tvf nice-dcv-el7-x86_64.tgz | awk '{print $NF}')
 sudo rpm --import https://d1uj6qtbmh3dt5.cloudfront.net/NICE-GPG-KEY
 curl -O $DCV_SRC
 tar -xzf $DCV_TGZ
+DCV_DIR=$(tar --exclude='*/*' -tvf nice-dcv-el7-x86_64.tgz | awk '{print $NF}')
 cd $DCV_DIR
 sudo yum install -y nice-dcv-server-*.el7.x86_64.rpm nice-xdcv-*.el7.x86_64.rpm nice-dcv-gl-*.el7.x86_64.rpm nice-dcv-gltest-*.el7.x86_64.rpm nice-dcv-web-viewer-*.el7.x86_64.rpm
 sudo dcvusbdriverinstaller --quiet
