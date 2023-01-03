@@ -6,6 +6,8 @@ Based on <https://github.com/aws-samples/aws-efa-nccl-baseami-pipeline/blob/mast
 
 ## Usage
 
+Run these commands on the bash shell:
+
 ```bash
 SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/ami-nvidia-base
 
@@ -21,16 +23,23 @@ chmod ugo+x ${SCRIPTS[@]}
 
 ./01.sh
 <<< Let the instance reboot, then reconnect. >>>
-
-~/ami-nvidia-base/02.sh
-
-# Install CUDA toolkit
-~/ami-nvidia-base/03.sh
-
-# Install just the NSight
-# ~/ami-nvidia-base/03.sh nvvp
 ```
 
-## Next Step
+After reconnect, run these commands on the bash shell:
 
-Install NICE DCV.
+```bash
+cd ~/ami-nvidia-base
+./02.sh
+./03.sh
+#./03.sh nvvp  # To install just the NSight
+```
+
+Install Nice DCV:
+
+```bash
+cd ~/ami-nvidia-base
+curl -OL https://raw.githubusercontent.com/verdimrc/pyutil/master/jupyter-dlami-base/install-dcv.sh
+chmod ugo+x install-dcv.sh
+./install-dcv.sh
+# Then, follow the on-screen instructions.
+```
