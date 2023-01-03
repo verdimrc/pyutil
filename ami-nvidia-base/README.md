@@ -38,7 +38,7 @@ Install Nice DCV:
 
 ```bash
 cd ~/ami-nvidia-base
-curl -OL https://raw.githubusercontent.com/verdimrc/pyutil/master/jupyter-dlami-base/install-dcv.sh
+curl -OL https://raw.githubusercontent.com/verdimrc/pyutil/master/ami-nvidia-base/install-dcv.sh
 chmod ugo+x install-dcv.sh
 ./install-dcv.sh
 # Then, follow the on-screen instructions.
