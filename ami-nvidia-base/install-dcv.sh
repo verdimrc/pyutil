@@ -74,12 +74,6 @@ sudo systemctl enable dcvserver
 
 # gdm is not needed for virtual sessions
 sudo systemctl disable gdm
-# Hotfix for DCV-2068 "dcv-2019.1 and virtual session xfce4 needs gdm to start once"
-# NOTE: workaround for  gawk < 4.1.0 which cannot do inplace modif.
-# awk '!/\[display\]/ {print $0} /\[display\]/ {print $0; print "display-encoders=[\"nvenc\", \"ffmpeg\", \"turbojpeg\", \"lz4\"]"}' /etc/dcv/dcv.conf > /tmp/dcv.conf
-# sudo cp /tmp/dcv.conf /etc/dcv/dcv.conf
-# echo 'Ensure hotfix for DCV-2068:'
-# grep display /etc/dcv/dcv.conf
 
 sudo yum clean all
 
@@ -125,3 +119,25 @@ NOTE: You must secure this host behind an ssh tunnel. This instance is meant for
       Alternatively, enable authentication in /etc/dcv/dcv.conf
 ################################################################################
 EOF
+
+xfce_useful_tips() {
+   cat << 'EOF'
+################################################################################
+# Useful tips for Xfce (filename: ~/HOWTO-XFCE-TIPS.txt)
+################################################################################
+Snappier window movements and resize:
+
+    Applications / Settings / Window Manager / Advanced / Hide content of windows -> tick all checkboxes
+
+
+Fix Xfce terminal wrongly displays unicode characters as (?):
+
+    Terminal: Edit / Preferences / Advanced / Encoding / Default character encoding: -> Unicode/UTF-8
+
+
+Auto-hide bottom panel:
+
+    Right-click on bottom panel / Panel / Panel preferences / Display / AUtomatically hide the panel -> Always
+EOF
+}
+xfce_useful_tips | tee ~/HOWTO-XFCE-TIPS.txt
