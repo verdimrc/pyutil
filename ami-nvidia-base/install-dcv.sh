@@ -11,7 +11,7 @@ cd /tmp/
 ################################################################################
 # Pre-requisites
 ################################################################################
-sudo amazon-linux-extras install -y epel
+sudo amazon-linux-extras install -y epel firefox
 sudo yum update -y
 sudo yum groupinstall -y Xfce
 
@@ -97,8 +97,31 @@ Installation done. Next steps:
 3) Start virtual sessions: dcv create-session --type virtual --init /usr/bin/startxfce4 my-session
    Access by web-browser: https://host:8443/#my-session'
 
-NOTE: You must secure this host behind ah ssh tunnel. This instance is meant for single-tenancy,
+   This step is documented at ~/HOWTO-RUN-NICE-DCV.txt
+
+NOTE: You must secure this host behind an ssh tunnel. This instance is meant for single-tenancy,
       and thus, disable the authentication and defer it to external mechanisms such as ssh.
 
       Alternatively, enable authentication in /etc/dcv/dcv.conf
+EOF
+
+cat << 'EOF' > ~/HOWTO-RUN-NICE-DCV.txt
+################################################################################
+# Steps to run Nice DCV (filename: ~/HOWTO-RUN-NICE-DCV.txt)
+################################################################################
+1. On a terminal, run:
+
+       dcv create-session --type virtual --init /usr/bin/startxfce4 my-session
+
+2. Setup an ssh tunnel from your localhost:8443 to this instance's 8443.
+
+3. Then, use a new browser tab or the Nice DCV client to connect to:
+
+       https://localhost:8443/#my-session
+
+NOTE: You must secure this host behind an ssh tunnel. This instance is meant for single-tenancy,
+      and thus, disable the authentication and defer it to external mechanisms such as ssh.
+
+      Alternatively, enable authentication in /etc/dcv/dcv.conf
+################################################################################
 EOF
