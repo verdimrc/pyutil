@@ -23,4 +23,4 @@ make &> /tmp/tmux-01-make.txt && sudo make install &> /tmp/tmux-02-make-install.
 make clean &> /tmp/tmux-03-make-clean.txt
 
 rm /tmp/tmux-$VERSION.tar.gz
-rm -fr tmux-$VERSION/
+rm -fr /tmp/tmux-$VERSION/
