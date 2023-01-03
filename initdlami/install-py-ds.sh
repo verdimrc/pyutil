@@ -12,11 +12,9 @@ a \
 ' -e ':a' -e '$!{n;ba};}' ~/.bash_profile
 echo '' >> ~/.bash_profile
 echo 'eval "$(pyenv init --path)"' >> ~/.bash_profile
-#echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-#echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-#echo 'eval "$(pyenv init --path)"' >> ~/.profile
 cat << 'EOF' >> ~/.bashrc
-if !command -v pyenv &>/dev/null ; then
+
+if [[ ! -v PYENV_ROOT ]]; then
     export PYENV_ROOT=$HOME/.pyenv
     export PATH=$PYENV_ROOT/bin:$PATH
     eval "$(pyenv init --path)"
