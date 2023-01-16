@@ -171,10 +171,19 @@ EPILOGUE=$(cat << EOF
 #                                                     #
 # Apply once to this EC2 instance:                    #
 #                                                     #
-# ${INITSMNB_DIR}/setup-my-dlami.sh          #
+#     ~/initsmnb/setup-my-dlami.sh                    #
 #                                                     #
-# See also ${INITSMNB_DIR}/update.sh for an  #
-# example on updating this EC2 instance.              #
+#                                                     #
+# You can also run the setup script under screen:     #
+#                                                     #
+#     screen -dm bash -c ~/initsmnb/setup-my-dlami.sh #
+#                                                     #
+#     # ctrl-a-d                                      #
+#     # screen -ls                                    #
+#     # screen -x                                     #
+#                                                     #
+# See also ~/initsmnb/update.sh for an example on     #
+# updating this EC2 instance.                         #
 #######################################################
 EOF
 )
