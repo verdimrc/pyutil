@@ -27,6 +27,7 @@ declare -a PKG=(
     git-remote-codecommit
     pre-commit
     pipupgrade
+    ruff
 
     cookiecutter
     jupytext
