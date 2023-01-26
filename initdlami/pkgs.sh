@@ -56,7 +56,7 @@ nbdime config-git --enable --global
 cat << 'EOF' >> ~/.bashrc
 
 # Added by pkgs.sh
-eval "$(~/.local/bin/register-python-argcomplete pipx)"
+[[ -e /usr/bin/python3.8 ]] && eval "$(~/.local/bin/register-python-argcomplete pipx)"
 export SAM_CLI_TELEMETRY=0
 EOF
 
