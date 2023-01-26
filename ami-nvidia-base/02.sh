@@ -30,7 +30,7 @@ sudo sysctl -p
 
 echo "Installing awscli-v2..."
 wget -O /tmp/awscli2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
-cd /tmp && sudo unzip /tmp/awscli2.zip
+cd /tmp && unzip /tmp/awscli2.zip
 sudo /tmp/aws/install
 export PATH=/usr/local/bin:$PATH
 aws configure set default.s3.max_concurrent_requests 100
