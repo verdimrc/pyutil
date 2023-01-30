@@ -54,7 +54,6 @@ cd /tmp
 sudo yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
 sudo yum clean all
 sudo sed -i '/^\[main\]/a\exclude=kernel*' /etc/yum.conf
-#
 wget -O /tmp/NVIDIA-Linux-driver.run "https://us.download.nvidia.com/tesla/${NVIDIA_VERSION}/NVIDIA-Linux-x86_64-${NVIDIA_VERSION}.run"
 # Headless no-32-bit install
 # See: https://forums.developer.nvidia.com/t/cli-option-to-enable-disable-32bit-compatibility-drivers-in-installer/36481/2
@@ -65,28 +64,37 @@ sudo CC=gcc10-cc sh /tmp/NVIDIA-Linux-driver.run -s --no-install-compat32-libs
 echo -e 'options nvidia NVreg_EnableGpuFirmware=0' | sudo tee /etc/modprobe.d/nvidia-gsp.conf
 rm /tmp/NVIDIA-Linux-driver.run
 
+echo "Enabling nvidia-persistenced..."
+cd /tmp
+tar -xjf /usr/share/doc/NVIDIA_GLX-1.0/samples/nvidia-persistenced-init.tar.bz2 nvidia-persistenced-init/systemd/nvidia-persistenced.service.template
+sed 's|^ExecStart=/usr/bin/nvidia-persistenced --user __USER__$|ExecStart=/usr/bin/nvidia-persistenced|' nvidia-persistenced-init/systemd/nvidia-persistenced.service.template \
+    | sudo tee /usr/lib/systemd/system/nvidia-persistenced.service > /dev/null
+sudo systemctl enable nvidia-persistenced.service --now
+rm -fr /tmp/nvidia-persistenced-init/
+
 echo "Installing NVIDIA Fabric Manager..."
+cd /tmp
 curl -O https://developer.download.nvidia.com/compute/nvidia-driver/redist/fabricmanager/linux-x86_64/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz
 tar xf fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz -C /tmp
 sudo rsync -al /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive/ /usr/ --exclude LICENSE
 sudo mv /usr/systemd/nvidia-fabricmanager.service /usr/lib/systemd/system
-sudo systemctl enable nvidia-fabricmanager
+sudo systemctl enable nvidia-fabricmanager --now
 rm /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz
 rm -fr /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive/
 
-echo "Installing NVidia docker..."
-distribution=$(. /etc/os-release; echo $ID$VERSION_ID)
-sudo amazon-linux-extras install docker
-sudo systemctl enable docker
-curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-docker.repo
-sudo yum install -y nvidia-container-toolkit nvidia-docker2
-sudo sed -i 's/^OPTIONS/#&/' /etc/sysconfig/docker
-echo -e '{"default-ulimits":{"memlock":{"Name":"memlock","Soft":-1,"Hard":-1}},"default-runtime":"nvidia","runtimes":{"nvidia":{"path":"nvidia-container-runtime","runtimeArgs":[]}}}' | sudo tee /etc/docker/daemon.json
-sudo systemctl restart docker
-sudo usermod -aG docker ec2-user
-
-echo "Installing GDRCopy on the host (need the driver, see https://github.com/NVIDIA/gdrcopy/issues/197)..."
-git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
-cd /tmp/gdrcopy/packages
-CUDA=/usr/local/cuda PATH=$PATH:/sbin ./build-rpm-packages.sh
-sudo rpm -Uvh *.rpm
+#echo "Installing NVidia docker..."
+#distribution=$(. /etc/os-release; echo $ID$VERSION_ID)
+#sudo amazon-linux-extras install docker
+#sudo systemctl enable docker
+#curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-docker.repo
+#sudo yum install -y nvidia-container-toolkit nvidia-docker2
+#sudo sed -i 's/^OPTIONS/#&/' /etc/sysconfig/docker
+#echo -e '{"default-ulimits":{"memlock":{"Name":"memlock","Soft":-1,"Hard":-1}},"default-runtime":"nvidia","runtimes":{"nvidia":{"path":"nvidia-container-runtime","runtimeArgs":[]}}}' | sudo tee /etc/docker/daemon.json
+#sudo systemctl restart docker
+#sudo usermod -aG docker ec2-user
+#
+#echo "Installing GDRCopy on the host (need the driver, see https://github.com/NVIDIA/gdrcopy/issues/197)..."
+#git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
+#cd /tmp/gdrcopy/packages
+#CUDA=/usr/local/cuda PATH=$PATH:/sbin ./build-rpm-packages.sh
+#sudo rpm -Uvh *.rpm
