@@ -105,8 +105,42 @@ with open("/etc/docker/daemon.json", "w") as f:
 sudo systemctl restart docker
 sudo usermod -aG docker ec2-user
 
-#echo "Installing GDRCopy on the host (need the driver, see https://github.com/NVIDIA/gdrcopy/issues/197)..."
-#git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
-#cd /tmp/gdrcopy/packages
-#CUDA=/usr/local/cuda PATH=$PATH:/sbin ./build-rpm-packages.sh
-#sudo rpm -Uvh *.rpm
+echo "Adventurous: install GDRCopy driver only on the host..."
+# - https://github.com/NVIDIA/gdrcopy/issues/236
+# - https://github.com/NVIDIA/gdrcopy/issues/197
+# - https://github.com/NVIDIA/gdrcopy/issues/138
+git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
+cd /tmp/gdrcopy/packages
+# In case the library & dev must the driver version.
+GDRCOPY_COMMIT=$(git rev-parse HEAD)
+echo "$GDRCOPY_COMMIT
+$(git show $GDRCOPY_COMMIT)" > ~/GDRCOPY-commit-sha.txt
+# Ignore missing CUDA toolkit, and set rpm-arch to alinux2
+sed -i -r \
+    -e '0,/^ +exit 1/ s//#exit 1/' \
+    -e 's/unknown_distro/.alinux2/' \
+    build-rpm-packages.sh
+# Only sensibly generate kmod rpm. Rest rpm files must be considered bogus and not installed.
+sed -i \
+    -e 's/^make -j8 CUDA=%{CUDA} config lib exes/make -j8 CUDA=%{CUDA} config #lib exes/' \
+    -e 's/^make install/#make install/' \
+    -e 's|^%{_prefix}/|#%{_prefix}/|g' \
+    -e 's|^%{_libdir}/|#%{_libdir}/|g' \
+    gdrcopy.spec
+PATH=$PATH:/sbin ./build-rpm-packages.sh
+sudo rpm -Uvh gdrcopy-kmod-*dkms.noarch.alinux2.rpm
+[[ -e /dev/gdrdrv ]] && echo "gdrcopy driver installed & loaded..." || echo "ERROR: gdrcopy driver..."
+cd /tmp/
+rm -fr /tmp/gdrcopy/
+
+# Clean-up
+sudo yum clean all
+cat << EOF
+
+########################################
+Clear these tmp dirs manually:
+
+sudo rm -fr $(find /tmp/dkms\.* -name 'nvidia.ko' | cut -d'/' -f1,2,3 | tr '\n' ' ')
+########################################
+
+EOF
