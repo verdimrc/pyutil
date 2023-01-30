@@ -16,8 +16,7 @@ sudo yum install -y "${PKG[@]}"
 sudo yum clean all
 
 # Install docker
-sudo systemctl enable docker
-sudo systemctl start docker
+sudo systemctl enable docker --now
 sudo usermod -a -G docker ec2-user
 
 # Install python-based CLI

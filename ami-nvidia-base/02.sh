@@ -82,17 +82,29 @@ sudo systemctl enable nvidia-fabricmanager --now
 rm /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz
 rm -fr /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive/
 
-#echo "Installing NVidia docker..."
-#distribution=$(. /etc/os-release; echo $ID$VERSION_ID)
-#sudo amazon-linux-extras install docker
-#sudo systemctl enable docker
-#curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-docker.repo
-#sudo yum install -y nvidia-container-toolkit nvidia-docker2
-#sudo sed -i 's/^OPTIONS/#&/' /etc/sysconfig/docker
+echo "Installing NVidia docker..."
+cd /tmp
+distribution=$(. /etc/os-release; echo $ID$VERSION_ID)
+sudo amazon-linux-extras install docker
+sudo systemctl enable docker
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-docker.repo
+sudo yum install -y nvidia-container-toolkit nvidia-docker2
+sudo sed -i 's/^OPTIONS/#&/' /etc/sysconfig/docker
 #echo -e '{"default-ulimits":{"memlock":{"Name":"memlock","Soft":-1,"Hard":-1}},"default-runtime":"nvidia","runtimes":{"nvidia":{"path":"nvidia-container-runtime","runtimeArgs":[]}}}' | sudo tee /etc/docker/daemon.json
-#sudo systemctl restart docker
-#sudo usermod -aG docker ec2-user
-#
+sudo python3.8 -c '
+import json
+with open("/etc/docker/daemon.json") as f:
+    d = json.load(f)
+d["default-runtime"] = "nvidia"
+d["default-ulimits"] = d.get("default-limits", {"memlock": {"Name": "memlock", "Soft": -1, "Hard": -1}})
+print(json.dumps(d, indent=2))
+with open("/etc/docker/daemon.json", "w") as f:
+    json.dump(d, f, indent=2)
+    f.write("\n")
+'
+sudo systemctl restart docker
+sudo usermod -aG docker ec2-user
+
 #echo "Installing GDRCopy on the host (need the driver, see https://github.com/NVIDIA/gdrcopy/issues/197)..."
 #git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
 #cd /tmp/gdrcopy/packages
