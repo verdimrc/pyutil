@@ -54,32 +54,93 @@ cd /tmp
 sudo yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
 sudo yum clean all
 sudo sed -i '/^\[main\]/a\exclude=kernel*' /etc/yum.conf
-#
 wget -O /tmp/NVIDIA-Linux-driver.run "https://us.download.nvidia.com/tesla/${NVIDIA_VERSION}/NVIDIA-Linux-x86_64-${NVIDIA_VERSION}.run"
-#sudo CC=gcc10-cc sh /tmp/NVIDIA-Linux-driver.run -q -a --ui=none
-# -a is to automatically accept license, only needed for old installer (how old?)
-# -q, --no-questions: assumed default for all questions.
-# -s, --silent implies '--ui=none --no-questions'
-#
 # Headless no-32-bit install
 # See: https://forums.developer.nvidia.com/t/cli-option-to-enable-disable-32bit-compatibility-drivers-in-installer/36481/2
 #
 # NOTE: NVIDIA-*-no-compat32.run not available for data-center card2.run not available for data-center card
 # Available for e.g., http://us.download.nvidia.com/XFree86/Linux-x86_64/525.60.11/NVIDIA-Linux-x86_64-525.60.11-no-compat32.run
 sudo CC=gcc10-cc sh /tmp/NVIDIA-Linux-driver.run -s --no-install-compat32-libs
-#
-## Install CUDA_toolkit
-# sudo curl -O https://developer.download.nvidia.com/compute/nvidia-driver/redist/fabricmanager/linux-x86_64/fabricmanager-linux-x86_64-{{user `nvidia_version`}}-archive.tar.xz
-# sudo tar xf fabricmanager-linux-x86_64-{{user `nvidia_version`}}-archive.tar.xz -C /tmp
-# sudo rsync -al /tmp/fabricmanager-linux-x86_64-{{user `nvidia_version`}}-archive/ /usr/ --exclude LICENSE
-# sudo mv /usr/systemd/nvidia-fabricmanager.service /usr/lib/systemd/system
-# sudo systemctl enable nvidia-fabricmanager
-# sudo yum -y install {{user `cuda_version`}} {{user `cudnn_version`}} {{user `cudnn_version`}}-devel
-# echo -e 'options nvidia NVreg_EnableGpuFirmware=0' | sudo tee /etc/modprobe.d/nvidia-gsp.conf
-# echo -e '#!/bin/sh
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
-# export PATH=$PATH:/usr/local/cuda/bin' | sudo tee /etc/profile.d/cuda.sh
-# sudo chmod +x /etc/rc.local
-
-## Manual clean-up. Does reboot auto-clean these?
+echo -e 'options nvidia NVreg_EnableGpuFirmware=0' | sudo tee /etc/modprobe.d/nvidia-gsp.conf
 rm /tmp/NVIDIA-Linux-driver.run
+
+echo "Enabling nvidia-persistenced..."
+cd /tmp
+tar -xjf /usr/share/doc/NVIDIA_GLX-1.0/samples/nvidia-persistenced-init.tar.bz2 nvidia-persistenced-init/systemd/nvidia-persistenced.service.template
+sed 's|^ExecStart=/usr/bin/nvidia-persistenced --user __USER__$|ExecStart=/usr/bin/nvidia-persistenced|' nvidia-persistenced-init/systemd/nvidia-persistenced.service.template \
+    | sudo tee /usr/lib/systemd/system/nvidia-persistenced.service > /dev/null
+sudo systemctl enable nvidia-persistenced.service --now
+rm -fr /tmp/nvidia-persistenced-init/
+
+echo "Installing NVIDIA Fabric Manager..."
+cd /tmp
+curl -O https://developer.download.nvidia.com/compute/nvidia-driver/redist/fabricmanager/linux-x86_64/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz
+tar xf fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz -C /tmp
+sudo rsync -al /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive/ /usr/ --exclude LICENSE
+sudo mv /usr/systemd/nvidia-fabricmanager.service /usr/lib/systemd/system
+sudo systemctl enable nvidia-fabricmanager --now
+rm /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive.tar.xz
+rm -fr /tmp/fabricmanager-linux-x86_64-$NVIDIA_VERSION-archive/
+
+echo "Installing NVidia docker..."
+cd /tmp
+distribution=$(. /etc/os-release; echo $ID$VERSION_ID)
+sudo amazon-linux-extras install docker
+sudo systemctl enable docker
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-docker.repo
+sudo yum install -y nvidia-container-toolkit nvidia-docker2
+sudo sed -i 's/^OPTIONS/#&/' /etc/sysconfig/docker
+#echo -e '{"default-ulimits":{"memlock":{"Name":"memlock","Soft":-1,"Hard":-1}},"default-runtime":"nvidia","runtimes":{"nvidia":{"path":"nvidia-container-runtime","runtimeArgs":[]}}}' | sudo tee /etc/docker/daemon.json
+sudo python3.8 -c '
+import json
+with open("/etc/docker/daemon.json") as f:
+    d = json.load(f)
+d["default-runtime"] = "nvidia"
+d["default-ulimits"] = d.get("default-limits", {"memlock": {"Name": "memlock", "Soft": -1, "Hard": -1}})
+print(json.dumps(d, indent=2))
+with open("/etc/docker/daemon.json", "w") as f:
+    json.dump(d, f, indent=2)
+    f.write("\n")
+'
+sudo systemctl restart docker
+sudo usermod -aG docker ec2-user
+
+echo "Adventurous: install GDRCopy driver only on the host..."
+# - https://github.com/NVIDIA/gdrcopy/issues/236
+# - https://github.com/NVIDIA/gdrcopy/issues/197
+# - https://github.com/NVIDIA/gdrcopy/issues/138
+git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
+cd /tmp/gdrcopy/packages
+# In case the library & dev must the driver version.
+GDRCOPY_COMMIT=$(git rev-parse HEAD)
+echo "$GDRCOPY_COMMIT
+$(git show $GDRCOPY_COMMIT)" > ~/GDRCOPY-commit-sha.txt
+# Ignore missing CUDA toolkit, and set rpm-arch to alinux2
+sed -i -r \
+    -e '0,/^ +exit 1/ s//#exit 1/' \
+    -e 's/unknown_distro/.alinux2/' \
+    build-rpm-packages.sh
+# Only sensibly generate kmod rpm. Rest rpm files must be considered bogus and not installed.
+sed -i \
+    -e 's/^make -j8 CUDA=%{CUDA} config lib exes/make -j8 CUDA=%{CUDA} config #lib exes/' \
+    -e 's/^make install/#make install/' \
+    -e 's|^%{_prefix}/|#%{_prefix}/|g' \
+    -e 's|^%{_libdir}/|#%{_libdir}/|g' \
+    gdrcopy.spec
+PATH=$PATH:/sbin ./build-rpm-packages.sh
+sudo rpm -Uvh gdrcopy-kmod-*dkms.noarch.alinux2.rpm
+[[ -e /dev/gdrdrv ]] && echo "gdrcopy driver installed & loaded..." || echo "ERROR: gdrcopy driver..."
+cd /tmp/
+rm -fr /tmp/gdrcopy/
+
+# Clean-up
+sudo yum clean all
+cat << EOF
+
+########################################
+Clear these tmp dirs manually:
+
+sudo rm -fr $(find /tmp/dkms\.* -name 'nvidia.ko' | cut -d'/' -f1,2,3 | tr '\n' ' ')
+########################################
+
+EOF
