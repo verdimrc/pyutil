@@ -133,7 +133,19 @@ sudo rpm -Uvh gdrcopy-kmod-*dkms.noarch.alinux2.rpm
 cd /tmp/
 rm -fr /tmp/gdrcopy/
 
-# Clean-up
+echo "Generate HOWTO-TUNE-DOCKER.md..."
+cat << 'EOF' > ~/HOWTO-TUNE-DOCKER.md
+# Tips to tune Docker containers <!-- omit in toc -->
+
+```bash
+docker run -it --rm --gpus all -v /dev/gdrdrv:/dev/gdrdrv ubuntu:22.04 /bin/bash
+# Container will have nvidia-smi, /dev/nvidia*, and /dev/gdrcopy.
+
+# TODO: once EFA driver installed, also add -v /dev/uverb...:/dev/uverb...
+```
+EOF
+
+echo "Clean-up..."
 sudo yum clean all
 cat << EOF
 
