@@ -166,25 +166,25 @@ chmod ugo+x setup-my-dlami.sh
 
 EPILOGUE=$(cat << EOF
 
-#######################################################
-# Installation completed.                             #
-#                                                     #
-# Apply once to this EC2 instance:                    #
-#                                                     #
-#     ~/initsmnb/setup-my-dlami.sh                    #
-#                                                     #
-#                                                     #
-# You can also run the setup script under screen:     #
-#                                                     #
-#     screen -dm bash -c ~/initsmnb/setup-my-dlami.sh #
-#                                                     #
-#     # ctrl-a-d                                      #
-#     # screen -ls                                    #
-#     # screen -x                                     #
-#                                                     #
-# See also ~/initsmnb/update.sh for an example on     #
-# updating this EC2 instance.                         #
-#######################################################
+########################################################
+# Installation completed.                              #
+#                                                      #
+# Apply once to this EC2 instance:                     #
+#                                                      #
+#     ~/initdlami/setup-my-dlami.sh                    #
+#                                                      #
+#                                                      #
+# You can also run the setup script under screen:      #
+#                                                      #
+#     screen -dm bash -c ~/initdlami/setup-my-dlami.sh #
+#                                                      #
+#     # ctrl-a-d                                       #
+#     # screen -ls                                     #
+#     # screen -x                                      #
+#                                                      #
+# See also ~/initsmnb/update.sh for an example on      #
+# updating this EC2 instance.                          #
+########################################################
 EOF
 )
 echo -e "${EPILOGUE}\n"
