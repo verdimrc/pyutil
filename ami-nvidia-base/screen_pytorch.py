@@ -7,6 +7,8 @@ try:
 except ModuleNotFoundError:
     pass
 
+print(f"{torch.cuda.is_available()=}")
+print(f"{torch.cuda.device_count()=}")
 print(f"{torch.backends.cuda.is_built()=}")
 print(f"{torch.backends.cuda.matmul.allow_tf32=}")
 print(f"{torch.backends.cuda.matmul.allow_fp16_reduced_precision_reduction=}")
