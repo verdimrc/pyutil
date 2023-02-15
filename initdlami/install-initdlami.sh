@@ -171,10 +171,12 @@ EPILOGUE=$(cat << EOF
 #                                                     #
 # Apply once to this EC2 instance:                    #
 #                                                     #
-#     ~/initsmnb/setup-my-dlami.sh                    #
+#     ~/initdlami/setup-my-dlami.sh                   #
 #                                                     #
 #                                                     #
-# You can also run the setup script under screen:     #
+# You can also run the setup script under screen,     #
+# which is useful when using the connecting to the    #
+# EC2 via SSM web console:                            #
 #                                                     #
 #     screen -dm bash -c ~/initsmnb/setup-my-dlami.sh #
 #                                                     #
