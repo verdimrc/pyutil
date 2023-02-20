@@ -3,7 +3,7 @@
 ################################################################################
 # Global vars
 ################################################################################
-INITSMNB_DIR=~/initdlami
+INITDLAMI_DIR=~/initdlami
 SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami
 # Uncomment for testing remote install from local source
 #SRC_PREFIX=file:///home/ec2-user/src/pyutil/initdlami
@@ -125,10 +125,10 @@ echo "GIT_USER='$GIT_USER'"
 echo "GIT_EMAIL='$GIT_EMAIL'"
 echo "EFS=$(efs2str)"
 
-mkdir -p $INITSMNB_DIR
+mkdir -p $INITDLAMI_DIR
 
 if [[ $FROM_LOCAL == 0 ]]; then
-    cd $INITSMNB_DIR
+    cd $INITDLAMI_DIR
     echo "Downloading scripts from ${SRC_PREFIX}/"
     echo "=> ${SRC_PREFIX}/"
     echo
@@ -137,7 +137,7 @@ if [[ $FROM_LOCAL == 0 ]]; then
     chmod ugo+x ${SCRIPTS[@]}
 else
     BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
-    cd $INITSMNB_DIR
+    cd $INITDLAMI_DIR
     echo "Copying scripts from $BIN_DIR"
     cp -a ${BIN_DIR}/* .
     chmod ugo+x *.sh
@@ -166,27 +166,27 @@ chmod ugo+x setup-my-dlami.sh
 
 EPILOGUE=$(cat << EOF
 
-#######################################################
-# Installation completed.                             #
-#                                                     #
-# Apply once to this EC2 instance:                    #
-#                                                     #
-#     ~/initdlami/setup-my-dlami.sh                   #
-#                                                     #
-#                                                     #
-# You can also run the setup script under screen,     #
-# which is useful when using the connecting to the    #
-# EC2 via SSM web console:                            #
-#                                                     #
-#     screen -dm bash -c ~/initsmnb/setup-my-dlami.sh #
-#                                                     #
-#     # ctrl-a-d                                      #
-#     # screen -ls                                    #
-#     # screen -x                                     #
-#                                                     #
-# See also ~/initsmnb/update.sh for an example on     #
-# updating this EC2 instance.                         #
-#######################################################
+########################################################
+# Installation completed.                              #
+#                                                      #
+# Apply once to this EC2 instance:                     #
+#                                                      #
+#     ~/initdlami/setup-my-dlami.sh                    #
+#                                                      #
+#                                                      #
+# You can also run the setup script under screen,      #
+# which is useful when using the connecting to the     #
+# EC2 via SSM web console:                             #
+#                                                      #
+#     screen -dm bash -c ~/initdlami/setup-my-dlami.sh #
+#                                                      #
+#     # ctrl-a-d                                       #
+#     # screen -ls                                     #
+#     # screen -x                                      #
+#                                                      #
+# See also ~/initdlami/update.sh for an example on     #
+# updating this EC2 instance.                          #
+########################################################
 EOF
 )
 echo -e "${EPILOGUE}\n"
