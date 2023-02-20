@@ -31,6 +31,7 @@ declare -a SCRIPTS=(
     tmux.sh
     patch-jupyter-config.sh
     update.sh
+    prep-instance-store.sh
 )
 
 CURL_OPTS="--fail-early -fL"
@@ -169,7 +170,7 @@ EPILOGUE=$(cat << EOF
 ########################################################
 # Installation completed.                              #
 #                                                      #
-# Apply once to this EC2 instance:                     #
+# Apply just ONCE to this EC2 instance:                #
 #                                                      #
 #     ~/initdlami/setup-my-dlami.sh                    #
 #                                                      #
@@ -186,6 +187,15 @@ EPILOGUE=$(cat << EOF
 #                                                      #
 # See also ~/initdlami/update.sh for an example on     #
 # updating this EC2 instance.                          #
+#                                                      #
+########################################################
+#                                                      #
+# On an instance with 1+ instance stores, run below    #
+# after start-up or reboot:                            #
+#                                                      # 
+#     ~/initdlami/prep-instance-store.sh               #                                                    
+#                                                      # 
+# See also: ~/PREP_INSTANCE_STORE.txt                  # 
 ########################################################
 EOF
 )
