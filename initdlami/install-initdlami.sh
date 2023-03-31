@@ -192,10 +192,10 @@ EPILOGUE=$(cat << EOF
 #                                                      #
 # On an instance with 1+ instance stores, run below    #
 # after start-up or reboot:                            #
-#                                                      # 
-#     ~/initdlami/prep-instance-store.sh               #                                                    
-#                                                      # 
-# See also: ~/PREP_INSTANCE_STORE.txt                  # 
+#                                                      #
+#     ~/initdlami/prep-instance-store.sh               #
+#                                                      #
+# See also: ~/PREP_INSTANCE_STORE.txt                  #
 ########################################################
 EOF
 )
