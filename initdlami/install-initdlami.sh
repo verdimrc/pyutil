@@ -6,7 +6,7 @@
 INITDLAMI_DIR=~/initdlami
 SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami
 # Uncomment for testing remote install from local source
-#SRC_PREFIX=file:///home/ec2-user/src/pyutil/initdlami
+#SRC_PREFIX=file:///home/ec2-user/pyutil/initdlami
 
 declare -a SCRIPTS=(
     TEMPLATE-setup-my-dlami.sh
