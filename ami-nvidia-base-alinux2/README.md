@@ -9,15 +9,15 @@ Based on <https://github.com/aws-samples/aws-efa-nccl-baseami-pipeline/blob/mast
 Run these commands on the bash shell:
 
 ```bash
-SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/ami-nvidia-base
+SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/ami-nvidia-base-alinux2
 
 declare -a SCRIPTS=(
     01.sh
     02.sh
 )
 
-mkdir -p ~/ami-nvidia-base/
-cd ~/ami-nvidia-base/
+mkdir -p ~/ami-nvidia-base-alinux2/
+cd ~/ami-nvidia-base-alinux2/
 curl $CURL_OPTS -O $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
 chmod ugo+x ${SCRIPTS[@]}
 
@@ -28,7 +28,7 @@ chmod ugo+x ${SCRIPTS[@]}
 After reconnect, run these commands on the bash shell:
 
 ```bash
-cd ~/ami-nvidia-base
+cd ~/ami-nvidia-base-alinux2
 ./02.sh
 ./03.sh
 #./03.sh nvvp  # To install just the NSight
@@ -37,8 +37,8 @@ cd ~/ami-nvidia-base
 Install Nice DCV:
 
 ```bash
-cd ~/ami-nvidia-base
-curl -OL https://raw.githubusercontent.com/verdimrc/pyutil/master/ami-nvidia-base/install-dcv.sh
+cd ~/ami-nvidia-base-alinux2
+curl -OL https://raw.githubusercontent.com/verdimrc/pyutil/master/ami-nvidia-base-alinux2/install-dcv.sh
 chmod ugo+x install-dcv.sh
 ./install-dcv.sh
 # Then, follow the on-screen instructions.
