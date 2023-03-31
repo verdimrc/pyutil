@@ -1,26 +1,29 @@
 #!/bin/bash
 
-sudo amazon-linux-extras install -y docker python3.8 epel
-declare -a PKG=(tree htop fio dstat dos2unix git tig jq ncdu inxi mediainfo git-lfs nvme-cli)
-if [[ $(uname -i) == "x86_64" ]]; then
-    sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-7/cyqsimon-el-rust-pkgs-epel-7.repo
-    PKG+=(ripgrep bat git-delta)
-else
+# https://askubuntu.com/a/1431746
+export NEEDRESTART_MODE=a
+export DEBIAN_FRONTEND=noninteractive
+sudo apt update
+
+declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli docker.io)
+PKG+=(ripgrep bat duf s4cmd python3-venv)
+if [[ $(uname -i) != "x86_64" ]]; then
+    echo HAHA: WARNING: untested on arm
     PKG+=(
         gcc python38-devel
         the_silver_searcher  # ag, alt. to rg which has no pre-built binary for aarch64
     )
 fi
-sudo yum update -y
-sudo yum install -y "${PKG[@]}"
-sudo yum clean all
+sudo apt install -y "${PKG[@]}"
+sudo apt clean
+[[ -e /usr/bin/batcat ]] && sudo ln -s /usr/bin/batcat /usr/bin/bat
 
 # Install docker
 sudo systemctl enable docker --now
-sudo usermod -a -G docker ec2-user
+sudo usermod -a -G docker ubuntu
 
 # Install python-based CLI
-pip3.8 install --user --no-cache-dir pipx
+pip3 install --user --no-cache-dir pipx
 declare -a PKG=(
     ranger-fm
     git-remote-codecommit
@@ -36,7 +39,6 @@ declare -a PKG=(
     #pyupgrade
     #nbqa
 
-    s4cmd
     aws-sam-cli
     awslogs
     nvitop
@@ -55,7 +57,7 @@ nbdime config-git --enable --global
 cat << 'EOF' >> ~/.bashrc
 
 # Added by pkgs.sh
-[[ -e /usr/bin/python3.8 ]] && eval "$(~/.local/bin/register-python-argcomplete pipx)"
+eval "$(~/.local/bin/register-python-argcomplete pipx)"
 export SAM_CLI_TELEMETRY=0
 EOF
 

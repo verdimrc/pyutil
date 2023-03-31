@@ -13,12 +13,9 @@ declare -a SCRIPTS=(
     pkgs.sh
     awscliv2.sh
     s5cmd.sh
-    duf.sh
-    bat.sh
     delta.sh
     adjust-git.sh
     term.sh
-    init.sh
     install-gpu-cwagent.sh
     patch-bash-config.sh
     fix-aws-config.sh
