@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
 cd /tmp
 
 # Search driver version on:
@@ -57,14 +58,14 @@ echo '    CheckHostIP no' | sudo tee -a /etc/ssh/ssh_config
 
 echo "Installing NVIDIA driver..."
 cd /tmp
-sudo bash -c "
 UBUNTU_SHORT_VERSION=$(lsb_release -rs | tr -d '.')
+sudo bash -c "
 wget -O /tmp/cuda.pin https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${UBUNTU_SHORT_VERSION}/x86_64/cuda-ubuntu${UBUNTU_SHORT_VERSION}.pin
 mv /tmp/cuda.pin /etc/apt/preferences.d/cuda-repository-pin-600
 
 wget -O - https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${UBUNTU_SHORT_VERSION}/x86_64/3bf863cc.pub \
     | gpg --dearmor \
-    > /usr/share/keyrings/nvidia-public-key.gpg >/dev/null
+    > /usr/share/keyrings/nvidia-public-key.gpg
 
 echo 'deb [signed-by=/usr/share/keyrings/nvidia-public-key.gpg] http://developer.download.nvidia.com/compute/cuda/repos/ubuntu${UBUNTU_SHORT_VERSION}/x86_64/ /
 # deb-src [signed-by=/usr/share/keyrings/nvidia-public-key.gpg] http://developer.download.nvidia.com/compute/cuda/repos/ubuntu${UBUNTU_SHORT_VERSION}/x86_64/ /' \
@@ -77,10 +78,10 @@ export DEBIAN_FRONTEND=noninteractive
 add-apt-repository -y ppa:apt-fast/stable
 
 apt update
-apt install apt-fast
+apt install -y apt-fast
 apt-fast install -y -o Dpkg::Options::='--force-overwrite' cuda-drivers-fabricmanager-${NVIDIA_MAJOR_VER}=$NVIDIA_VERSION-1 datacenter-gpu-manager
 systemctl enable nvidia-fabricmanager.service
-apt-mark hold nvidia*
+# apt-mark hold nvidia*
 
 echo -e '#!/bin/sh\nexport LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64\nexport PATH=$PATH:/usr/local/cuda/bin' > /etc/profile.d/cuda.sh
 chmod +x /etc/profile.d/cuda.sh
@@ -90,11 +91,12 @@ sed -i '/Unattended/s/1/0/g' /etc/apt/apt.conf.d/20auto-upgrades
 echo "Installing NVidia docker..."
 cd /tmp
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor --yes -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
     sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-sudo apt-get install -y docker.io nvidia-container-toolkit
+sudo apt update
+sudo apt-fast install -y docker.io nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 sudo python3 -c '
 import json
@@ -116,7 +118,8 @@ echo "Adventurous: install GDRCopy driver only on the host..."
 # - https://github.com/NVIDIA/gdrcopy/issues/197
 # - https://github.com/NVIDIA/gdrcopy/issues/138
 git clone https://github.com/NVIDIA/gdrcopy.git /tmp/gdrcopy
-patch /tmp/gdrcopy/packages/build-deb-packages.sh build-gdrdrv.patch -o /tmp/gdrcopy/packages/build-deb-packages-drv.sh
+cd /tmp/gdrcopy/packages
+patch build-deb-packages.sh $BIN_DIR/build-gdrdrv.patch -o build-deb-packages-drv.sh
 cd /tmp/gdrcopy/packages
 # In case the library & dev must the driver version.
 GDRCOPY_COMMIT=$(git rev-parse HEAD)

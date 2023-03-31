@@ -5,19 +5,18 @@ sudo bash -c "
 export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 
-if [[ $1 == 'lustre' ]]; then
+if [[ "X$1" == 'Xlustre' ]]; then
     wget -O - https://fsx-lustre-client-repo-public-keys.s3.amazonaws.com/fsx-ubuntu-public-key.asc \
         | gpg --dearmor \
-        > /usr/share/keyrings/fsx-ubuntu-public-key.gpg >/dev/null
+        > /usr/share/keyrings/fsx-ubuntu-public-key.gpg
 
-    UBUNTU_CODENAME=$(lsb_release -cs)
-    echo 'deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu $UBUNTU_CODENAME main' \
+    echo 'deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu $(lsb_release -cs) main' \
         > /etc/apt/sources.list.d/fsxlustreclientrepo.list
 fi
 
 apt update
 
-if [[ $1 == 'lustre' ]]; then
+if [[ "X$1" == 'lustre' ]]; then
     # Remove meta-package linux-aws whose version is frequently ahead of lustre-client-modules-aws
     apt remove -y linux-aws linux-headers-aws linux-image-aws
     apt install -y lustre-client-modules-aws
