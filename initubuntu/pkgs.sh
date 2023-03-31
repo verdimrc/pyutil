@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt update
 
 declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli docker.io)
-PKG+=(ripgrep bat duf s4cmd python3-venv)
+PKG+=(ripgrep bat duf s4cmd python3-venv python3-pip)
 if [[ $(uname -i) != "x86_64" ]]; then
     echo HAHA: WARNING: untested on arm
     PKG+=(
@@ -23,6 +23,7 @@ sudo systemctl enable docker --now
 sudo usermod -a -G docker ubuntu
 
 # Install python-based CLI
+export PATH=$HOME/.local/bin:$PATH
 pip3 install --user --no-cache-dir pipx
 declare -a PKG=(
     ranger-fm
