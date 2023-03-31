@@ -9,9 +9,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 a \
 export PATH="$PYENV_ROOT/bin:$PATH"
 a \
-' -e ':a' -e '$!{n;ba};}' ~/.bash_profile
-echo '' >> ~/.bash_profile
-echo 'eval "$(pyenv init --path)"' >> ~/.bash_profile
+' -e ':a' -e '$!{n;ba};}' ~/.profile
+echo '' >> ~/.profile
+echo 'eval "$(pyenv init --path)"' >> ~/.profile
 cat << 'EOF' >> ~/.bashrc
 
 if [[ ! -v PYENV_ROOT ]]; then
