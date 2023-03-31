@@ -9,7 +9,7 @@ SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initubuntu
 #SRC_PREFIX=file:///home/ubuntu/pyutil/initubuntu
 
 declare -a SCRIPTS=(
-    TEMPLATE-setup-my-dlami.sh
+    TEMPLATE-setup-my-ami.sh
     pkgs.sh
     awscliv2.sh
     s5cmd.sh
@@ -141,13 +141,13 @@ else
     chmod ugo+x *.sh
 fi
 
-echo "Generating setup-my-dlami.sh"
+echo "Generating setup-my-ami.sh"
 echo "=> git-user / git-email = '$GIT_USER' / '$GIT_EMAIL'"
 echo "=> EFS: (fsid,fsap,mountpoint)|... = $(efs2str)"
-cat << EOF > setup-my-dlami.sh
+cat << EOF > setup-my-ami.sh
 #!/bin/bash
 
-# Auto-generated from TEMPLATE-setup-my-dlami.sh by install-dlami.sh
+# Auto-generated from TEMPLATE-setup-my-ami.sh by install-ami.sh
 
 EOF
 
@@ -155,12 +155,12 @@ sed \
     -e "s/Firstname Lastname/$GIT_USER/" \
     -e "s/first.last@email.abc/$GIT_EMAIL/" \
     -e "s/fsid,fsapid,mountpoint/$(efs2str ' ')/" \
-    TEMPLATE-setup-my-dlami.sh >> setup-my-dlami.sh
-chmod ugo+x setup-my-dlami.sh
+    TEMPLATE-setup-my-ami.sh >> setup-my-ami.sh
+chmod ugo+x setup-my-ami.sh
 
 # Delete mount script if no efs requested.
 # WARNING: when testing on OSX, next line must use gsed.
-[[ "${#EFS[@]}" < 1 ]] && sed -i "/mount-efs-accesspoint.sh/d" setup-my-dlami.sh
+[[ "${#EFS[@]}" < 1 ]] && sed -i "/mount-efs-accesspoint.sh/d" setup-my-ami.sh
 
 EPILOGUE=$(cat << EOF
 
