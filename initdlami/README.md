@@ -1,5 +1,7 @@
 # An Opinionated Customization on an alinux2 deep learning AMI Instance
 
+**Update: as of 202303031, this is no longer maintained.**
+
 Scripts to tweak on a fresh (i.e., newly created) EC2 instance running alinux2
 
 ## Installation from github
