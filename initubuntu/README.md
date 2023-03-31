@@ -17,7 +17,7 @@ then invoke `install-initami.sh --from-local ...`.
 
 ## Usage: run on every EC2 instance only ONCE
 
-Once installed, you should see file `/home/ec2-user/initdlami/setup-my-dlami.sh`.
+Once installed, you should see file `/home/ec2-user/initdlami/setup-my-ami.sh`.
 
 Run this file **only once for an EC2 instance**.
 

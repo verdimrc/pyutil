@@ -29,7 +29,6 @@ if [[ $(uname -i) == "aarch64" ]]; then
 fi
 ${BIN_DIR}/adjust-git.sh 'Firstname Lastname' first.last@email.abc
 ${BIN_DIR}/term.sh
-${BIN_DIR}/init.sh
 sudo ${BIN_DIR}/install-gpu-cwagent.sh
 ${BIN_DIR}/patch-bash-config.sh
 ${BIN_DIR}/fix-aws-config.sh
