@@ -12,6 +12,7 @@ declare -a SCRIPTS=(
     TEMPLATE-setup-my-ami.sh
     pkgs.sh
     awscliv2.sh
+    duf.sh
     s5cmd.sh
     delta.sh
     adjust-git.sh
