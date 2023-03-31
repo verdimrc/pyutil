@@ -25,7 +25,7 @@ export DEBIAN_FRONTEND=noninteractive
 BIN_DIR=$(get_bin_dir)
 ${BIN_DIR}/pkgs.sh
 ${BIN_DIR}/awscliv2.sh
-[[ $(command -v duff) ]] || ${BIN_DIR}/duf.sh
+[[ $(command -v duf) ]] || ${BIN_DIR}/duf.sh
 ${BIN_DIR}/s5cmd.sh
 ${BIN_DIR}/delta.sh
 ${BIN_DIR}/adjust-git.sh 'Firstname Lastname' first.last@email.abc
