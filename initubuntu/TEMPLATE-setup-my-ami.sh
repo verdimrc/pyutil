@@ -18,6 +18,10 @@ get_bin_dir() {
     echo -n ${BIN_DIR}
 }
 
+# https://askubuntu.com/a/1431746
+export NEEDRESTART_MODE=a
+export DEBIAN_FRONTEND=noninteractive
+
 BIN_DIR=$(get_bin_dir)
 ${BIN_DIR}/pkgs.sh
 ${BIN_DIR}/awscliv2.sh

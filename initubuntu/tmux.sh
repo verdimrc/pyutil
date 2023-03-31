@@ -15,12 +15,12 @@ get_latest_download() {
 curl -LO $(get_latest_download)
 
 VERSION=$(get_latest_release)
-sudo yum install -y libevent-devel ncurses-devel gcc make bison pkg-config
+sudo apt install -y libevent-dev ncurses-dev gcc make bison pkg-config
 tar -xzf tmux-$VERSION.tar.gz
 cd tmux-$VERSION/
 ./configure &> /tmp/tmux-00-configure.txt
 make &> /tmp/tmux-01-make.txt && sudo make install &> /tmp/tmux-02-make-install.txt
 make clean &> /tmp/tmux-03-make-clean.txt
-
+cd /tmp/
 rm /tmp/tmux-$VERSION.tar.gz
 rm -fr /tmp/tmux-$VERSION/
