@@ -38,7 +38,6 @@ ${BIN_DIR}/fix-ipython.sh
 ${BIN_DIR}/install-py-ds.sh
 ${BIN_DIR}/customize-jlab.sh
 ${BIN_DIR}/vim.sh
-${BIN_DIR}/mount-efs-accesspoint.sh fsid,fsapid,mountpoint
 ${BIN_DIR}/tmux.sh
 
 # These require jupyter lab restarted and browser reloaded, to see the changes.
