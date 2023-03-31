@@ -23,11 +23,11 @@ esac
 sudo mkfs -t xfs $DEV
 sudo mount $DEV /mnt
 sudo mkdir -p /mnt/scratch
-sudo chown -R ec2-user:ec2-user /mnt/scratch/
+sudo chown -R ubuntu:ubuntu /mnt/scratch/
 df -hT
 lsblk
 
 echo "On an instance with 1+ instance stores, run below after start-up or reboot:
 
-    ~/initdlami/prep-instance-store.sh
+    ~/initubuntu/prep-instance-store.sh
 " > ~/PREP_INSTANCE_STORE.txt
