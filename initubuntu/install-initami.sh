@@ -3,10 +3,10 @@
 ################################################################################
 # Global vars
 ################################################################################
-INITDLAMI_DIR=~/initdlami
-SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami
+INITDLAMI_DIR=~/initubuntu
+SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initubuntu
 # Uncomment for testing remote install from local source
-#SRC_PREFIX=file:///home/ec2-user/src/pyutil/initdlami
+#SRC_PREFIX=file:///home/ubuntu/pyutil/initdlami
 
 declare -a SCRIPTS=(
     TEMPLATE-setup-my-dlami.sh
@@ -60,7 +60,7 @@ parse_args() {
         key="$1"
         case $key in
         -h|--help)
-            echo "Install initdlami."
+            echo "Install initubuntu."
             echo "Usage: $(basename ${BASH_SOURCE[0]}) ${HELP[@]}"
             exit 0
             ;;
@@ -169,20 +169,20 @@ EPILOGUE=$(cat << EOF
 #                                                      #
 # Apply just ONCE to this EC2 instance:                #
 #                                                      #
-#     ~/initdlami/setup-my-dlami.sh                    #
+#     ~/initubuntu/setup-my-ami.sh                     #
 #                                                      #
 #                                                      #
 # You can also run the setup script under screen,      #
 # which is useful when using the connecting to the     #
 # EC2 via SSM web console:                             #
 #                                                      #
-#     screen -dm bash -c ~/initdlami/setup-my-dlami.sh #
+#     screen -dm bash -c ~/initubuntu/setup-my-ami.sh  #
 #                                                      #
 #     # ctrl-a-d                                       #
 #     # screen -ls                                     #
 #     # screen -x                                      #
 #                                                      #
-# See also ~/initdlami/update.sh for an example on     #
+# See also ~/initubuntu/update.sh for an example on    #
 # updating this EC2 instance.                          #
 #                                                      #
 ########################################################
@@ -190,7 +190,7 @@ EPILOGUE=$(cat << EOF
 # On an instance with 1+ instance stores, run below    #
 # after start-up or reboot:                            #
 #                                                      #
-#     ~/initdlami/prep-instance-store.sh               #
+#     ~/initubuntu/prep-instance-store.sh              #
 #                                                      #
 # See also: ~/PREP_INSTANCE_STORE.txt                  #
 ########################################################
