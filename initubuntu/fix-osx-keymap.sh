@@ -20,8 +20,8 @@ cat << 'EOF' >> ~/.inputrc
 "\e[1;3C": forward-word ### Alt right
 EOF
 
-echo "Enabling keymap in ~/.bash_profile ..."
-cat << EOF >> ~/.bash_profile
+echo "Enabling keymap in ~/.profile ..."
+cat << EOF >> ~/.profile
 
 # Fix a few bash shortcuts when browser runs on OSX
 bind -f ~/.inputrc
