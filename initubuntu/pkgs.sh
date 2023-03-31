@@ -5,6 +5,9 @@ export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 sudo apt update
 
+# DLAMI ubuntu-20.04 has broken dependency due to linux-aws.
+sudo apt --fix-broken -y install
+
 declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli)
 PKG+=(ripgrep bat s4cmd python3-venv python3-pip)
 [[ $(apt-cache search ^duf$) ]] && PKG+=(duf)
@@ -16,6 +19,7 @@ if [[ $(uname -i) != "x86_64" ]]; then
         the_silver_searcher  # ag, alt. to rg which has no pre-built binary for aarch64
     )
 fi
+sudo apt upgrade -y
 sudo apt install -y "${PKG[@]}"
 sudo apt clean
 [[ -e /usr/bin/batcat ]] && sudo ln -s /usr/bin/batcat /usr/bin/bat
