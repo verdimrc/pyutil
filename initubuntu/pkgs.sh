@@ -5,8 +5,10 @@ export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 sudo apt update
 
-declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli docker.io)
-PKG+=(ripgrep bat duf s4cmd python3-venv python3-pip)
+declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli)
+PKG+=(ripgrep bat s4cmd python3-venv python3-pip)
+[[ $(apt-cache search ^duf$) ]] && PKG+=(duf)
+[[ $(command -v docker) ]] || PKG+=(docker.io)
 if [[ $(uname -i) != "x86_64" ]]; then
     echo HAHA: WARNING: untested on arm
     PKG+=(
