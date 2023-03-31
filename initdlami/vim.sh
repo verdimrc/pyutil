@@ -38,6 +38,13 @@ set expandtab
 set nowrap
 set foldmethod=indent
 set foldlevel=99
+if v:version >= 800
+    " Smart paste mode. See Vim's xterm-bracketed-paste help topic.
+    let &t_BE = "\<Esc>[?2004h"
+    let &t_BD = "\<Esc>[?2004l"
+    let &t_PS = "\<Esc>[200~"
+    let &t_PE = "\<Esc>[201~"
+endif
 
 """ Shortcuts
 map <F3> :set paste!<CR>
