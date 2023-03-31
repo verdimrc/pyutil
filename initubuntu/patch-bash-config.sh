@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat << 'EOF' >> ~/.bash_profile
+cat << 'EOF' >> ~/.profile
 
 # When starting tmux or jlab from conda env, weird stuffs wrt. python may happen.
 # See: https://github.com/conda/conda/issues/6826#issuecomment-471240590
@@ -22,8 +22,9 @@ EOF
 
 
 # PS1 must preceed conda bash.hook, to correctly display CONDA_PROMPT_MODIFIER
-cp ~/.bashrc{,.ori}
-cat << 'EOF' > ~/.bashrc
+cat << 'EOF' >> ~/.bashrc
+
+#### initubuntu additions from here onwards ####
 git_branch() {
    local branch=$(/usr/bin/git branch 2>/dev/null | grep '^*' | colrm 1 2)
    [[ "$branch" == "" ]] && echo "" || echo "($branch) "
@@ -56,20 +57,12 @@ man() {
 		LESS_TERMCAP_us=$(printf "\e[1;32m") \
 		man "$@"
 }
-EOF
-
-
-# Original .bashrc content
-cat ~/.bashrc.ori >> ~/.bashrc
 
 # Custom aliases
-cat << EOF >> ~/.bashrc
-
 alias ll='ls -alF --color=auto'
 alias ncdu='ncdu --color dark'
-EOF
 
-# Export PATH when .bash_profile is not used. Known cases: kitty +kitten ssh,
+# Export PATH when .profile is not used. Known cases: kitty +kitten ssh,
 # Xfce started as virtual dcv session.
-echo '
-export PATH=$PATH:$HOME/.local/bin:$HOME/bin' >> ~/.bashrc
+export PATH=$PATH:$HOME/.local/bin:$HOME/bin
+EOF
