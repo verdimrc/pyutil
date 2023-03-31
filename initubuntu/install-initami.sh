@@ -6,7 +6,7 @@
 INITDLAMI_DIR=~/initubuntu
 SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initubuntu
 # Uncomment for testing remote install from local source
-#SRC_PREFIX=file:///home/ubuntu/pyutil/initdlami
+#SRC_PREFIX=file:///home/ubuntu/pyutil/initubuntu
 
 declare -a SCRIPTS=(
     TEMPLATE-setup-my-dlami.sh
