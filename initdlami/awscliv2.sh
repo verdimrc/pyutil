@@ -5,7 +5,7 @@
 wget -O /tmp/awscli2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
 sudo bash -c "
 cd /tmp
-unzip awscli2.zip
+unzip -q awscli2.zip
 ./aws/install --update
 /usr/local/bin/aws --version
 cd /tmp
