@@ -19,4 +19,3 @@ cat << 'EOF'
 EOF
 
 sudo reboot
-#sudo shutdown -r now
