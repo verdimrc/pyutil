@@ -41,7 +41,10 @@ echo "Checking nvm:" `nvm --version`
 if [[ $(detect_cmd node -e "console.log('Running Node.js ' + process.version)") == "not_detected" ]]
 then
     echo "Installing node.js and npm..."
-    GLIBC_VERSION=$(rpm -q --queryformat '%{version}' glibc)
+    # x.xx-yyy
+    GLIBC_VERSION=$(dpkg-query --showformat='${Version}' --show libc?)
+    # Take x.xx
+    GBLIC_VERSION=${GLIBC_VERSION%-*}
     if [[ "$GLIBC_VERSION" > "2.26" ]]; then
         nvm install --lts
         nvm use --lts
