@@ -125,5 +125,5 @@ chmod 755 /opt/aws/cloudwatch/aws-cloudwatch-wrapper.sh
 ################################################################################
 for i in amazon-cloudwatch-agent.service aws-hw-monitor.service; do
     systemctl enable $i --now
-    echo && systemctl status $i
+    echo && systemctl status --no-pager $i
 done
