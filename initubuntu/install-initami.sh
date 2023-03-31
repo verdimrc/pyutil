@@ -3,22 +3,19 @@
 ################################################################################
 # Global vars
 ################################################################################
-INITDLAMI_DIR=~/initdlami
-SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami
+INITDLAMI_DIR=~/initubuntu
+SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initubuntu
 # Uncomment for testing remote install from local source
-#SRC_PREFIX=file:///home/ec2-user/pyutil/initdlami
+#SRC_PREFIX=file:///home/ubuntu/pyutil/initubuntu
 
 declare -a SCRIPTS=(
-    TEMPLATE-setup-my-dlami.sh
+    TEMPLATE-setup-my-ami.sh
     pkgs.sh
     awscliv2.sh
     s5cmd.sh
-    duf.sh
-    bat.sh
     delta.sh
     adjust-git.sh
     term.sh
-    init.sh
     install-gpu-cwagent.sh
     patch-bash-config.sh
     fix-aws-config.sh
@@ -63,7 +60,7 @@ parse_args() {
         key="$1"
         case $key in
         -h|--help)
-            echo "Install initdlami."
+            echo "Install initubuntu."
             echo "Usage: $(basename ${BASH_SOURCE[0]}) ${HELP[@]}"
             exit 0
             ;;
@@ -144,13 +141,13 @@ else
     chmod ugo+x *.sh
 fi
 
-echo "Generating setup-my-dlami.sh"
+echo "Generating setup-my-ami.sh"
 echo "=> git-user / git-email = '$GIT_USER' / '$GIT_EMAIL'"
 echo "=> EFS: (fsid,fsap,mountpoint)|... = $(efs2str)"
-cat << EOF > setup-my-dlami.sh
+cat << EOF > setup-my-ami.sh
 #!/bin/bash
 
-# Auto-generated from TEMPLATE-setup-my-dlami.sh by install-dlami.sh
+# Auto-generated from TEMPLATE-setup-my-ami.sh by install-ami.sh
 
 EOF
 
@@ -158,12 +155,12 @@ sed \
     -e "s/Firstname Lastname/$GIT_USER/" \
     -e "s/first.last@email.abc/$GIT_EMAIL/" \
     -e "s/fsid,fsapid,mountpoint/$(efs2str ' ')/" \
-    TEMPLATE-setup-my-dlami.sh >> setup-my-dlami.sh
-chmod ugo+x setup-my-dlami.sh
+    TEMPLATE-setup-my-ami.sh >> setup-my-ami.sh
+chmod ugo+x setup-my-ami.sh
 
 # Delete mount script if no efs requested.
 # WARNING: when testing on OSX, next line must use gsed.
-[[ "${#EFS[@]}" < 1 ]] && sed -i "/mount-efs-accesspoint.sh/d" setup-my-dlami.sh
+[[ "${#EFS[@]}" < 1 ]] && sed -i "/mount-efs-accesspoint.sh/d" setup-my-ami.sh
 
 EPILOGUE=$(cat << EOF
 
@@ -172,20 +169,20 @@ EPILOGUE=$(cat << EOF
 #                                                      #
 # Apply just ONCE to this EC2 instance:                #
 #                                                      #
-#     ~/initdlami/setup-my-dlami.sh                    #
+#     ~/initubuntu/setup-my-ami.sh                     #
 #                                                      #
 #                                                      #
 # You can also run the setup script under screen,      #
 # which is useful when using the connecting to the     #
 # EC2 via SSM web console:                             #
 #                                                      #
-#     screen -dm bash -c ~/initdlami/setup-my-dlami.sh #
+#     screen -dm bash -c ~/initubuntu/setup-my-ami.sh  #
 #                                                      #
 #     # ctrl-a-d                                       #
 #     # screen -ls                                     #
 #     # screen -x                                      #
 #                                                      #
-# See also ~/initdlami/update.sh for an example on     #
+# See also ~/initubuntu/update.sh for an example on    #
 # updating this EC2 instance.                          #
 #                                                      #
 ########################################################
@@ -193,7 +190,7 @@ EPILOGUE=$(cat << EOF
 # On an instance with 1+ instance stores, run below    #
 # after start-up or reboot:                            #
 #                                                      #
-#     ~/initdlami/prep-instance-store.sh               #
+#     ~/initubuntu/prep-instance-store.sh              #
 #                                                      #
 # See also: ~/PREP_INSTANCE_STORE.txt                  #
 ########################################################
