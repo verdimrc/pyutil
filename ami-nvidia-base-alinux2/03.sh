@@ -31,4 +31,4 @@ sudo yum install -y java-1.8.0-openjdk
 sudo sed -i 's|\(CUDA_BIN/\.\./libnvvp/nvvp \$@$\)|\1 -vm /usr/lib/jvm/jre-1.8.0/bin|' /usr/local/cuda/bin/nvvp
 
 # Clean-up
-sudo yum clean all
+sudo yum clean packages headers expire-cache plugins dbcache

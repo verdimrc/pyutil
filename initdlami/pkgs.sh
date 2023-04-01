@@ -13,7 +13,7 @@ else
 fi
 sudo yum update -y
 sudo yum install -y "${PKG[@]}"
-sudo yum clean all
+sudo yum clean packages headers expire-cache plugins dbcache
 
 # Install docker
 sudo systemctl enable docker --now

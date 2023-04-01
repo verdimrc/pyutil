@@ -52,7 +52,6 @@ cd /tmp
 #
 # This doesn't seem needed by driver installation
 sudo yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
-sudo yum clean all
 sudo sed -i '/^\[main\]/a\exclude=kernel*' /etc/yum.conf
 wget -O /tmp/NVIDIA-Linux-driver.run "https://us.download.nvidia.com/tesla/${NVIDIA_VERSION}/NVIDIA-Linux-x86_64-${NVIDIA_VERSION}.run"
 # Headless no-32-bit install
@@ -146,7 +145,7 @@ docker run -it --rm --gpus all -v /dev/gdrdrv:/dev/gdrdrv ubuntu:22.04 /bin/bash
 EOF
 
 echo "Clean-up..."
-sudo yum clean all
+sudo yum clean packages headers expire-cache plugins dbcache
 cat << EOF
 
 ########################################

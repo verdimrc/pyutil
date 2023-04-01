@@ -75,7 +75,7 @@ sudo systemctl enable dcvserver
 # gdm is not needed for virtual sessions
 sudo systemctl disable gdm
 
-sudo yum clean all
+sudo yum clean packages headers expire-cache plugins dbcache
 
 ################################################################################
 # Helpful usage message
