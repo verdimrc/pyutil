@@ -20,7 +20,7 @@ case $COUNT in
         sudo mdadm --create --verbose /dev/md0 --level=0 --name=MY_RAID --raid-devices=$COUNT ${EPHEMERAL_DISK[@]}
 esac
 
-sudo mkfs -t xfs $DEV
+sudo mkfs -f -t xfs $DEV
 sudo mount $DEV /mnt
 sudo mkdir -p /mnt/scratch
 sudo chown -R ubuntu:ubuntu /mnt/scratch/
