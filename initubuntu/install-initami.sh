@@ -37,6 +37,7 @@ CURL_OPTS="--fail-early -fL"
 FROM_LOCAL=0
 GIT_USER=''
 GIT_EMAIL=''
+PY_DS=1
 declare -a EFS=()
 
 declare -a HELP=(
@@ -80,6 +81,10 @@ parse_args() {
         --efs)
             [[ "$2" != "" ]] && EFS+=("$2")
             shift 2
+            ;;
+        --no-py-ds)
+            PY_DS=0
+            shift
             ;;
         *)
             error_and_exit "Unknown argument: $key"
@@ -162,6 +167,10 @@ chmod ugo+x setup-my-ami.sh
 # Delete mount script if no efs requested.
 # WARNING: when testing on OSX, next line must use gsed.
 [[ "${#EFS[@]}" < 1 ]] && sed -i "/mount-efs-accesspoint.sh/d" setup-my-ami.sh
+
+# Skip installing pyenv if this is requested.
+
+[[ "${PY_DS}" < 1 ]] && sed -i "s|^\(.*/install-py-ds.sh\)$|#\1|" setup-my-ami.sh
 
 EPILOGUE=$(cat << EOF
 
