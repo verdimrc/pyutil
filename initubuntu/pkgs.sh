@@ -8,7 +8,7 @@ sudo apt update
 # DLAMI ubuntu-20.04 has broken dependency due to linux-aws.
 sudo apt --fix-broken -y install
 
-declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli)
+declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli aria2)
 PKG+=(ripgrep bat s4cmd python3-venv python3-pip)
 [[ $(apt-cache search ^duf$) ]] && PKG+=(duf)
 [[ $(command -v docker) ]] || PKG+=(docker.io)
