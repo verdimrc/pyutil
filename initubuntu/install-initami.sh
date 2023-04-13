@@ -46,6 +46,7 @@ declare -a HELP=(
     "[--git-user 'First Last']"
     "[--git-email me@abc.def]"
     "[--efs 'fsid,fsap,mp' [--efs ...]]"
+    "[--no-py-ds]"
 )
 
 ################################################################################
