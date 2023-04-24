@@ -6,20 +6,10 @@ export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 
 if [[ "X$1" == 'Xlustre' ]]; then
-    wget -O - https://fsx-lustre-client-repo-public-keys.s3.amazonaws.com/fsx-ubuntu-public-key.asc \
-        | gpg --dearmor \
-        > /usr/share/keyrings/fsx-ubuntu-public-key.gpg
-
-    echo 'deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu $(lsb_release -cs) main' \
-        > /etc/apt/sources.list.d/fsxlustreclientrepo.list
-fi
-
-apt update
-
-if [[ "X$1" == 'lustre' ]]; then
-    # Remove meta-package linux-aws whose version is frequently ahead of lustre-client-modules-aws
-    apt remove -y linux-aws linux-headers-aws linux-image-aws
-    apt install -y lustre-client-modules-aws
+    BIN_DIR=$(dirname `readlink -e ${BASH_SOURCE[0]}`)
+    \$BIN_DIR/install-fsx-lustre-client.sh
+else
+    apt update
 fi
 
 apt -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
@@ -40,12 +30,10 @@ echo 'alias lbm-nouveau off' >> /etc/modprobe.d/nvidia-graphics-drivers.conf
 # echo "GRUB_CMDLINE_LINUX='intel_idle.max_cstate=1'" >> /etc/default/grub
 "
 
-cat << 'EOF'
-
+echo "
 ###################################
 # Will reboot the instance now... #
 ###################################
-
-EOF
+"
 
 sudo reboot
