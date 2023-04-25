@@ -97,7 +97,6 @@ if [[ ! $FSX_DNS =~ "fsx_file_system_dns_name" ]]; then
 
     # Add entry for the specific volume
     echo "$FSX_DNS@tcp:/$FSX_MOUNTNAME $FSX_MOUNTDIR lustre defaults,nofail,noatime,flock,_netdev,x-systemd.automount,x-systemd.requires=${REQUIRES_SVC} 0 0" >> /etc/fstab
-    mkdir -p ${FSX_MOUNTDIR}/ubuntu
-    chown ubuntu:ubuntu ${FSX_MOUNTDIR}/ubuntu
+    mkdir -p ${FSX_MOUNTDIR}/
     cat /etc/fstab
 fi
