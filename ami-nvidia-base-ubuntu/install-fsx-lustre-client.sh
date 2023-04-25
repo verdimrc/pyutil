@@ -48,7 +48,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt update
 
 # Do not let these meta-packages upgrade the kernel to one unsupported by lustre-client.
-apt remove -y linux-aws linux-image-aws linux-headers-aws
+apt remove -y linux-aws linux-image-aws linux-headers-aws || true
 
 apt upgrade -y
 
