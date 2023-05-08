@@ -19,6 +19,17 @@ if [[ $(uname -i) != "x86_64" ]]; then
         the_silver_searcher  # ag, alt. to rg which has no pre-built binary for aarch64
     )
 fi
+
+# DLAMI PyTorch: when fabricmanager is out-of-sync with cuda driver, bad things happen.
+# PyTorch: is_cuda_available() returns false (though device_count() returns 8), hence
+# pytorch program doesn't see GPU at all.
+#
+# And to be extremely cautious, freeze kernel version too.
+if [[ -e /opt/aws/dlami/bin/dlami_cloudwatch_agent.sh ]]; then
+   sudo apt-mark hold nvidia*
+   sudo apt remove -y linux-aws linux-headers-aws linux-image-aws
+fi
+
 sudo apt upgrade -y
 sudo apt install -y "${PKG[@]}"
 sudo apt clean
