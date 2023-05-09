@@ -20,15 +20,30 @@ if [[ $(uname -i) != "x86_64" ]]; then
     )
 fi
 
-# DLAMI PyTorch: when fabricmanager is out-of-sync with cuda driver, bad things happen.
-# PyTorch: is_cuda_available() returns false (though device_count() returns 8), hence
-# pytorch program doesn't see GPU at all.
+
+################################################################################
+# DLAMI ubuntu2004 is complicated.
+################################################################################
+# The installed kernel and nvidia-fabricmanager are already out-of-sync. Any
+# attempt to update/upgrade/uhold/pin/etc, is almost guaranteed to bump to
+# nvidia-fabricmanager newer than cuda-driver, this breaks torch.cuda.is_available().
 #
-# And to be extremely cautious, freeze kernel version too.
+# The workaround is to ensure the kernel required by the prebaked
+# nvidia-fabricmanager is installed via fsx-client script. During the process,
+# very likely to bump to nvidia-fabricmanager incompatible with installed cuda
+# driver. Hence, an additional step to force downgrade nvidia-fabricmanager
+# (borrow the step from PCluster).
+#
+# [1] https://github.com/aws/aws-parallelcluster/wiki/NVIDIA-Fabric-Manager-stops-running-on-Ubuntu-18.04-and-Ubuntu-20.04
+#
+# TL/DR: dlami-ubuntu-20.04 is complicated.
 if [[ -e /opt/aws/dlami/bin/dlami_cloudwatch_agent.sh ]]; then
-   sudo apt-mark hold nvidia*
-   sudo apt remove -y linux-aws linux-headers-aws linux-image-aws
+    sudo apt-mark unhold linux-aws linux-headers-aws linux-image-aws
+    sudo ./install-fsx-lustre-client.sh   # Anchor to kernel with FSx Lustre client
+    sudo ./fix-fabricmanager.sh           # Restore nvidia-fabricmanager [1]
 fi
+################################################################################
+
 
 sudo apt upgrade -y
 sudo apt install -y "${PKG[@]}"

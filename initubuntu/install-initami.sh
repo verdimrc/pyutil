@@ -4,9 +4,9 @@
 # Global vars
 ################################################################################
 INITDLAMI_DIR=~/initubuntu
-#SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master
+SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master
 # Uncomment for testing remote install from local source
-SRC_PREFIX=file:///home/ubuntu/pyutil
+#SRC_PREFIX=file:///home/ubuntu/pyutil
 
 declare -a SCRIPTS=(
     initubuntu/TEMPLATE-setup-my-ami.sh
@@ -31,6 +31,7 @@ declare -a SCRIPTS=(
     initubuntu/update.sh
     initubuntu/prep-instance-store.sh
     ami-nvidia-base-ubuntu/install-fsx-lustre-client.sh
+    ami-nvidia-base-ubuntu/fix-fabricmanager.sh
 )
 
 CURL_OPTS="--fail-early -fL"
