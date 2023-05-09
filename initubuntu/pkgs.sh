@@ -37,10 +37,11 @@ fi
 # [1] https://github.com/aws/aws-parallelcluster/wiki/NVIDIA-Fabric-Manager-stops-running-on-Ubuntu-18.04-and-Ubuntu-20.04
 #
 # TL/DR: dlami-ubuntu-20.04 is complicated.
+BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
 if [[ -e /opt/aws/dlami/bin/dlami_cloudwatch_agent.sh ]]; then
-    sudo apt-mark unhold linux-aws linux-headers-aws linux-image-aws
-    sudo ./install-fsx-lustre-client.sh   # Anchor to kernel with FSx Lustre client
-    sudo ./fix-fabricmanager.sh           # Restore nvidia-fabricmanager [1]
+    sudo apt-mark unhold linux-aws linux-headers-aws linux-image-aws nvidia-fabricmanager
+    sudo $BIN_DIR/install-fsx-lustre-client.sh   # Anchor to kernel with FSx Lustre client
+    sudo $BIN_DIR/fix-fabricmanager.sh           # Restore nvidia-fabricmanager [1]
 fi
 ################################################################################
 
