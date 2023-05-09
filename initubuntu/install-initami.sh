@@ -4,32 +4,33 @@
 # Global vars
 ################################################################################
 INITDLAMI_DIR=~/initubuntu
-SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master/initubuntu
+#SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master
 # Uncomment for testing remote install from local source
-#SRC_PREFIX=file:///home/ubuntu/pyutil/initubuntu
+SRC_PREFIX=file:///home/ubuntu/pyutil
 
 declare -a SCRIPTS=(
-    TEMPLATE-setup-my-ami.sh
-    pkgs.sh
-    awscliv2.sh
-    duf.sh
-    s5cmd.sh
-    delta.sh
-    adjust-git.sh
-    term.sh
-    install-gpu-cwagent.sh
-    patch-bash-config.sh
-    fix-aws-config.sh
-    fix-osx-keymap.sh
-    install-cdk.sh
-    fix-ipython.sh
-    install-py-ds.sh
-    customize-jlab.sh
-    vim.sh
-    tmux.sh
-    patch-jupyter-config.sh
-    update.sh
-    prep-instance-store.sh
+    initubuntu/TEMPLATE-setup-my-ami.sh
+    initubuntu/pkgs.sh
+    initubuntu/awscliv2.sh
+    initubuntu/duf.sh
+    initubuntu/s5cmd.sh
+    initubuntu/delta.sh
+    initubuntu/adjust-git.sh
+    initubuntu/term.sh
+    initubuntu/install-gpu-cwagent.sh
+    initubuntu/patch-bash-config.sh
+    initubuntu/fix-aws-config.sh
+    initubuntu/fix-osx-keymap.sh
+    initubuntu/install-cdk.sh
+    initubuntu/fix-ipython.sh
+    initubuntu/install-py-ds.sh
+    initubuntu/customize-jlab.sh
+    initubuntu/vim.sh
+    initubuntu/tmux.sh
+    initubuntu/patch-jupyter-config.sh
+    initubuntu/update.sh
+    initubuntu/prep-instance-store.sh
+    ami-nvidia-base-ubuntu/install-fsx-lustre-client.sh
 )
 
 CURL_OPTS="--fail-early -fL"
@@ -139,12 +140,12 @@ if [[ $FROM_LOCAL == 0 ]]; then
     echo
     curl $CURL_OPTS -O $SRC_PREFIX/{$(echo "${SCRIPTS[@]}" | tr ' ' ',')}
     [[ $? == 22 ]] && exit_on_download_error
-    chmod ugo+x ${SCRIPTS[@]}
+    chmod ugo+x *.sh
 else
     BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
     cd $INITDLAMI_DIR
     echo "Copying scripts from $BIN_DIR"
-    cp -a ${BIN_DIR}/* .
+    ( cd ${BIN_DIR}/../ ; cp "${SCRIPTS[@]}" $INITDLAMI_DIR/ )
     chmod ugo+x *.sh
 fi
 
