@@ -35,8 +35,7 @@ case $COUNT in
         [[ $(mount | grep "$DEV on \/mnt type xfs ") ]] && exit 0
 
         # Instance is rebooted.
-        lsblk -f $DEV --noheadings | grep xfs
-        [[ $? -eq 0 ]] || TO_FORMAT=1
+        lsblk -f $DEV --noheadings | grep xfs || TO_FORMAT=1
         ;;
     *)
         # In case this script is rerun.
