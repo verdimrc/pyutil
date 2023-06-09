@@ -40,6 +40,7 @@ ${BIN_DIR}/install-py-ds.sh
 ${BIN_DIR}/customize-jlab.sh
 ${BIN_DIR}/vim.sh
 ${BIN_DIR}/tmux.sh
+${BIN_DIR}/prep-instance-store-svc.sh
 
 # These require jupyter lab restarted and browser reloaded, to see the changes.
 ${BIN_DIR}/patch-jupyter-config.sh

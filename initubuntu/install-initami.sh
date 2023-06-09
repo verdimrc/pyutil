@@ -30,6 +30,7 @@ declare -a SCRIPTS=(
     initubuntu/patch-jupyter-config.sh
     initubuntu/update.sh
     initubuntu/prep-instance-store.sh
+    initubuntu/prep-instance-store-svc.sh
     ami-nvidia-base-ubuntu/install-fsx-lustre-client.sh
     ami-nvidia-base-ubuntu/fix-fabricmanager.sh
 )
