@@ -3,6 +3,8 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+set -exo pipefail
+
 # Newer DLAMI: Deep Learning Base GPU AMI (Ubuntu 20.04) 20230519) has prepared
 # the instance NVMe via /lib/systemd/system/dlami-nvme.service.
 if [[ $(mount | grep '\/opt\/dlami\/nvme') ]]; then
