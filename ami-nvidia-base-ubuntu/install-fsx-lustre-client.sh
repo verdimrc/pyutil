@@ -13,7 +13,7 @@ set -euo pipefail
 # 000: Sanity check the Ubuntu version
 ################################################################################
 [[ $EUID -ne 0 ]] && { echo 'Script is NOT run as root. Exiting...' ; exit -1 ; }
-[[ ! $(lsb_release -is) =~ "Ubuntu" ]] && echo "This script is for Ubuntu only. Exiting..."
+[[ ! $(lsb_release -is) =~ "Ubuntu" ]] && { echo "This script is for Ubuntu only. Exiting..." ; exit -1 ; }
 
 if [[ -t 1 ]]; then
     COLOR_RED="\033[1;31m"
@@ -47,7 +47,8 @@ export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 apt update
 
-# Do not let these meta-packages upgrade the kernel to one unsupported by lustre-client.
+# These meta-package sometimes breaks apt dependencies, or upgrades the kernel newer than the
+# available lustre-client-modules-*-aws.
 apt remove -y --allow-change-held-packages linux-aws linux-image-aws linux-headers-aws || true
 
 apt upgrade -y
@@ -59,7 +60,7 @@ PKGS+=(
 apt install -y "${PKGS[@]}"
 
 # Install matching kernel
-INSTALLED_LUSTRE_CLIENT=$(dpkg --get-selections | grep -v "deinstall" | cut -f1 | grep lustre-client-modules-.*-aws)
+INSTALLED_LUSTRE_CLIENT=$(dpkg --get-selections | grep -v "deinstall" | cut -f1 | grep lustre-client-modules-.*-aws | sort -n | tail -1)
 if [[ $? == 0 ]]; then
     LUSTRE_KERNEL_AWS=${INSTALLED_LUSTRE_CLIENT#lustre-client-modules-*}   # 5.15.0-1034-aws
     LUSTRE_KERNEL=${LUSTRE_KERNEL_AWS%*-aws}                               # 5.15.0-1034
