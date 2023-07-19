@@ -24,4 +24,4 @@ tar -xzf $TARBALL && rm $TARBALL
 
 [[ -L ${APP}-latest ]] && rm ${APP}-latest
 ln -s $DIR ${APP}-latest
-ln -s ${APP}-latest/${APP} .
+ln -s ${APP}-latest/${APP} . || true

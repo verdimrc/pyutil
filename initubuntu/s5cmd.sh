@@ -25,4 +25,4 @@ mkdir -p $DIR && cd $DIR && tar -xzf ../$TARBALL && cd .. && rm $TARBALL
 
 [[ -L ${APP}-latest ]] && rm ${APP}-latest
 ln -s $DIR ${APP}-latest
-ln -s ${APP}-latest/${APP} .
+ln -s ${APP}-latest/${APP} . || true
