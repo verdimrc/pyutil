@@ -22,6 +22,8 @@ get_bin_dir() {
 export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 
+systemctl disable --now unattended-upgrades.service
+
 BIN_DIR=$(get_bin_dir)
 ${BIN_DIR}/pkgs.sh
 ${BIN_DIR}/awscliv2.sh

@@ -46,6 +46,11 @@ echo "deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-
 export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 apt update
+
+# These meta-package sometimes breaks apt dependencies, or upgrades the kernel newer than the
+# available lustre-client-modules-*-aws.
+apt remove -y --allow-change-held-packages linux-aws linux-image-aws linux-headers-aws || true
+
 apt upgrade -y
 
 PKGS+=(
@@ -53,6 +58,27 @@ PKGS+=(
 )
 # echo "${PKGS[@]}"
 apt install -y "${PKGS[@]}"
+
+# Install matching kernel
+INSTALLED_LUSTRE_CLIENT=$(dpkg --get-selections | grep -v "deinstall" | cut -f1 | grep lustre-client-modules-.*-aws | sort -n | tail -1)
+if [[ $? == 0 ]]; then
+    LUSTRE_KERNEL_AWS=${INSTALLED_LUSTRE_CLIENT#lustre-client-modules-*}   # 5.15.0-1034-aws
+    LUSTRE_KERNEL=${LUSTRE_KERNEL_AWS%*-aws}                               # 5.15.0-1034
+    declare -a KERNEL_PKGS=(
+        lustre-client-modules-${LUSTRE_KERNEL}-aws
+        $(apt-cache search linux-aws | grep headers-${LUSTRE_KERNEL} | cut -d' ' -f1)
+        linux-headers-${LUSTRE_KERNEL}-aws
+        linux-image-${LUSTRE_KERNEL}-aws
+        linux-modules-${LUSTRE_KERNEL}-aws
+    )
+    apt install -y "${KERNEL_PKGS[@]}"
+
+    # Lock grub to Lustre's kernel.
+    sed -i \
+        "s/^GRUB_DEFAULT=.*$/GRUB_DEFAULT='Advanced options for Ubuntu>Ubuntu, with Linux $LUSTRE_KERNEL_AWS'/g" \
+        /etc/default/grub
+    grub-mkconfig -o /boot/grub/grub.cfg
+fi
 
 
 ################################################################################
