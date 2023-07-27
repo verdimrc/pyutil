@@ -53,6 +53,7 @@ PKGS+=(
 )
 # echo "${PKGS[@]}"
 apt install -y "${PKGS[@]}"
+apt upgrade -y   # Once more, to hopefull upgrade the linux metadata package
 
 
 ################################################################################
