@@ -17,7 +17,7 @@ apt install -y dkms pkg-config git libtool autoconf cmake nasm unzip python3 pyt
     python3-wheel python3-dev python3-numpy pigz parallel nfs-common build-essential hwloc \
     libjemalloc2 libnuma-dev numactl libjemalloc-dev preload htop iftop liblapack-dev libgfortran5 \
     ipcalc wget curl devscripts debhelper check libsubunit-dev fakeroot
-systemctl disable unattended-upgrades.service
+systemctl disable --now unattended-upgrades.service
 ufw disable
 apt clean
 
