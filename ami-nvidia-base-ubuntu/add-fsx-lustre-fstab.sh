@@ -85,3 +85,10 @@ if [[ ! $FSX_DNS =~ "fsx_file_system_dns_name" ]]; then
     mkdir -p ${FSX_MOUNTDIR}/
     cat /etc/fstab
 fi
+
+
+################################################################################
+# 020: Epilog - on-screen reminder
+################################################################################
+systemctl daemon-reload
+systemctl restart remote-fs.target
