@@ -9,7 +9,7 @@ cd ~/.local/bin
 
 latest_download_url() {
   curl --silent "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
-    grep "\"browser_download_url\": \"https.*\/delta-.*-$(uname -i)-unknown-linux-gnu.tar.gz" |  # Get download url
+    grep "\"browser_download_url\": \"https.*\/delta-.*-$(uname -i)-unknown-linux-musl.tar.gz" |  # Get download url
     sed -E 's/.*"([^"]+)".*/\1/'                                         # Pluck JSON value
 }
 
