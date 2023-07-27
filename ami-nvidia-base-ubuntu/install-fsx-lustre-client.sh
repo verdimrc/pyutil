@@ -75,3 +75,7 @@ if [[ ! $FSX_DNS =~ "fsx_file_system_dns_name" ]]; then
     mkdir -p ${FSX_MOUNTDIR}/
     cat /etc/fstab
 fi
+
+
+systemctl daemon-reload
+systemctl restart remote-fs.target
