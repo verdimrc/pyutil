@@ -22,7 +22,7 @@ get_bin_dir() {
 export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 
-systemctl disable --now unattended-upgrades.service
+sudo systemctl disable --now unattended-upgrades.service
 
 BIN_DIR=$(get_bin_dir)
 ${BIN_DIR}/pkgs.sh
@@ -46,3 +46,5 @@ sudo ${BIN_DIR}/prep-instance-store-svc.sh
 
 # These require jupyter lab restarted and browser reloaded, to see the changes.
 ${BIN_DIR}/patch-jupyter-config.sh
+
+sudo systemctl enable --now unattended-upgrades.service
