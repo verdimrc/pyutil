@@ -1,4 +1,4 @@
-[[ -e ~/.marcverd.inputrc ]] || \ 
+[[ -e ~/.marcverd.inputrc ]] || \
 cat << 'EOF' > ~/.marcverd.inputrc
 # A few bash shortcuts when ssh-ing from OSX
 "ƒ": forward-word    # alt-f
@@ -14,3 +14,5 @@ cat << 'EOF' > ~/.marcverd.inputrc
 EOF
 
 bind -f ~/.marcverd.inputrc
+
+source ~/.marcverd.bashrc
