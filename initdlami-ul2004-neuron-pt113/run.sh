@@ -2,12 +2,14 @@
 
 set -exuo pipefail
 
-
 ################################################################################
 # 000: Preamble
 ################################################################################
 # Sanity checks
 [[ $(lsb_release -sc) != "focal" ]] && { echo "OS is NOT Ubuntu-20.04. Exiting..." ; exit -2 ; }
+
+#PYUTIL_BRANCH=main
+PYUTIL_BRANCH=initdlami-ul2004-neuron-pt113
 
 # Load config
 BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
@@ -17,7 +19,9 @@ BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
 ################################################################################
 # 010: Begin by applying my standard init scripts
 ################################################################################
-[[ -d ~/pyutil ]] || git clone https://github.com/verdimrc/pyutil ~/pyutil
+[[ -d ~/pyutil ]] && rm -fr ~/pyutil/
+git clone https://github.com/verdimrc/pyutil
+(cd pyutil && git checkout $PYUTIL_BRANCH)
 ~/pyutil/initubuntu/install-initami.sh -l --no-py-ds --git-user "$GIT_USER" --git-email "$GIT_EMAIL"
 
 # Remove general-purpose bloat...
