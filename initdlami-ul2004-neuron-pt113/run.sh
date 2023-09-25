@@ -85,7 +85,7 @@ sudo \
     FSX_DNS=$FSX_DNS \
     FSX_MOUNTNAME=$FSX_MOUNTNAME \
     FSX_MOUNTDIR=$FSX_MOUNTDIR \
-    ~/initubuntu/install-fsx-lsutre-client.sh
+    ~/initubuntu/install-fsx-lustre-client.sh
 
 
 ################################################################################

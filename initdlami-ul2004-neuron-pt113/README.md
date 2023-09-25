@@ -12,13 +12,13 @@ mkdir -p ~/initdlami-ul2004-neuron-pt113
 cd ~/initdlami-ul2004-neuron-pt113
 
 # Download template config
-curl -v -H "Cache-Control: no-cache, no-store" -sfLO https://raw.githubusercontent.com/verdimrc/pyutil/dlami-ul2004-neuron/initdlami-ul2004-neuron-pt113/config.sh
+curl -v -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" -sfLO https://raw.githubusercontent.com/verdimrc/pyutil/dlami-ul2004-neuron/initdlami-ul2004-neuron-pt113/config.sh
 
 # Edit the template config config.sh to suit your exact environment setup, e.g.:
 # vi config.sh
 
 # Download the run script
-curl  -v -H "Cache-Control: no-cache, no-store" -sfLO https://raw.githubusercontent.com/verdimrc/pyutil/dlami-ul2004-neuron/initdlami-ul2004-neuron-pt113/run.sh
+curl  -v -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" -sfLO https://raw.githubusercontent.com/verdimrc/pyutil/dlami-ul2004-neuron/initdlami-ul2004-neuron-pt113/run.sh
 chmod 755 run.sh
 
 # Apply the init logics
