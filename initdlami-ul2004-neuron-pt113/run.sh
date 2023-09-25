@@ -21,10 +21,12 @@ BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
 ~/pyutil/initubuntu/install-initami.sh -l --no-py-ds --git-user "$GIT_USER" --git-email "$GIT_EMAIL"
 
 # Remove general-purpose bloat...
-sed -e 's|^\(sudo .*/install-gpu-cwagent.sh\)$|#\1|' \
+sed -i \
+    -e 's|^\(sudo .*/install-gpu-cwagent.sh\)$|#\1|' \
     -e 's|^\().*/install-cdk.sh\)$|#\1|' \
     ~/initubuntu/setup-my-ami.sh
-sed -e 's/aws-sam-cli/#aws-sam-cli/' \
+sed -i \
+    -e 's/aws-sam-cli/#aws-sam-cli/' \
     -e 's/nvitop/#nvitop/' \
     -e 's/gpustat/#gpustat/' \
     ~/initubuntu/pkgs.sh

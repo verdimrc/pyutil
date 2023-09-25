@@ -5,7 +5,7 @@ Start an `Inf2` instance using the latest `Deep Learning AMI Neuron PyTorch 1.13
 Then, go to the terminal (i.e., via web-based SSM connect) and run these commands:
 
 ```bash
-# This is needed when connectingvia web-basd SSM connect
+# This is needed when connecting via web-basd SSM connect
 sudo -i -u ubuntu
 
 mkdir -p ~/initdlami-ul2004-neuron-pt113
@@ -22,5 +22,5 @@ curl -LO https://raw.githubusercontent.com/verdimrc/pyutil/dlami-ul2004-neuron/i
 chmod 755 run.sh
 
 # Apply the init logics
-./run.sh
+./run.sh 2>&1 | tee run.txt
 ```
