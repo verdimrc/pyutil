@@ -32,6 +32,7 @@ declare -a SCRIPTS=(
     initubuntu/prep-instance-store.sh
     initubuntu/prep-instance-store-svc.sh
     ami-nvidia-base-ubuntu/install-fsx-lustre-client.sh
+    ami-nvidia-base-ubuntu/install-efs.sh
     ami-nvidia-base-ubuntu/fix-fabricmanager.sh
 )
 

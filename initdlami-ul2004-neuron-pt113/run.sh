@@ -77,38 +77,13 @@ export PATH=~/.local/bin:$PATH
 
 
 ################################################################################
-# 030: Setup EFS
+# 030: Setup shared filesystems
 ################################################################################
-# Install efs mounter
-git clone https://github.com/aws/efs-utils
-pushd efs-utils
-./build-deb.sh
-sudo apt-get -y install ./build/amazon-efs-utils*deb
-popd
+sudo \
+    EFS_DNS=$EFS_DNS \
+    EFS_MOUNTDIR=$EFS_MOUNTDIR \
+    ~/initubuntu/install-efs.sh
 
-# Extra yard: patch /etc/fstab with EFS.
-sudo mkdir -p $EFS_MOUNTDIR
-
-# Add template entry for usability
-[[ $(grep "^# EFS_DNS_NAME@tcp:" /etc/fstab 2> /dev/null) ]] \
-    || echo \
-        "# EFS_DNS_NAME@tcp:/ <LOCAL_MOUNT_DIR> efs _netdev,noresvport,tls 0 0" \
-        | sudo tee -a /etc/fstab
-
-if [[ ! $EFS_DNS =~ "efs_file_system_dns_name" ]]; then
-    # Comment out any old entry.
-    sudo sed -i "s|^\([^#].* $EFS_MOUNTDIR efs .*$\)|#\1|g" /etc/fstab
-
-    # Add entry for the specific volume
-    echo "$EFS_DNS:/ $EFS_MOUNTDIR efs _netdev,noresvport,tls 0 0" | sudo tee -a /etc/fstab
-    sudo mkdir -p ${EFS_MOUNTDIR}/
-    cat /etc/fstab
-fi
-
-
-################################################################################
-# 040: Setup FSx Lustre
-################################################################################
 sudo \
     FSX_DNS=$FSX_DNS \
     FSX_MOUNTNAME=$FSX_MOUNTNAME \
