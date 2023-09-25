@@ -37,7 +37,7 @@ sudo -i -u ubuntu
 # Verify /fsx and /efs
 ls -al /fsx/
 ls -al /efs/
-mount | grep tcp
+mount | grep -e 'tcp' -e 'nfs4'
 # Make sure you see the efs and fsx lustre mounts
 ```
 
