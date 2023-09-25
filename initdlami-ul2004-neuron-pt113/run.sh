@@ -15,6 +15,8 @@ PYUTIL_BRANCH=dlami-ul2004-neuron
 BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
 . $BIN_DIR/config.sh
 
+cd ~
+
 
 ################################################################################
 # 010: Begin by applying my standard init scripts
