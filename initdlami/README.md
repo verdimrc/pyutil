@@ -7,7 +7,9 @@ Scripts to tweak on a fresh (i.e., newly created) EC2 instance running alinux2
 ## Installation from github
 
 ```bash
-curl -v -H "Cache-Control: no-cache" -sfL \
+curl -v \
+    -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
+    -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami/install-initdlami.sh \
     | bash -s -- --git-user 'First Last' --git-email 'ab@email.abc'
 ```
