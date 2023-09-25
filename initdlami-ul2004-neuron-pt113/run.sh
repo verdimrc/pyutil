@@ -8,8 +8,7 @@ set -exuo pipefail
 # Sanity checks
 [[ $(lsb_release -sc) != "focal" ]] && { echo "OS is NOT Ubuntu-20.04. Exiting..." ; exit -2 ; }
 
-#PYUTIL_BRANCH=main
-PYUTIL_BRANCH=dlami-ul2004-neuron
+PYUTIL_BRANCH=main
 
 # Load config
 BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
@@ -45,7 +44,7 @@ sed -i \
 ################################################################################
 sudo apt update && sudo apt upgrade -y
 ( source /opt/aws_neuron_venv_pytorch/bin/activate && pip install transformers-neuronx )
-[[ $GIT_REPO != "" ]] && { git clone $GIT_REPO && git checkout $GIT_CHECKOUT_TO ; }
+[[ $GIT_REPO != "" ]] && { git clone $GIT_REPO $GIT_LOCAL_DIR && cd $GIT_LOCAL_DIR && git checkout $GIT_CHECKOUT_TO ; }
 
 
 ################################################################################

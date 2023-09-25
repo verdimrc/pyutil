@@ -6,8 +6,9 @@
 export GIT_USER=''
 export GIT_EMAIL=''
 
-# Comment or set to empty string to skip git clone
+# Comment or set GIT_REPO to empty string to skip git clone
 export GIT_REPO='codecommit::us-east-1://REPO_NAME'
+export GIT_LOCAL_DIR=REPO_NAME
 export GIT_CHECKOUT_TO='main'
 
 # EFS settings
