@@ -8,7 +8,7 @@ pushd ~/initdlami-ul2004-neuron-pt113
 curl -v -sfLO \
     -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/run.sh
-chmod 755 run.sh "$@"
+chmod 755 run.sh
 
 echo "
 ##############################################################################
@@ -19,6 +19,9 @@ echo "
 #                                                                            #
 # Then, run below and follow the on-screen instructions:                     #
 #                                                                            #
-#     ~/initdlami-ul2004-neuron-pt113/run.sh 2>&1 | tee ~/run-initneuron.txt #
+
+~/initdlami-ul2004-neuron-pt113/run.sh "$@" \
+    2>&1 | tee ~/run-initneuron.txt
+
 ##############################################################################
 "
