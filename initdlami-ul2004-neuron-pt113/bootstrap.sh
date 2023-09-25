@@ -7,9 +7,8 @@ set -euo pipefail
 [[ $(whoami) == "ubuntu" ]] || { echo "Not ubuntu user. Exiting..." ; exit -1 }
 mkdir -p ~/initdlami-ul2004-neuron-pt113
 pushd ~/initdlami-ul2004-neuron-pt113
-curl -v \
+curl -v -sfLO \
     -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
-    -sfLO \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/run.sh
 chmod 755 run.sh
 
