@@ -69,11 +69,11 @@ sudo mkdir -p $EFS_MOUNTDIR
 
 if [[ ! $EFS_DNS =~ "efs_file_system_dns_name" ]]; then
     # Comment out any old entry.
-    sed -i "s|^\([^#].* $EFS_MOUNTDIR efs .*$\)|#\1|g" /etc/fstab
+    sudo sed -i "s|^\([^#].* $EFS_MOUNTDIR efs .*$\)|#\1|g" /etc/fstab
 
     # Add entry for the specific volume
     echo "$EFS_DNS@tcp:/ $EFS_MOUNTDIR efs_netdev,noresvport,tls 0 0" | sudo tee -a /etc/fstab
-    mkdir -p ${EFS_MOUNTDIR}/
+    sudo mkdir -p ${EFS_MOUNTDIR}/
     cat /etc/fstab
 fi
 
