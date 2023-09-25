@@ -43,7 +43,7 @@ sed -i \
 # 020: More Neuron packages
 ################################################################################
 sudo apt update && sudo apt upgrade -y
-( source /opt/aws_neuron_venv_pytorch/bin/activate && pip install transformers-neuronx )
+( source /opt/aws_neuron_venv_pytorch/bin/activate && pip install transformers-neuronx wandb )
 export PATH=~/.local/bin:$PATH
 [[ $GIT_REPO != "" ]] && { git clone $GIT_REPO $GIT_LOCAL_DIR && cd $GIT_LOCAL_DIR && git checkout $GIT_CHECKOUT_TO ; }
 
