@@ -52,7 +52,7 @@ sudo apt update && sudo apt upgrade -y
 # 030: Setup EFS
 ################################################################################
 # Install efs mounter
-git clone github.com/aws/efs-utils
+git clone https://github.com/aws/efs-utils
 pushd efs-utils
 ./build-deb.sh
 sudo apt-get -y install ./build/amazon-efs-utils*deb
