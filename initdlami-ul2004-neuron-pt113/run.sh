@@ -29,7 +29,7 @@ git clone https://github.com/verdimrc/pyutil
 # Remove general-purpose bloat...
 sed -i \
     -e 's|^\(sudo .*/install-gpu-cwagent.sh\)$|#\1|' \
-    -e 's|^\().*/install-cdk.sh\)$|#\1|' \
+    -e 's|^\(.*/install-cdk.sh\)$|#\1|' \
     ~/initubuntu/setup-my-ami.sh
 sed -i \
     -e 's/aws-sam-cli/#aws-sam-cli/' \
