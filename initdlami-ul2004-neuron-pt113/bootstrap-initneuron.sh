@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-[[ $(whoami) == "ubuntu" ]] || { echo "Not ubuntu user. Exiting..." ; exit -1 }
+[[ $(whoami) == "ubuntu" ]] || { echo "Not ubuntu user. Exiting..." ; exit -1 ; }
 mkdir -p ~/initdlami-ul2004-neuron-pt113
 pushd ~/initdlami-ul2004-neuron-pt113
 curl -v -sfLO \
@@ -11,14 +11,14 @@ curl -v -sfLO \
 chmod 755 run.sh
 
 echo "
-##########################################################
-# Next step, create your own config file:                #
-#                                                        #
-#     vi ~/initdlami-ul2004-neuron-pt113/config.sh       #
-#     ...                                                #
-#                                                        #
-# Then, run below and follow the on-screen instructions: #
-#                                                        #
-#     ~/initdlami-ul2004-neuron-pt113/run.sh             #
-##########################################################
+##############################################################################
+# Next step, create your own config file:                                    #
+#                                                                            #
+#     vi ~/initdlami-ul2004-neuron-pt113/config.sh                           #
+#     ...                                                                    #
+#                                                                            #
+# Then, run below and follow the on-screen instructions:                     #
+#                                                                            #
+#     ~/initdlami-ul2004-neuron-pt113/run.sh 2>&1 | tee ~/run-initneuron.txt #
+##############################################################################
 "

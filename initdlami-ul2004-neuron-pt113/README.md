@@ -8,9 +8,8 @@ Then, connect to the instance, and on its terminal run these commands:
 # This is needed when connecting via web-basd SSM connect
 sudo -i -u ubuntu
 
-curl -v \
+curl -v -sfL \
     -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
-    -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/bootstrap-initneuron.sh \
     | bash -s
 
