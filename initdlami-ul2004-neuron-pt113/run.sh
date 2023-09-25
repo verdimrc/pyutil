@@ -16,6 +16,33 @@ BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
 
 cd ~
 
+FOR_CREATING_AMI=0
+declare -a HELP=(
+    "[-h|--help]"
+    "[-c|--for-creating-ami]"
+)
+parse_args() {
+    local key
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+        case $key in
+        -h|--help)
+            echo "Enrich AMI with pyutil goodies."
+            echo "Usage: $(basename ${BASH_SOURCE[0]}) ${HELP[@]}"
+            exit 0
+            ;;
+        -c|--for-creating-ami)
+            FOR_CREATING_AMI=1
+            shift
+            ;;
+        *)
+            error_and_exit "Unknown argument: $key"
+            ;;
+        esac
+    done
+}
+parse_args "$@"
+
 
 ################################################################################
 # 010: Begin by applying my standard init scripts
@@ -37,6 +64,7 @@ sed -i \
     ~/initubuntu/pkgs.sh
 
 ~/initubuntu/setup-my-ami.sh
+[[ $FOR_CREATING_AMI != 0 ]] && ~/pyutil/pre-create-ami.sh
 
 
 ################################################################################
