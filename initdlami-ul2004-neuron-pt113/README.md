@@ -1,8 +1,12 @@
 # Usage <!-- omit in toc -->
 
+## Pre-requisites
+
 Start an `Inf2` instance using the latest `Deep Learning AMI Neuron PyTorch 1.13 (Ubuntu 20.04) yyyymmdd`.
 
-Then, connect to the instance, and on its terminal run these commands:
+## Customizing Instance
+
+Once the instance is ready, connect to it. On its terminal, run these commands:
 
 ```bash
 # This is needed when connecting via web-basd SSM connect
