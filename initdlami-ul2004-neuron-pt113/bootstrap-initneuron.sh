@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-# Based on https://github.com/verdimrc/pyutil/blob/master/initdlami-ul2004-neuron-pt113/README.md
-
 [[ $(whoami) == "ubuntu" ]] || { echo "Not ubuntu user. Exiting..." ; exit -1 }
 mkdir -p ~/initdlami-ul2004-neuron-pt113
 pushd ~/initdlami-ul2004-neuron-pt113
@@ -21,6 +19,6 @@ echo "
 #                                                        #
 # Then, run below and follow the on-screen instructions: #
 #                                                        #
-#     ./run.sh                                           #
+#     ~/initdlami-ul2004-neuron-pt113/run.sh             #
 ##########################################################
 "

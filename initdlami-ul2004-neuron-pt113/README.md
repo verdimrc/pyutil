@@ -8,25 +8,17 @@ Then, connect to the instance, and on its terminal run these commands:
 # This is needed when connecting via web-basd SSM connect
 sudo -i -u ubuntu
 
-mkdir -p ~/initdlami-ul2004-neuron-pt113
-cd ~/initdlami-ul2004-neuron-pt113
-
-# Download template config
-curl -v -sfLO \
+curl -v \
     -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
-    https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/config.sh
+    -sfL \
+    https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/bootstrap-initneuron.sh \
+    | bash -s
 
 # Edit the template config config.sh to suit your exact environment setup, e.g.:
-# vi config.sh
-
-# Download the run script
-curl -v -sfLO \
-    -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
-    https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/run.sh
-chmod 755 run.sh
+# vi ~/initdlami-ul2004-neuron-pt113/config.sh
 
 # Apply the init logics
-./run.sh 2>&1 | tee run.txt
+~/initdlami-ul2004-neuron-pt113/run.sh 2>&1 | tee run-initneuron.txt
 
 # When asked to reboot, reboot...
 sudo reboot
@@ -41,7 +33,7 @@ sudo -i -u ubuntu
 # Verify /fsx and /efs
 ls -al /fsx/
 ls -al /efs/
-mount | grep -e 'tcp' -e 'nfs4'
+mount | egrep 'tcp|nfs4'
 # Make sure you see the efs and fsx lustre mounts
 ```
 
