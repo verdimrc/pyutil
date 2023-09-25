@@ -17,7 +17,7 @@ curl -v -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/bootstrap-initneuron.sh \
     | bash -s
 
-# Use this alternate form instead of the above, should the instance is for creating a custom AMI.
+# When instance is used to create a custom AMI, use this alternate form instead of the above.
 curl -v -sfL \
     -H "Cache-Control: no-cache, no-store, must-revalidate" -H "Pragma: no-cache" -H "Expires: 0" \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/bootstrap-initneuron.sh \
