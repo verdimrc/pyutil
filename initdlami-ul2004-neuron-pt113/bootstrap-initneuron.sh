@@ -20,7 +20,7 @@ echo "
 # Then, run below and follow the on-screen instructions:                     #
 #                                                                            #
 
-~/initdlami-ul2004-neuron-pt113/run.sh "$@" \
+~/initdlami-ul2004-neuron-pt113/run.sh "$@" \\
     2>&1 | tee ~/run-initneuron.txt
 
 ##############################################################################
