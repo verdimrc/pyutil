@@ -45,7 +45,7 @@ parse_args "$@"
 
 
 ################################################################################
-# 010: Begin by applying my standard init scripts
+# 010: Apply pyutil init scripts
 ################################################################################
 [[ -d ~/pyutil ]] && rm -fr ~/pyutil/
 git clone https://github.com/verdimrc/pyutil
@@ -68,12 +68,25 @@ sed -i \
 
 
 ################################################################################
-# 020: More Neuron packages
+# 015: Pre-download project's git repo
 ################################################################################
-sudo apt update && sudo apt upgrade -y
-( source /opt/aws_neuron_venv_pytorch/bin/activate && pip install transformers-neuronx wandb )
+# Need git-remote-codecommit (grc)
 export PATH=~/.local/bin:$PATH
 [[ $GIT_REPO != "" ]] && { git clone $GIT_REPO $GIT_LOCAL_DIR && cd $GIT_LOCAL_DIR && git checkout $GIT_CHECKOUT_TO ; }
+
+
+################################################################################
+# 020: Update Neuron SDK
+################################################################################
+# Upgrade Neuron SDK
+dpkg -l | grep '^hi  *aws-neuronx-' | awk '{ print $2 }' | xargs sudo apt-mark unhold
+sudo apt update && sudo apt upgrade -y
+
+# Below, do not specify 'torch' to pip install, otherwise pip will collect
+# pt-2.0 + GB of nvidia dependencies, yet still end-up with pt-1.13 untouched.
+source /opt/aws_neuron_venv_pytorch/bin/activate &&
+pip list | egrep 'neuron|xla' | cut -d' ' -f1 | xargs pip install --upgrade transformers-neuronx wandb &&
+deactivate
 
 
 ################################################################################
