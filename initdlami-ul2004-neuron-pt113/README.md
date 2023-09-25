@@ -13,25 +13,17 @@ curl -v -sfL \
     https://raw.githubusercontent.com/verdimrc/pyutil/master/initdlami-ul2004-neuron-pt113/bootstrap-initneuron.sh \
     | bash -s
 
-# Edit the template config config.sh to suit your exact environment setup, e.g.:
-# vi ~/initdlami-ul2004-neuron-pt113/config.sh
-
-# Apply the init logics
-~/initdlami-ul2004-neuron-pt113/run.sh 2>&1 | tee run-initneuron.txt
-
-# When asked to reboot, reboot...
-sudo reboot
+# Then, follow the OSD instructions.
 ```
 
-After reboot, reconnect to the instance
+At some point, you'll be asked to reboot. After reboot, reconnect to the instance
 
 ```bash
 # This is needed when connecting via web-basd SSM connect
 sudo -i -u ubuntu
 
 # Verify /fsx and /efs
-ls -al /fsx/
-ls -al /efs/
+ls -al /fsx/ /efs/
 mount | egrep 'tcp|nfs4'
 # Make sure you see the efs and fsx lustre mounts
 ```
