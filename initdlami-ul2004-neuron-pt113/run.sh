@@ -9,7 +9,7 @@ set -exuo pipefail
 [[ $(lsb_release -sc) != "focal" ]] && { echo "OS is NOT Ubuntu-20.04. Exiting..." ; exit -2 ; }
 
 #PYUTIL_BRANCH=main
-PYUTIL_BRANCH=initdlami-ul2004-neuron-pt113
+PYUTIL_BRANCH=dlami-ul2004-neuron
 
 # Load config
 BIN_DIR=$(dirname "$(readlink -f ${BASH_SOURCE[0]})")
