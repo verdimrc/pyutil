@@ -85,6 +85,7 @@ sudo apt update && sudo apt upgrade -y
 # Below, do not specify 'torch' to pip install, otherwise pip will collect
 # pt-2.0 + GB of nvidia dependencies, yet still end-up with pt-1.13 untouched.
 source /opt/aws_neuron_venv_pytorch/bin/activate &&
+pip install --upgrade pip setuptools &&
 pip list | egrep 'neuron|xla' | cut -d' ' -f1 | xargs pip install --upgrade transformers-neuronx wandb &&
 deactivate
 
