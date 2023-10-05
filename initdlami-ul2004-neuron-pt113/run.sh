@@ -81,7 +81,6 @@ export PATH=~/.local/bin:$PATH
 # Upgrade Neuron SDK
 dpkg -l | grep '^hi  *aws-neuronx-' | awk '{ print $2 }' | xargs sudo apt-mark unhold
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y aws-neuron-tools
 
 # Below, do not specify 'torch' to pip install, otherwise pip will collect
 # pt-2.0 + GB of nvidia dependencies, yet still end-up with pt-1.13 untouched.
