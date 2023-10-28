@@ -8,6 +8,7 @@ git_branch() {
 COLOR_GREEN="\[\033[1;32m\]"
 COLOR_PURPLE="\[\033[1;35m\]"
 COLOR_YELLOW="\[\033[1;33m\]"
+COLOR_BLUE="\[\033[01;34m\]"
 COLOR_OFF="\[\033[0m\]"
 
 prompt_prefix() {
