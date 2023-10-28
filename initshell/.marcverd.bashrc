@@ -18,7 +18,8 @@ prompt_prefix() {
 }
 
 # Define PS1 before conda bash.hook, to correctly display CONDA_PROMPT_MODIFIER
-export PS1="\$(prompt_prefix)[$COLOR_GREEN\w$COLOR_OFF] $COLOR_PURPLE\$(git_branch)$COLOR_OFF\$ "
+#export PS1="\$(prompt_prefix)[$COLOR_GREEN\w$COLOR_OFF] $COLOR_PURPLE\$(git_branch)$COLOR_OFF\$ "
+export PS1="\$(prompt_prefix)[$COLOR_BLUE\u@\h$COLOR_OFF:$COLOR_GREEN\w$COLOR_OFF] $COLOR_PURPLE\$(git_branch)$COLOR_OFF\$ "
 
 man() {
 	env \
