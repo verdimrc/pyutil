@@ -20,6 +20,8 @@ if [[ $(uname -i) != "x86_64" ]]; then
     )
 fi
 
+echo 'export DSTAT_OPTS="-cdngym"' >> ~/.bashrc
+
 
 ################################################################################
 # DLAMI ubuntu2004 is complicated.
