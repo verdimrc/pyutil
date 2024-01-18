@@ -36,3 +36,5 @@ man() {
 
 # Custom aliases
 alias ll='ls -alF --color=auto'
+
+export DSTAT_OPTS="-cdngym"
