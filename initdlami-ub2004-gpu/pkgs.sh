@@ -3,34 +3,21 @@
 # https://askubuntu.com/a/1431746
 export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
-sudo apt update
 
-# DLAMI ubuntu-20.04 has broken dependency due to linux-aws.
-sudo apt --fix-broken -y install
+sudo add-apt-repository ppa:git-core/ppa -y
+sudo apt update
 
 declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli aria2)
 PKG+=(ripgrep bat python3-venv python3-pip)
 [[ $(apt-cache search ^duf$) ]] && PKG+=(duf)
 [[ $(command -v docker) ]] || PKG+=(docker.io)
-if [[ $(uname -i) != "x86_64" ]]; then
-    echo HAHA: WARNING: untested on arm
-    PKG+=(
-        gcc python38-devel
-        the_silver_searcher  # ag, alt. to rg which has no pre-built binary for aarch64
-    )
-fi
 
 echo 'export DSTAT_OPTS="-cdngym"' >> ~/.bashrc
-
 
 sudo apt upgrade -y
 sudo apt install -y "${PKG[@]}"
 sudo apt clean
 [[ -e /usr/bin/batcat ]] && sudo ln -s /usr/bin/batcat /usr/bin/bat
-
-# Install docker
-sudo systemctl enable docker --now
-sudo usermod -a -G docker ubuntu
 
 # Install python-based CLI
 export PATH=$HOME/.local/bin:$PATH
@@ -46,11 +33,10 @@ declare -a PKG=(
     jupytext
     nbdime
     #black
-    #isort
-    #pyupgrade
+    #isort #pyupgrade
     #nbqa
 
-    aws-sam-cli
+    #aws-sam-cli
     awslogs
     nvitop
     gpustat
