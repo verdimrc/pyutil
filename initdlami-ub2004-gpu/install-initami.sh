@@ -9,26 +9,26 @@ SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master
 #SRC_PREFIX=file:///home/ubuntu/pyutil
 
 declare -a SCRIPTS=(
-    initinitdlami-ub2004-gpu/TEMPLATE-setup-my-ami.sh
-    initinitdlami-ub2004-gpu/pkgs.sh
-    initinitdlami-ub2004-gpu/awscliv2.sh
-    initinitdlami-ub2004-gpu/duf.sh
-    initinitdlami-ub2004-gpu/s5cmd.sh
-    initinitdlami-ub2004-gpu/delta.sh
-    initinitdlami-ub2004-gpu/adjust-git.sh
-    initinitdlami-ub2004-gpu/term.sh
-    initinitdlami-ub2004-gpu/install-gpu-cwagent.sh
-    initinitdlami-ub2004-gpu/patch-bash-config.sh
-    initinitdlami-ub2004-gpu/fix-aws-config.sh
-    initinitdlami-ub2004-gpu/fix-osx-keymap.sh
-    initinitdlami-ub2004-gpu/install-cdk.sh
-    initinitdlami-ub2004-gpu/fix-ipython.sh
-    initinitdlami-ub2004-gpu/install-py-ds.sh
-    initinitdlami-ub2004-gpu/customize-jlab.sh
-    initinitdlami-ub2004-gpu/vim.sh
-    initinitdlami-ub2004-gpu/tmux.sh
-    initinitdlami-ub2004-gpu/patch-jupyter-config.sh
-    initubuntu/update.sh
+    initdlami-ub2004-gpu/TEMPLATE-setup-my-ami.sh
+    initdlami-ub2004-gpu/pkgs.sh
+    initdlami-ub2004-gpu/awscliv2.sh
+    initdlami-ub2004-gpu/duf.sh
+    initdlami-ub2004-gpu/s5cmd.sh
+    initdlami-ub2004-gpu/delta.sh
+    initdlami-ub2004-gpu/adjust-git.sh
+    initdlami-ub2004-gpu/term.sh
+    initdlami-ub2004-gpu/install-gpu-cwagent.sh
+    initdlami-ub2004-gpu/patch-bash-config.sh
+    initdlami-ub2004-gpu/fix-aws-config.sh
+    initdlami-ub2004-gpu/fix-osx-keymap.sh
+    initdlami-ub2004-gpu/install-cdk.sh
+    initdlami-ub2004-gpu/fix-ipython.sh
+    initdlami-ub2004-gpu/install-py-ds.sh
+    initdlami-ub2004-gpu/customize-jlab.sh
+    initdlami-ub2004-gpu/vim.sh
+    initdlami-ub2004-gpu/tmux.sh
+    initdlami-ub2004-gpu/patch-jupyter-config.sh
+    initdlami-ub2004-gpu/update.sh
     ami-nvidia-base-ubuntu/install-fsx-lustre-client.sh
     ami-nvidia-base-ubuntu/install-efs.sh
 )
