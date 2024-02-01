@@ -9,5 +9,5 @@ REPO_DIR=$1
     cd $REPO_DIR ;
     pwd ;
     PREFIX=$(basename $REPO_DIR)
-    echo git archive --prefix=${PREFIX}/ -o ${THIS_DIR}/${PREFIX}-$(git rev-parse --short HEAD).zip HEAD ;
+    git archive --prefix=${PREFIX}/ -o ${THIS_DIR}/${PREFIX}-$(git rev-parse --short HEAD).zip HEAD ;
 )
