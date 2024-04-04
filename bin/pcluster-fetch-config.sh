@@ -63,7 +63,9 @@ cluster_config=$(curl --silent "$cluster_config_url")
 # By default, auto-detect the syntax highlighter
 if [[ ${#syntax_highlighter[@]} -eq 0 ]]; then
     if command -v bat &> /dev/null; then
-        syntax_highlighter=( bat -pp --language yaml)
+        syntax_highlighter=( bat -pp --language yaml )
+    elif command -v batcat &> /dev/null; then
+        syntax_highlighter=( batcat -pp --language yaml )
     elif command -v yq &> /dev/null; then
         syntax_highlighter=( yq )
     else
