@@ -3,6 +3,10 @@
 # https://askubuntu.com/a/1431746
 export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
+
+# Repo to newer git-lfs to avoid https://github.com/git-lfs/git-lfs/issues/5310#issuecomment-1647829918
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+
 sudo apt update
 
 # DLAMI ubuntu-20.04 has broken dependency due to linux-aws.
