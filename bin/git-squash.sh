@@ -5,7 +5,7 @@ set -euo pipefail
 declare -a HELP=(
     "[-h|--help]"
     "[-d|--dry-run]"
-    "<COUNT for HEAD~count>"
+    "<root|COUNT for HEAD~count>"
 )
 
 COUNT=""
@@ -40,9 +40,13 @@ parse_args "$@"
 
 TIMESTAMP=$(git show -s --pretty=tformat:%ai HEAD)
 
+[[ $COUNT == "root" ]] \
+    && GIT_REBASE_CMD="git rebase -i --root HEAD" \
+    || GIT_REBASE_CMD="git rebase -i HEAD~${COUNT}"
+
 echo "
 TIMESTAMP=\$(git show -s --pretty=tformat:%ai HEAD)
-git rebase -i "HEAD~${COUNT}"
+${GIT_REBASE_CMD}
 git commit --amend --no-edit --date=\"${TIMESTAMP}\"
 git show --compact-summary HEAD
 
@@ -51,7 +55,7 @@ With vim editor, exit with :cq to inform this script that squash is aborted.
 
 [[ $DRY_RUN == 1 ]] && exit 0
 
-git rebase -i "HEAD~${COUNT}"
+eval $GIT_REBASE_CMD
 git commit --amend --no-edit --date="${TIMESTAMP}" && RETVAL=$? || RETVAL=$?
 # NOTE: vim :cq will force abort this script
 
