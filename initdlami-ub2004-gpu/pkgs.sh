@@ -5,6 +5,10 @@ export NEEDRESTART_MODE=a
 export DEBIAN_FRONTEND=noninteractive
 
 sudo add-apt-repository ppa:git-core/ppa -y
+
+# Repo to newer git-lfs to avoid https://github.com/git-lfs/git-lfs/issues/5310#issuecomment-1647829918
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+
 sudo apt update
 
 declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli aria2)
