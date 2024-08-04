@@ -1,0 +1,9 @@
+# This Dockerfile is just an example. Review & update as needed.
+
+FROM ubuntu:22.04
+
+COPY setup-my-docker.sh /tmp/setup-my-docker.sh
+
+RUN apt-get update \
+    && apt-get install -y curl \
+    && /bin/bash /tmp/setup-my-docker.sh
