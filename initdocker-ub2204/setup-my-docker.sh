@@ -5,8 +5,8 @@ groupadd -g 1000 nemo
 ##
 
 apt-get update
-apt upgrade -V -y
-apt-get install -V -y man-db lsb-release ripgrep bat vim curl wget time tree aria2 jq dos2unix dstat ncdu unzip python3-pip
+apt-get upgrade -y
+apt-get install -y man-db lsb-release ripgrep bat vim curl wget time tree aria2 jq dos2unix dstat ncdu unzip python3-pip
 ln /usr/bin/batcat /usr/local/bin/bat
 
 cat << EOF > /etc/apt/sources.list.d/git-core-ubuntu-ppa-jammy.list
@@ -15,11 +15,15 @@ deb https://ppa.launchpadcontent.net/git-core/ppa/ubuntu/ $(lsb_release -cs) mai
 EOF
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E363C90F8F1B6217
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-apt update
-apt-get -V -y git git-lfs
+apt-get update
+apt-get install -y git git-lfs
 
-# Patch dstat when running container as non-root
-sed 's/^    user = getpass.getuser()$/    try: user = getpass.getuser();\n    except KeyError: user = "I have no name!"\n/' /usr/bin/dstat
+# Patch dstat when running container as non-root.
+#
+# Create a new file under /usr/local/bin to workaround weird docker build behavior where in-place
+# changes or renaming of /usr/bin/dstat vanishes during docker run.
+sed 's/^    user = getpass.getuser()$/    try: user = getpass.getuser();\n    except KeyError: user = "I have no name!"\n/' /usr/bin/dstat >> /usr/local/bin/dstat \
+    && chmod ugo+x /usr/local/bin/dstat
 
 cat << 'EOF' > /etc/bash.bashrc.initubuntu
 #### initubuntu additions from here onwards ####
@@ -209,7 +213,7 @@ LATEST_DOWNLOAD_URL=$(latest_download_url)
 DEB=${LATEST_DOWNLOAD_URL##*/}
 (cd /tmp/ && curl -LO ${LATEST_DOWNLOAD_URL})
 
-apt install -y /tmp/$DEB && rm /tmp/$DEB
+apt-get install -y /tmp/$DEB && rm /tmp/$DEB
 EOF
 bash /tmp/duf.sh
 rm /tmp/duf.sh
@@ -263,4 +267,9 @@ if command -v delta &> /dev/null ; then
     git config --system core.pager "delta -s"
     git config --system interactive.diffFilter "delta -s --color-only"
     git config --system delta.navigate "true"
+
+    # https://github.com/dandavison/delta/discussions/1461#discussion-5342765
+    git config --system delta.wrap-max-lines unlimited
+    git config --system delta.wrap-right-percent 1
+    git config --system delta.wrap-left-symbol " "
 fi
