@@ -9,28 +9,42 @@ SRC_PREFIX=https://raw.githubusercontent.com/verdimrc/pyutil/master
 #SRC_PREFIX=file:///home/ubuntu/pyutil
 
 declare -a SCRIPTS=(
+    # Generic stuffs
     initubuntu/TEMPLATE-setup-my-ami.sh
     initubuntu/pkgs.sh
-    initubuntu/awscliv2.sh
-    initubuntu/duf.sh
-    initubuntu/s5cmd.sh
-    initubuntu/delta.sh
-    initubuntu/adjust-git.sh
     initubuntu/term.sh
-    initubuntu/install-gpu-cwagent.sh
     initubuntu/patch-bash-config.sh
-    initubuntu/fix-aws-config.sh
     initubuntu/fix-osx-keymap.sh
-    initubuntu/install-cdk.sh
-    initubuntu/fix-ipython.sh
-    initubuntu/install-py-ds.sh
-    initubuntu/customize-jlab.sh
     initubuntu/vim.sh
     initubuntu/tmux.sh
-    initubuntu/patch-jupyter-config.sh
+    initubuntu/adjust-git.sh
     initubuntu/update.sh
-    initubuntu/prep-instance-store.sh
-    initubuntu/prep-instance-store-svc.sh
+    # Misc. CLIs
+    initubuntu/cli/archey4.sh
+    initubuntu/cli/bat.sh
+    initubuntu/cli/delta.sh
+    initubuntu/cli/duf.sh
+    initubuntu/cli/gdu.sh
+    initubuntu/cli/ncdu.sh
+    initubuntu/cli/neofetch.sh
+    initubuntu/cli/onefetch.sh
+    initubuntu/cli/ripgrep.sh
+    initubuntu/cli/yq.sh
+
+    # Python
+    initubuntu/py/fix-ipython.sh
+    initubuntu/py/install-py-ds.sh
+    initubuntu/py/customize-jlab.sh
+    initubuntu/py/patch-jupyter-config.sh
+
+    # CSP
+    initubuntu/aws/awscliv2.sh
+    initubuntu/aws/s5cmd.sh
+    initubuntu/aws/install-gpu-cwagent.sh
+    initubuntu/aws/fix-aws-config.sh
+    initubuntu/aws/install-cdk.sh
+    initubuntu/aws/prep-instance-store-svc.sh
+    initubuntu/aws/prep-instance-store.sh
     ami-nvidia-base-ubuntu/install-fsx-lustre-client.sh
     ami-nvidia-base-ubuntu/install-efs.sh
     ami-nvidia-base-ubuntu/fix-fabricmanager.sh

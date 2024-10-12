@@ -21,7 +21,7 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/ubuntu/initubuntu/prep-instance-store.sh
+ExecStart=/home/ubuntu/initubuntu/aws/prep-instance-store.sh
 TimeoutStartSec=300
 RemainAfterExit=yes
 

@@ -11,16 +11,13 @@ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.s
 
 sudo apt update
 
-# DLAMI ubuntu-20.04 has broken dependency due to linux-aws.
-sudo apt --fix-broken -y install
-
-declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli aria2)
-PKG+=(ripgrep python3-venv python3-pip)
+declare -a PKG=(unzip tree fio dstat dos2unix tig jq inxi mediainfo git-lfs nvme-cli aria2)
+PKG+=(python3-venv python3-pip)
 [[ $(command -v docker) ]] || PKG+=(docker.io)
 if [[ $(uname -i) != "x86_64" ]]; then
     echo HAHA: WARNING: untested on arm
     PKG+=(
-        gcc python38-devel
+        gcc python3-dev
         the_silver_searcher  # ag, alt. to rg which has no pre-built binary for aarch64
     )
 fi

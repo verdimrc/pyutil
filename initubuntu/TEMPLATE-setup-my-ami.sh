@@ -24,27 +24,29 @@ export DEBIAN_FRONTEND=noninteractive
 
 sudo systemctl disable --now unattended-upgrades.service
 
+## Generic stuffs
 BIN_DIR=$(get_bin_dir)
 ${BIN_DIR}/pkgs.sh
-${BIN_DIR}/awscliv2.sh
-[[ $(command -v duf) ]] || ${BIN_DIR}/duf.sh
-${BIN_DIR}/s5cmd.sh
-${BIN_DIR}/delta.sh
-${BIN_DIR}/adjust-git.sh 'Firstname Lastname' first.last@email.abc
 ${BIN_DIR}/term.sh
-sudo ${BIN_DIR}/install-gpu-cwagent.sh
 ${BIN_DIR}/patch-bash-config.sh
-${BIN_DIR}/fix-aws-config.sh
-${BIN_DIR}/fix-osx-keymap.sh
-${BIN_DIR}/install-cdk.sh
-${BIN_DIR}/fix-ipython.sh
-${BIN_DIR}/install-py-ds.sh
-${BIN_DIR}/customize-jlab.sh
+[[ $(uname) == 'Darwin' ]] && ${BIN_DIR}/fix-osx-keymap.sh
 ${BIN_DIR}/vim.sh
 ${BIN_DIR}/tmux.sh
-sudo ${BIN_DIR}/prep-instance-store-svc.sh
+for i in ${BIN_DIR}/cli/*.sh; do echo $i; $i ; done
+${BIN_DIR}/adjust-git.sh 'Firstname Lastname' first.last@email.abc  # Depends on install-cli/delta.sh
 
-# These require jupyter lab restarted and browser reloaded, to see the changes.
-${BIN_DIR}/patch-jupyter-config.sh
+## Python stuffs
+${BIN_DIR}/py/fix-ipython.sh
+# ${BIN_DIR}/py/install-py-ds.sh
+${BIN_DIR}/py/customize-jlab.sh
+${BIN_DIR}/py/patch-jupyter-config.sh  # Must restart (jupyter lab + reload browser) to see changes.
+
+## Cloud stuffs
+# ${BIN_DIR}/aws/awscliv2.sh
+# ${BIN_DIR}/aws/s5cmd.sh
+# sudo ${BIN_DIR}/aws/install-gpu-cwagent.sh
+# ${BIN_DIR}/aws/fix-aws-config.sh
+# ${BIN_DIR}/aws/install-cdk.sh
+# sudo ${BIN_DIR}/aws/prep-instance-store-svc.sh
 
 sudo systemctl enable --now unattended-upgrades.service
