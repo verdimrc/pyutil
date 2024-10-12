@@ -7,3 +7,7 @@
 - [x] yq
 - [x] ncdu
 - [x] gdu
+- [ ] ripgrep
+
+NOTE: next time, migrate to <https://github.com/Rishang/install-release>, or go all-in to
+[homebrew](https://docs.brew.sh/Homebrew-on-Linux).
