@@ -5,8 +5,10 @@ set -u
 : "${FORCE_INSTALL:=0}"
 
 # Constants
-GH=dandavison/delta
-DEB_NAME=git-delta
+GH=sharkdp/bat
+DEB_NAME=bat-musl
+
+ARCH=$(uname -i) && [[ ${ARCH} == "x86_64" ]] && ARCH=amd64
 
 latest_download_url() {
   local arch=$(uname -i) && [[ ${arch} == "x86_64" ]] && arch=amd64
@@ -15,11 +17,11 @@ latest_download_url() {
     sed -E 's/.*"([^"]+)".*/\1/'                                              # Pluck JSON value
 }
 
-DOWNLOAD_URL=$(latest_download_url)  # https://github.com/.../git-delta_0.18.2_amd64.deb
-DEB=${DOWNLOAD_URL##*/}              # git-delta_0.18.2_amd64.deb
+DOWNLOAD_URL=$(latest_download_url)  # https://github.com/.../bat-musl_0.24.0_amd64.deb
+DEB=${DOWNLOAD_URL##*/}              # bat-musl_0.24.0_amd64.deb
 
-VERSION_LATEST=${DEB#*_} ; VERSION_LATEST=${VERSION_LATEST%%_*}  # 0.18.2
-VERSION_INSTALLED=$(dpkg-query -f '${Version}' -W ${DEB_NAME})   # 0.18.2
+VERSION_LATEST=${DEB#*_} ; VERSION_LATEST=${VERSION_LATEST%%_*}  # 0.24.0
+VERSION_INSTALLED=$(dpkg-query -f '${Version}' -W ${DEB_NAME})   # 0.24.0
 [[ (${VERSION_LATEST} == ${VERSION_INSTALLED}) && (${FORCE_INSTALL} != 1) ]] && exit 0
 
 curl -Lo /tmp/${DEB} ${DOWNLOAD_URL}

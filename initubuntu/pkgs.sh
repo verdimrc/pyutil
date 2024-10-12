@@ -15,8 +15,7 @@ sudo apt update
 sudo apt --fix-broken -y install
 
 declare -a PKG=(unzip tree fio dstat dos2unix tig jq ncdu inxi mediainfo git-lfs nvme-cli aria2)
-PKG+=(ripgrep bat python3-venv python3-pip)
-[[ $(apt-cache search ^duf$) ]] && PKG+=(duf)
+PKG+=(ripgrep python3-venv python3-pip)
 [[ $(command -v docker) ]] || PKG+=(docker.io)
 if [[ $(uname -i) != "x86_64" ]]; then
     echo HAHA: WARNING: untested on arm

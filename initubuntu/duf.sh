@@ -1,18 +1,26 @@
 #!/bin/bash
 
+set -u
+
+: "${FORCE_INSTALL:=0}"
+
 # Constants
-APP=duf
 GH=muesli/duf
+DEB_NAME=duf
 
 latest_download_url() {
-  [[ $(uname -i) == "x86_64" ]] && local arch=amd64 || local arch=arm64
-  curl --silent "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
-    grep "\"browser_download_url\": \"https.*\/duf_.*_linux_$arch.deb" |  # Get download url
-    sed -E 's/.*"([^"]+)".*/\1/'                                         # Pluck JSON value
+  local arch=$(uname -i) && [[ ${arch} == "x86_64" ]] && arch=amd64
+  curl --silent "https://api.github.com/repos/${GH}/releases/latest"             |  # Get latest release from GitHub api
+    grep "\"browser_download_url\": \"https.*\/${DEB_NAME}_.*_linux_${arch}.deb" |  # Get download url
+    sed -E 's/.*"([^"]+)".*/\1/'                                                    # Pluck JSON value
 }
 
-LATEST_DOWNLOAD_URL=$(latest_download_url)
-DEB=${LATEST_DOWNLOAD_URL##*/}
-(cd /tmp/ && curl -LO ${LATEST_DOWNLOAD_URL})
+DOWNLOAD_URL=$(latest_download_url)  # https://github.com/.../duf_0.8.1_linux_amd64.deb
+DEB=${DOWNLOAD_URL##*/}              # duf_0.8.1_linux_amd64.deb
 
-sudo apt install -y /tmp/$DEB && rm /tmp/$DEB
+VERSION_LATEST=${DEB#*_} ; VERSION_LATEST=${VERSION_LATEST%%_*}  # 0.8.1
+VERSION_INSTALLED=$(dpkg-query -f '${Version}' -W ${DEB_NAME})   # 0.8.1
+[[ (${VERSION_LATEST} == ${VERSION_INSTALLED}) && (${FORCE_INSTALL} != 1) ]] && exit 0
+
+curl -Lo /tmp/${DEB} ${DOWNLOAD_URL}
+sudo apt install -y /tmp/${DEB}
