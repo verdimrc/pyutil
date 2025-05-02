@@ -41,6 +41,11 @@ git config --global alias.lolac "lolc --all"
 echo Cache git credential for 4h
 git config --global credential.helper 'cache --timeout=14400'
 
+echo Configuring push/pull/merge...
+git config --global pull.ff "only"
+git config --global push.default "simple"
+git config --global merge.renormalize "true"
+
 if command -v delta &> /dev/null ; then
     echo "adjust-git.sh: delta is available..."
     git config --global core.pager "delta -s"

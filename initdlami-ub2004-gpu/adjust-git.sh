@@ -40,3 +40,20 @@ git config --global alias.lolac "lolc --all"
 
 echo Cache git credential for 4h
 git config --global credential.helper 'cache --timeout=14400'
+
+echo Configuring push/pull/merge...
+git config --global pull.ff "only"
+git config --global push.default "simple"
+git config --global merge.renormalize "true"
+
+if command -v delta &> /dev/null ; then
+    echo "adjust-git.sh: delta is available..."
+    git config --global core.pager "delta -s"
+    git config --global interactive.diffFilter "delta -s --color-only"
+    git config --global delta.navigate "true"
+
+    # https://github.com/dandavison/delta/discussions/1461#discussion-5342765
+    git config --global delta.wrap-max-lines unlimited
+    git config --global delta.wrap-right-percent 1
+    git config --global delta.wrap-left-symbol " "
+fi
