@@ -46,6 +46,9 @@ git config --global pull.ff "only"
 git config --global push.default "simple"
 git config --global merge.renormalize "true"
 
+echo git status shows all untracked files...
+git config --global status.showUntrackedFiles all
+
 if command -v delta &> /dev/null ; then
     echo "adjust-git.sh: delta is available..."
     git config --global core.pager "delta -s"
