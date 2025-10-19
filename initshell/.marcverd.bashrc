@@ -37,4 +37,5 @@ man() {
 # Custom aliases
 alias ll='ls -alF --color=auto'
 
+export LESS=-FMrX
 export DSTAT_OPTS="-cdngym"

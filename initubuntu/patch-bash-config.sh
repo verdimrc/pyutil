@@ -65,4 +65,6 @@ alias ncdu='ncdu --color dark'
 # Export PATH when .profile is not used. Known cases: kitty +kitten ssh,
 # Xfce started as virtual dcv session.
 export PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export LESS=-FMrX
 EOF
