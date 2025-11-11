@@ -38,4 +38,4 @@ man() {
 alias ll='ls -alF --color=auto'
 
 export LESS=-FMrX
-export DSTAT_OPTS="-cdngym"
+export DOOL_OPTS="-cdngym"
