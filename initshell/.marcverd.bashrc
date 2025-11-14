@@ -1,7 +1,7 @@
 #### initubuntu additions from here onwards ####
 git_branch() {
    local branch=$(/usr/bin/git branch 2>/dev/null | grep '^*' | colrm 1 2)
-   [[ "$branch" == "" ]] && echo "" || echo "($branch) "
+   [[ -n "$branch" ]] && echo "" || echo "($branch) "
 }
 
 # All colors are bold
