@@ -1,0 +1,28 @@
+{
+  "folders": [
+    {
+      "name": "playground-nemo-2.0",
+      "path": "playground-nemo-2.0"
+    },
+    {
+      "name": "Megatron-Bridge",
+      "path": "Megatron-Bridge"
+    },
+    {
+      "name": "Megatron-LM",
+      "path": "Megatron-LM"
+    },
+    {
+      "name": "TransformerEngine",
+      "path": "TransformerEngine"
+    }
+  ],
+  "settings": {
+    //"python-envs.defaultEnvManager": "ms-python.python:system",
+    //"python-envs.pythonProjects": [],
+    "python.envFile": "${workspaceFolder:playground-nemo-2.0}/.env",
+    "terminal.integrated.env.linux": {
+      "PYTHONPATH": "${workspaceFolder:Megatron-Bridge}/src:${workspaceFolder:Megatron-LM}:${workspaceFolder:TransformerEngine}:${env:PYTHONPATH}"
+    }
+  }
+}
