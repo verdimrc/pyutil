@@ -8,11 +8,11 @@ mkdir -p ~/.local/bin
 cd ~/.local/bin
 
 latest_download_url() {
-  curl --silent "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
+  [[ -n "$GH_TOKEN" ]] && local CURL_OPTS=(-H "Authorization: Bearer $GH_TOKEN" ) || local CURL_OPTS=()
+  curl --silent "${CURL_OPTS[@]}" "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
     grep "\"browser_download_url\": \"https.*\/duf_.*_linux_$(uname -i).tar.gz" |  # Get download url
     sed -E 's/.*"([^"]+)".*/\1/'                                         # Pluck JSON value
 }
-
 
 LATEST_DOWNLOAD_URL=$(latest_download_url)
 TARBALL=${LATEST_DOWNLOAD_URL##*/}

@@ -8,7 +8,8 @@ mkdir -p ~/.local/bin
 cd ~/.local/bin
 
 latest_download_url() {
-  curl --silent "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
+  [[ -n "$GH_TOKEN" ]] && local CURL_OPTS=(-H "Authorization: Bearer $GH_TOKEN" ) || local CURL_OPTS=()
+  curl --silent -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/${GH}/releases/latest" |   # Get latest release from GitHub api
     grep "\"browser_download_url\": \"https.*\/ripgrep-.*-$(uname -i)-unknown-linux-musl.tar.gz" |  # Get download url
     sed -E 's/.*"([^"]+)".*/\1/' |                                       # Pluck JSON value
     grep '.tar.gz$'        # Ignore *.tar.gz.sha256
