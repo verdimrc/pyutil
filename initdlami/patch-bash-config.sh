@@ -25,7 +25,7 @@ EOF
 cp ~/.bashrc{,.ori}
 cat << 'EOF' > ~/.bashrc
 git_branch() {
-   local branch=$(/usr/bin/git branch 2>/dev/null | grep '^*' | colrm 1 2)
+   local branch=$(/usr/bin/git branch 2>/dev/null | grep '^*' | cut -c3- )
    [[ "$branch" == "" ]] && echo "" || echo "($branch) "
 }
 
