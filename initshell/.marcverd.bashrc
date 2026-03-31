@@ -23,6 +23,7 @@ prompt_prefix() {
 #export PS1="\$(prompt_prefix)[$COLOR_GREEN\w$COLOR_OFF] $COLOR_PURPLE\$(git_branch)$COLOR_OFF\$ "
 export PS1="\$(prompt_prefix)[$COLOR_BLUE\u@\h$COLOR_OFF:$COLOR_GREEN\w$COLOR_OFF] $COLOR_PURPLE\$(git_branch)$COLOR_OFF\$ "
 
+export GROFF_NO_SGR=1
 man() {
 	env \
 		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
