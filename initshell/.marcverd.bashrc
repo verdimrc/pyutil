@@ -37,6 +37,7 @@ man() {
 
 # Custom aliases
 alias ll='ls -alF --color=auto'
+alias ncdu='ncdu --color dark'
 
 export LESS=-FMrX
 export DOOL_OPTS="-cdngym"
