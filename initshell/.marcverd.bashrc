@@ -41,6 +41,7 @@ alias ncdu='ncdu --color dark'
 
 export LESS=-FMrX
 export DOOL_OPTS="-cdngym"
+#export LANG=en_US.UTF-8   # Uncomment if git lol or lola shows weird characters
 
 # Vscode bash integrated terminal doesn't source .profile!
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
