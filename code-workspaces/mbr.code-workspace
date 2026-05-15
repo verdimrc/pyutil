@@ -20,7 +20,11 @@
   "settings": {
     //"python-envs.defaultEnvManager": "ms-python.python:system",
     //"python-envs.pythonProjects": [],
+
+    // Injects PYTHONPATH to IDE. Example: https://github.com/verdimrc/pyutil/tree/main/code-workspaces/.env
     "python.envFile": "${workspaceFolder:playground-nemo-2.0}/.env",
+
+    // Inject PYTHONPATH to integrated terminal.
     "terminal.integrated.env.linux": {
       "PYTHONPATH": "${workspaceFolder:Megatron-Bridge}/src:${workspaceFolder:Megatron-LM}:${workspaceFolder:TransformerEngine}:${env:PYTHONPATH}"
     }
