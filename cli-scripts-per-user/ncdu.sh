@@ -1,13 +1,25 @@
 #!/bin/bash
 
+set -u
+
+: "${FORCE_INSTALL:=0}"
+
 mkdir -p ~/.local/bin
-cd ~/.local/bin
 
-DOWNLOAD_TAG=$(curl -L https://dev.yorhel.nl/ncdu | grep "/download/ncdu-.*-linux-$(uname -i).tar.gz")
-# - <a href="/download/ncdu-2.9.1-x86_64.tar.gz">x86_64</a>
+# Constants
+SITE=https://dev.yorhel.nl
 
-DOWNLOAD_RELPATH=$(echo $DOWNLOAD_TAG | sed 's/.*"\(.*.tar.gz\).*$/\1/')  # Take /download/ncdu-2.9.1-x86_64.tar.gz
-curl -LO https://dev.yorhel.nl/$DOWNLOAD_RELPATH
-TARBALL=${DOWNLOAD_RELPATH##*/}
-tar -xzf $TARBALL
-rm $TARBALL
+latest_download_url() {
+  local path=$(curl --silent ${SITE}/ncdu | grep -m 1 -o "/download/ncdu-[0-9.]*-linux-$(uname -i).tar.gz")
+  echo -n "${SITE}${path}"
+}
+
+DOWNLOAD_URL=$(latest_download_url)  # https://dev.yorhel.nl/download/ncdu-2.6-linux-x86_64.tar.gz
+
+VERSION_LATEST=${DOWNLOAD_URL##*/ncdu-} ; VERSION_LATEST=${VERSION_LATEST%%-*}  # 2.6
+VERSION_INSTALLED=$(ncdu --version | cut -d' ' -f2 2> /dev/null)
+[[ (${VERSION_LATEST} == ${VERSION_INSTALLED}) && (${FORCE_INSTALL} != 1) ]] && exit 0
+
+TGZ=${DOWNLOAD_URL##*/}  # ncdu-2.6-linux-x86_64.tar.gz
+curl -Lo /tmp/${TGZ} ${DOWNLOAD_URL}
+tar -xzf /tmp/${TGZ} --no-same-owner -C ~/.local/bin/ ncdu
